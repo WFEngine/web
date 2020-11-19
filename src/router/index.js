@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import routes from './routes'
+import auth from './auth'
 
 Vue.use(VueRouter)
 
@@ -14,10 +14,18 @@ Vue.use(VueRouter)
  * with the Router instance.
  */
 
+const router = [
+  auth,
+  {
+    path: '*',
+    component: () => import('pages/Error404.vue')
+  },
+]
+
 export default function (/* { store, ssrContext } */) {
   const Router = new VueRouter({
     scrollBehavior: () => ({ x: 0, y: 0 }),
-    routes,
+    routes : router,  
     // Leave these as they are and change in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
@@ -25,5 +33,5 @@ export default function (/* { store, ssrContext } */) {
     base: process.env.VUE_ROUTER_BASE
   })
 
-  return Router
+return Router
 }
