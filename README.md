@@ -1,6 +1,6 @@
-# WFEngine (wfengine)
+# WF Engine (wfengine)
 
-Create a workflow and run with .net platform
+Create a workflow and run .net platform
 
 ## Install the dependencies
 ```bash
@@ -12,10 +12,6 @@ npm install
 quasar dev
 ```
 
-### Lint the files
-```bash
-npm run lint
-```
 
 ### Build the app for production
 ```bash
