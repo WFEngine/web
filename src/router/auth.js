@@ -1,7 +1,16 @@
 export default {
-    path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-        { path: '', component: () => import('pages/Index.vue') }
+    path: '/auth',
+    component: () => import('../layout/BlankLayout'),
+    children:[
+        {
+            path:'',
+            name:'blanklogin',
+            component:()=>import('../views/auth/Login')
+        },
+        {
+            path:'login',
+            name:'login',
+            component:()=>import('../views/auth/Login')
+        }
     ]
 }
