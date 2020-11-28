@@ -146,6 +146,7 @@
                     :disabled="!formValid"
                     block
                     class="gradient white--text"
+                    @click="register"
                   >
                     {{ $t("auth.login.loginButton") }}
                   </v-btn>
@@ -155,6 +156,7 @@
                     :disabled="!formValid"
                     block
                     class="gradient white--text"
+                    @click="register"
                   >
                     {{ $t("auth.register.registerButton") }}
                   </v-btn>
@@ -178,6 +180,8 @@
 
 <script>
 import Register from "../../entities/auth/register";
+import { ShowSuccessMessage, ShowErrorMessage } from "../../common/alerts";
+import { REGISTER } from "../../store/modules/auth/actions.type";
 export default {
   data() {
     return {
@@ -200,6 +204,17 @@ export default {
       this.$router.push({
         path: "/auth/login",
       });
+    },
+    register() {
+      this.$store
+        .dispatch(REGISTER, this.user)
+        .then(() => {
+          ShowSuccessMessage();
+        })
+        .catch((err) => {
+          console.log(err);
+          ShowErrorMessage(err.message);
+        });
     },
   },
 };

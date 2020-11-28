@@ -1,5 +1,10 @@
 <template>
-  <router-view></router-view>
+  <div>
+    <v-overlay v-if="$store.getters.isLoading">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
+    <router-view></router-view>
+  </div>
 </template>
 
 <style>
