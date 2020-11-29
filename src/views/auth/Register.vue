@@ -210,6 +210,9 @@ export default {
         .dispatch(REGISTER, this.user)
         .then(() => {
           ShowSuccessMessage();
+          this.$router.push({
+            path:'/auth/login'
+          })
         })
         .catch((err) => {
           console.log(err);

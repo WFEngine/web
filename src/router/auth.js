@@ -21,6 +21,11 @@ export default {
             path:'recoverpassword',
             name:'recoverpassword',
             component:()=>import('../views/auth/ForgotPassword')
+        },
+        {
+            path:'login/:status/:token',
+            name:'loginstatus',
+            component:()=>import('../views/auth/Login')
         }
     ]
 }

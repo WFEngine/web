@@ -6,7 +6,8 @@ export default {
         loginButton:'Giriş Yap',
         githubLoginButton:'Githubla Giriş Yap',
         signUp:'Hesabınız Yok Mu? Kayıt Ol',
-        forgotPassword:'Şifrenizi Mi Unuttunuz'
+        forgotPassword:'Şifrenizi Mi Unuttunuz',
+        loginFailed:'Giriş Yapılamadı'
     },
     register:{
         title:'Workflow Engine Kayıt Ol',

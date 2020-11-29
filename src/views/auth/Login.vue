@@ -154,8 +154,10 @@
 
 <script>
 import Login from "../../entities/auth/login";
-import { LOGIN } from "../../store/modules/auth/actions.type";
+import Token from "../../entities/auth/token";
+import { LOGIN, GET_USER } from "../../store/modules/auth/actions.type";
 import { ShowErrorMessage } from "../../common/alerts";
+import jwtService from "../../common/jwt.service";
 export default {
   data() {
     return {
@@ -181,11 +183,34 @@ export default {
       this.user.loginType = loginType;
       this.$store
         .dispatch(LOGIN, this.user)
-        .then(() => {})
+        .then(() => {
+          if (this.user.loginType === 1) window.location.reload();
+        })
         .catch((err) => {
-          ShowErrorMessage(err);
+          console.log(err)
+          ShowErrorMessage(err.message);
         });
     },
+  },
+  created() {
+    if (this.$route.query.status) {
+      var status = this.$route.query.status;
+      var token = this.$route.query.token;
+      if (status === "error") {
+        ShowErrorMessage(this.$t("auth.login.loginFailed"));
+      } else {
+        var tokenObj = new Token(token);
+        jwtService.saveToken(tokenObj);
+        this.$store
+          .dispatch(GET_USER)
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((err) => {
+            ShowErrorMessage(err.message);
+          });
+      }
+    }
   },
 };
 </script>

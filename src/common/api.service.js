@@ -4,6 +4,8 @@ import VueAxios from 'vue-axios'
 import store from '../store/index'
 import router from '../router/index'
 import { IS_LOADING } from '../store/modules/base/actions.type'
+import jwtService from './jwt.service'
+import { DESTROY_USER } from '../store/modules/auth/actions.type'
 
 const ApiService = {
     init() {
@@ -13,10 +15,13 @@ const ApiService = {
     },
 
     setHeader() {
-
+        var tokenItem = jwtService.getToken();
+        Vue.axios.defaults.headers.common[
+            "Authorization"
+        ] = `Bearer ${tokenItem.token}`;
     },
 
-    setLocalization(){
+    setLocalization() {
         Vue.axios.defaults.baseURL = "tr"
     },
 
@@ -34,14 +39,14 @@ const ApiService = {
             }).catch((err) => {
                 if (!err.response) {
                     const data = {
-                        message : ""
+                        message: ""
                     }
                     reject(data)
                 } else {
                     const statusCode = err.response.status;
                     if (statusCode === 401) {
                         if (err.response.data.statusCode === undefined) {
-                            //store.dispatch(LOGOUT)
+                            store.dispatch(DESTROY_USER)
                             router.push({ path: '/auth/login' })
                             err.response.data.message = '';
                         }
@@ -59,12 +64,12 @@ const ApiService = {
         })
     },
 
-    get(resource,params) {
+    get(resource, params) {
         delete Vue.axios.defaults.headers.post['Content-Type']
         return new Promise((resolve, reject) => {
             store.dispatch(IS_LOADING);
 
-            Vue.axios.get(`${resource}`,params).then((response) => {
+            Vue.axios.get(`${resource}`, params).then((response) => {
                 resolve(response.data);
             }).catch((err) => {
                 if (!err.response) {
@@ -76,7 +81,7 @@ const ApiService = {
                     const statusCode = err.response.status;
                     if (statusCode === 401) {
                         if (err.response.data.statusCode === undefined) {
-                            //store.dispatch(LOGOUT)
+                            store.dispatch(DESTROY_USER)
                             router.push({ path: '/auth/login' })
                             err.response.data.message = '';
                         }
@@ -94,12 +99,12 @@ const ApiService = {
         })
     },
 
-    put(resource,params) {        
+    put(resource, params) {
         delete Vue.axios.defaults.headers.post['Content-Type']
         return new Promise((resolve, reject) => {
             store.dispatch(IS_LOADING);
 
-            Vue.axios.put(`${resource}`,params).then((response) => {
+            Vue.axios.put(`${resource}`, params).then((response) => {
                 resolve(response.data);
             }).catch((err) => {
                 if (!err.response) {
@@ -111,7 +116,7 @@ const ApiService = {
                     const statusCode = err.response.status;
                     if (statusCode === 401) {
                         if (err.response.data.statusCode === undefined) {
-                            //store.dispatch(LOGOUT)
+                            store.dispatch(DESTROY_USER)
                             router.push({ path: '/auth/login' })
                             err.response.data.message = '';
                         }
@@ -134,7 +139,7 @@ const ApiService = {
         return new Promise((resolve, reject) => {
             store.dispatch(IS_LOADING);
 
-            Vue.axios.put(`${resource}`,params).then((response) => {
+            Vue.axios.put(`${resource}`, params).then((response) => {
                 resolve(response.data);
             }).catch((err) => {
                 if (!err.response) {
@@ -146,7 +151,7 @@ const ApiService = {
                     const statusCode = err.response.status;
                     if (statusCode === 401) {
                         if (err.response.data.statusCode === undefined) {
-                            //store.dispatch(LOGOUT)
+                            store.dispatch(DESTROY_USER)
                             router.push({ path: '/auth/login' })
                             err.response.data.message = '';
                         }

@@ -7,12 +7,49 @@ import store from './store'
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import httpClient from './common/api.service'
-
+import jwtService from './common/jwt.service'
+import { DESTROY_USER } from './store/modules/auth/actions.type'
 
 Vue.config.productionTip = false
 
 httpClient.init();
 Vue.use(VueSweetalert2)
+
+const allowScopes = [
+  "/auth/login",
+  "/auth/register"
+]
+
+router.beforeEach((to, from, next) => {
+  var token = jwtService.getToken()
+  if (token.token !== undefined) {
+    httpClient.setHeader();
+  }
+  var isAuthenticated = store.getters.isAuthenticated;
+  var relativePath = to.path;
+  if (!isAuthenticated) {
+    if (!allowScopes.includes(relativePath)) {
+      router.push({
+        path: '/auth/login'
+      })
+    }
+  } else {
+    if (new Date(token.expiryDate) > new Date()) {
+      if (allowScopes.includes(relativePath)) {
+        router.push({
+          path: '/dashboard'
+        })
+      }
+    } else {
+      store.dispatch(DESTROY_USER)
+      console.log('qwesdkladfkjsanfdjka')
+      router.push({
+        path: '/auth/login'
+      })
+    }
+  }
+  next(true)
+})
 
 new Vue({
   vuetify,
