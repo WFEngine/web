@@ -187,7 +187,7 @@ export default {
           if (this.user.loginType === 1) window.location.reload();
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
           ShowErrorMessage(err.message);
         });
     },
