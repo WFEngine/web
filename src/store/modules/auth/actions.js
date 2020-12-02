@@ -3,7 +3,8 @@ import {
     REGISTER,
     LOGIN,
     GET_USER,
-    DESTROY_USER
+    DESTROY_USER,
+    LOGOUT_USER
 } from './actions.type'
 import {
     SET_USER,
@@ -48,6 +49,16 @@ const actions = {
     },
     [DESTROY_USER](context) {
         context.commit(DESTROY_SESSION)
+    },
+    [LOGOUT_USER](context) {
+        return new Promise((resolve, reject) => {
+            httpClient.post('/auth/logout').then((payload) => {
+                context.commit(DESTROY_SESSION)
+                resolve(payload)
+            }).catch((err) => {
+                reject(err)
+            })
+        })
     }
 }
 

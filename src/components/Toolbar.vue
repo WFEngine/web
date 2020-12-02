@@ -9,9 +9,42 @@
       </v-toolbar-title>
       <v-row class="ml-2">
         <v-spacer></v-spacer>
-        <v-menu>
-          <template v-slot:activator="{ on }">
-            <v-avatar class=" avatar" v-if="currentUser.Avatar" v-on="on">
+        <!-- Ad New Item Menu !-->
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn class="mr-2" icon v-on="on" v-bind="attrs">
+              <v-icon class="white--text">fa fa-plus</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <!-- New Solution Item !-->
+            <v-list-item>
+              <v-row class="ma-0">
+                {{ $t("dashboard.newSolution") }}
+              </v-row>
+            </v-list-item>
+            <!-- New Solution Item !-->
+
+            <!-- New Project Item !-->
+            <v-list-item>
+              <v-row class="ma-0">
+                {{ $t("dashboard.newProject") }}
+              </v-row>
+            </v-list-item>
+            <!-- New Project Item !-->
+          </v-list>
+        </v-menu>
+        <!-- Ad New Item Menu !-->
+
+        <!-- Settings Menu!-->
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-avatar
+              class="avatar mr-1"
+              v-if="currentUser.Avatar"
+              v-on="on"
+              v-bind="attrs"
+            >
               <v-img
                 :src="currentUser.Avatar"
                 max-width="62"
@@ -21,18 +54,23 @@
           </template>
 
           <v-list>
+            <!-- Profile Item !-->
             <v-list-item>
               <v-row class="ma-0">
-                qwe
+                {{ $t("dashboard.profile") }}
               </v-row>
             </v-list-item>
-            <v-list-item @click="changeLanguage('en')">
+            <!-- Profile Item !-->
+            <!-- Log Out Item !-->
+            <v-list-item @click="logOut">
               <v-row class="ma-0">
-                qwe
+                {{ $t("dashboard.logout") }}
               </v-row>
             </v-list-item>
+            <!-- Log Out Item !-->
           </v-list>
         </v-menu>
+        <!-- Settings Menu!-->
       </v-row>
     </v-app-bar>
   </div>
@@ -41,6 +79,8 @@
 <script>
 import user from "../common/user.service";
 import organization from "../common/organization.service";
+import { LOGOUT_USER } from "../store/modules/auth/actions.type";
+import { ShowErrorMessage } from "../common/alerts";
 export default {
   props: {
     show: {
@@ -58,6 +98,18 @@ export default {
     sidebarStatusChange() {
       this.$emit("sidebarClosed");
     },
+    logOut() {
+      this.$store
+        .dispatch(LOGOUT_USER)
+        .then(() => {
+          this.$router.push({
+            path: "/auth/login",
+          });
+        })
+        .catch((err) => {
+          ShowErrorMessage(err.message);
+        });
+    },
   },
 };
 </script>
@@ -68,6 +120,9 @@ export default {
   padding: 0px !important;
 }
 .avatar {
+  cursor: pointer;
+}
+.v-list-item {
   cursor: pointer;
 }
 </style>
