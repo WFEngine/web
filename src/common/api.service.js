@@ -6,6 +6,7 @@ import router from '../router/index'
 import { IS_LOADING } from '../store/modules/base/actions.type'
 import jwtService from './jwt.service'
 import { DESTROY_USER } from '../store/modules/auth/actions.type'
+import i18n from '../locales/index'
 
 const ApiService = {
     init() {
@@ -19,6 +20,10 @@ const ApiService = {
         Vue.axios.defaults.headers.common[
             "Authorization"
         ] = `Bearer ${tokenItem.token}`;
+        console.log(i18n.locale)
+        Vue.axios.defaults.headers.common[
+            "Accept-Language" 
+        ] = i18n.locale
     },
 
     setLocalization() {

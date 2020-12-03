@@ -48,6 +48,13 @@ router.beforeEach((to, from, next) => {
       })
     }
   }
+
+  if (to.fullPath == '/') {
+    if (isAuthenticated)
+      router.push({ path: '/dashboard' })
+      else
+      router.push({path:'/auth/login'})
+  }
   next(true)
 })
 

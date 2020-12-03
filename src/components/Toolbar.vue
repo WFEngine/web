@@ -18,7 +18,7 @@
           </template>
           <v-list>
             <!-- New Solution Item !-->
-            <v-list-item>
+            <v-list-item @click="$router.push({ path: '/solution/new' })">
               <v-row class="ma-0">
                 {{ $t("dashboard.newSolution") }}
               </v-row>
@@ -26,7 +26,7 @@
             <!-- New Solution Item !-->
 
             <!-- New Project Item !-->
-            <v-list-item>
+            <v-list-item @click="$router.push({path:'/project/new'})">
               <v-row class="ma-0">
                 {{ $t("dashboard.newProject") }}
               </v-row>

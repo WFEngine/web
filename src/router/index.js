@@ -4,10 +4,14 @@ Vue.use(VueRouter)
 
 import auth from './auth'
 import dashboard from './dashboard'
+import solution from './solution'
+import project from './project'
 
 const routes = [
   auth,
-  dashboard
+  dashboard,
+  solution,
+  project
 ]
 
 const router = new VueRouter({

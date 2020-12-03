@@ -40,6 +40,7 @@ const actions = {
         httpClient.setHeader();
         return new Promise((resolve, reject) => {
             httpClient.get("/auth/getuser").then((payload) => {
+                console.log(payload)
                 context.commit(SET_USER, payload.data)
                 resolve(payload)
             }).catch((err) => {

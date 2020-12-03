@@ -12,6 +12,7 @@ import organizationService from '../../../common/organization.service'
 
 const mutations = {
     [SET_USER](state, payload) {
+        console.log(payload)
         var user = new userObject();
         user.Id = payload.userId;
         user.Name = payload.name;
@@ -20,6 +21,7 @@ const mutations = {
         user.Avatar = payload.avatar;
         user.TwoFactorEnabled = payload.twoFactorEnabled;
         user.EmailVerificated = payload.emailVerificated;
+        user.LanguageId = payload.languageId;
         state.user = user;
         var organization = new organizationObject();
         organization.Id = payload.organizationId;
@@ -37,7 +39,7 @@ const mutations = {
         userService.saveUser(user);
         organizationService.saveOrganization(organization);
     },
-    [DESTROY_SESSION](state){        
+    [DESTROY_SESSION](state) {
         state.isAuthenticated = false;
         jwtService.destroyToken();
         userService.destroyUser();
