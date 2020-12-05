@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import Solution from "../../entities/solution/solution";
+import Solution from "../../entities/solution/new";
 import { INSERT_SOLUTION } from "../../store/modules/solution/actions.type";
 import { ShowErrorMessage, ShowSuccessMessage } from "../../common/alerts";
 export default {

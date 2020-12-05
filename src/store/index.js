@@ -7,12 +7,14 @@ Vue.use(Vuex)
 import base from './modules/base/index'
 import auth from './modules/auth/index'
 import solution from './modules/solution/index'
+import project from './modules/project/index'
 //#endregion
 
 export default new Vuex.Store({
   modules: {
     base,
     auth,
-    solution
+    solution,
+    project
   }
 })

@@ -4,6 +4,7 @@ export default {
     required: 'This field is required',
     emailValidationError: 'Email must be valid',
     maximum50Character: 'Can have a maximum of 50 characters',
-    maximum255Character : 'Can have a maximum of 255 characters',
-    save: 'Save'
+    maximum255Character: 'Can have a maximum of 255 characters',
+    save: 'Save',
+    noDataText: 'No Record Found'
 }
