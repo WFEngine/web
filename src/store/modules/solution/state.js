@@ -1,5 +1,6 @@
 const state = {
-    solutions: []
+    solutions: [],
+    solution: {}
 }
 
 export default state;

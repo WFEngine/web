@@ -26,7 +26,13 @@
           </v-list-item-icon>
           <span class="white--text">{{ $t("dashboard.solutions") }}</span>
         </v-list-item>
-        <v-list-item v-for="(item, index) in solutions" v-bind:key="index">
+        <v-list-item
+          v-for="(item, index) in solutions"
+          v-bind:key="index"
+          @click="
+            $router.push({ name: 'viewsolution', params: { id: item.id } })
+          "
+        >
           <v-list-item-icon>
             <v-icon color="white">fa fa-project-diagram</v-icon>
           </v-list-item-icon>
@@ -34,7 +40,7 @@
         </v-list-item>
       </v-list>
       <v-list v-else>
-        <v-list-item>
+        <v-list-item @click="$router.push({ path: '/dashboard' })">
           <v-list-item-icon>
             <v-icon color="white">fa fa-tachometer-alt</v-icon>
           </v-list-item-icon>

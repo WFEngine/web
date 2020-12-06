@@ -13,9 +13,19 @@ export default {
             component: () => import('../views/solution/Index')
         },
         {
-            path:'new',
-            name:'newsolution',
-            component:()=>import('../views/solution/New')
+            path: 'new',
+            name: 'newsolution',
+            component: () => import('../views/solution/New')
+        },
+        {
+            path: 'update/:id',
+            name: 'updatesolution',
+            component: () => import('../views/solution/Update')
+        },
+        {
+            path: 'view/:id',
+            name: 'viewsolution',
+            component: () => import('../views/solution/View')
         }
     ]
 }

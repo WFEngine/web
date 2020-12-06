@@ -40,3 +40,23 @@ export const ShowErrorMessage = (message) => {
     }
 }
 
+
+export const ShowConfirmDialog = (message) => {
+    return new Promise((resolve, reject) => {
+        Vue.swal({
+            title: i18n.t('base.areYouSure'),
+            text: message,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: i18n.t('base.no'),
+            confirmButtonText: i18n.t('base.yes'),
+        }).then((result) => {
+            if (result.isConfirmed)
+                resolve();
+            else
+                reject();
+        })
+    })
+}

@@ -27,6 +27,19 @@
               </v-row>
               <v-row>
                 <v-col cols="12">
+                  <v-select
+                    v-model="project.ProjectTypeId"
+                    :rules="validations.projectType"
+                    :items="projectTypes"
+                    item-text="name"
+                    item-value="id"
+                    :label="$t('project.create.projectType')"
+                    :no-data-text="$t('base.noDataText')"
+                  ></v-select>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12">
                   <v-text-field
                     v-model="project.Name"
                     :rules="validations.name"
@@ -70,7 +83,10 @@
 
 <script>
 import { GET_SOLUTIONS } from "../../store/modules/solution/actions.type";
-import { SAVE_PROJECT } from "../../store/modules/project/actions.type";
+import {
+  SAVE_PROJECT,
+  GET_PROJECT_TYPES,
+} from "../../store/modules/project/actions.type";
 import { ShowSuccessMessage, ShowErrorMessage } from "../../common/alerts";
 import Project from "../../entities/project/new";
 export default {
@@ -78,9 +94,11 @@ export default {
     return {
       formValid: false,
       solutions: [],
+      projectTypes: [],
       project: new Project(),
       validations: {
         solution: [(v) => v > 0 || this.$t("base.required")],
+        projectType: [(v) => v > 0 || this.$t("base.required")],
         name: [
           (v) => !!v || this.$t("base.required"),
           (v) => !v || v.length <= 50 || this.$t("base.maximum50Character"),
@@ -109,6 +127,22 @@ export default {
       .dispatch(GET_SOLUTIONS)
       .then(() => {
         this.solutions = this.$store.getters.getSolutions;
+
+        this.$store
+          .dispatch(GET_PROJECT_TYPES)
+          .then(() => {
+            var _projectTypes = this.$store.getters.getProjectTypes;
+            _projectTypes.map((item) => {
+              var projectTypeItem = {
+                id: item.id,
+                name: this.$t(item.globalName),
+              };
+              this.projectTypes.push(projectTypeItem);
+            });
+          })
+          .catch((err) => {
+            ShowErrorMessage(err.message);
+          });
       })
       .catch((err) => {
         ShowErrorMessage(err.message);

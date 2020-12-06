@@ -3,6 +3,7 @@ export default {
         title: 'Yeni proje oluştur',
         solutionPlaceholder: 'Çözüm gezgini seçiniz',
         name: 'Proje adı',
-        description: 'Proje Açıklaması'
+        description: 'Proje Açıklaması',
+        projectType:'Proje Tipi'
     }
 }

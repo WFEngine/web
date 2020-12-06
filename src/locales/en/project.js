@@ -3,6 +3,7 @@ export default {
         title: 'Create a new project',
         solutionPlaceholder: 'Select a solution',
         name: 'Project name',
-        description: 'Project description'
+        description: 'Project description',
+        projectType: 'Project Type'
     }
 }

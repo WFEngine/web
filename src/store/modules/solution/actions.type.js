@@ -1,2 +1,5 @@
-export const INSERT_SOLUTION = 'insertSolution';
+export const INSERT_SOLUTION = 'insertSolution'
 export const GET_SOLUTIONS = 'getSolutions'
+export const DELETE_SOLUTION = 'deleteSolution'
+export const GET_SOLUTION = 'getSolution'
+export const UPDATE_SOLUTION = 'updateSolution'

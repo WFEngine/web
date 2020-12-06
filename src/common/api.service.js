@@ -20,7 +20,6 @@ const ApiService = {
         Vue.axios.defaults.headers.common[
             "Authorization"
         ] = `Bearer ${tokenItem.token}`;
-        console.log(i18n.locale)
         Vue.axios.defaults.headers.common[
             "Accept-Language" 
         ] = i18n.locale
@@ -144,7 +143,7 @@ const ApiService = {
         return new Promise((resolve, reject) => {
             store.dispatch(IS_LOADING);
 
-            Vue.axios.put(`${resource}`, params).then((response) => {
+            Vue.axios.delete(`${resource}`, params).then((response) => {
                 resolve(response.data);
             }).catch((err) => {
                 if (!err.response) {

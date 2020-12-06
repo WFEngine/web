@@ -23,12 +23,24 @@
                 :expanded.sync="expanded"
                 :single-expand="true"
                 show-expand
+                :no-data-text="$t('base.noDataText')"
               >
                 <template v-slot:item.actions="{ item }">
-                  <v-btn icon @click="update(item)">
+                  <v-btn
+                    icon
+                    @click="
+                      $router.push({
+                        name: 'viewsolution',
+                        params: { id: item.id },
+                      })
+                    "
+                  >
+                    <v-icon>fa fa-eye</v-icon>
+                  </v-btn>
+                  <v-btn icon @click="updateSolution(item)">
                     <v-icon>fa fa-edit</v-icon>
                   </v-btn>
-                  <v-btn icon @click="update(item)">
+                  <v-btn icon @click="deleteSolution(item)">
                     <v-icon>fa fa-trash</v-icon>
                   </v-btn>
                 </template>
@@ -43,13 +55,19 @@
                         :key="index"
                       >
                         <v-expansion-panel-header>
-                          <span> {{ project.name }}</span>
+                          <span>
+                            {{ project.name }}
+                            ({{ $t(project.projectType) }})</span
+                          >
+                          <v-spacer></v-spacer>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content v-if="project.description">
                           <span>{{ project.description }}</span>
                         </v-expansion-panel-content>
                         <v-expansion-panel-content v-else>
-                          <span>Proje Açıklaması Bulunamadı</span>
+                          <span>{{
+                            $t("solution.list.projectDescriptionNotFound")
+                          }}</span>
                         </v-expansion-panel-content>
                       </v-expansion-panel>
                     </v-expansion-panels>
@@ -77,8 +95,15 @@
 </template>
 
 <script>
-import { GET_SOLUTIONS } from "../../store/modules/solution/actions.type";
-import { ShowErrorMessage } from "../../common/alerts";
+import {
+  GET_SOLUTIONS,
+  DELETE_SOLUTION,
+} from "../../store/modules/solution/actions.type";
+import {
+  ShowErrorMessage,
+  ShowSuccessMessage,
+  ShowConfirmDialog,
+} from "../../common/alerts";
 export default {
   data() {
     return {
@@ -113,11 +138,25 @@ export default {
     };
   },
   methods: {
-    delete(item) {
-      console.log(item);
+    deleteSolution(item) {
+      ShowConfirmDialog(this.$t("solution.list.deleteText"))
+        .then(() => {
+          var index = this.solutions.indexOf(item);
+          this.$store
+            .dispatch(DELETE_SOLUTION, item)
+            .then(() => {
+              ShowSuccessMessage();
+              this.solutions.splice(index, 1);
+            })
+            .catch((err) => {
+              ShowErrorMessage(err.message);
+              this.$router.go(-1);
+            });
+        })
+        .catch(() => {});
     },
-    update(item) {
-      console.log(item);
+    updateSolution(item) {
+      this.$router.push({ name: "updatesolution", params: { id: item.id } });
     },
   },
   created() {

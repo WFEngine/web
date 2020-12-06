@@ -10,6 +10,9 @@
       <v-row class="ml-2">
         <v-spacer></v-spacer>
         <!-- Ad New Item Menu !-->
+        <v-btn icon @click="refreshPage">
+          <v-icon color="white">fa fa-sync-alt</v-icon>
+        </v-btn>
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn class="mr-2" icon v-on="on" v-bind="attrs">
@@ -110,6 +113,9 @@ export default {
           ShowErrorMessage(err.message);
         });
     },
+    refreshPage(){
+      window.location.reload();
+    }
   },
 };
 </script>

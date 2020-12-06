@@ -6,5 +6,8 @@ export default {
     maximum50Character: 'Maksimum 50 karakter olabilir',
     maximum255Character: 'Maksimum 255 karakter olabilir',
     save: 'Kaydet',
-    noDataText: 'Kayıt Bulunamadı'
+    noDataText: 'Kayıt Bulunamadı',
+    areYouSure: 'Emin Misiniz?',
+    yes:'Evet',
+    no:'Hayır'
 }
