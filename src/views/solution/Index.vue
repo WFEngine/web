@@ -110,25 +110,25 @@ export default {
       expanded: [],
       headers: [
         {
-          text: "Firma Adı",
+          text: this.$t('solution.index.table.organizationName'),
           align: "left",
           sortable: true,
           value: "organizationName",
         },
         {
-          text: "Çözüm Adı",
+          text: this.$t('solution.index.table.solutionName'),
           align: "left",
           sortable: true,
           value: "name",
         },
         {
-          text: "Çözüm Açıklaması",
+          text: this.$t('solution.index.table.description'),
           align: "left",
           sortable: true,
           value: "description",
         },
         {
-          text: "İşlemler",
+          text: this.$t('base.actions'),
           align: "left",
           sortable: false,
           value: "actions",

@@ -3,6 +3,7 @@
     <v-col cols="12">
       <v-card>
         <v-tabs
+          v-if="isShow"
           v-model="currentTab"
           background-color="#34344C"
           centered
@@ -29,23 +30,18 @@
 
         <v-tabs-items v-model="currentTab">
           <v-tab-item :value="'solutionInfo'">
-            <v-card flat>
-              <v-card-text>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident dolore aliquam neque temporibus quisquam iusto, tenetur cum velit fuga voluptatibus dolores eaque quibusdam harum tempora! Rem mollitia atque repudiandae a.
-              </v-card-text>
-            </v-card>
+            <solution-info :solution="solution"></solution-info>
           </v-tab-item>
           <v-tab-item :value="'projects'">
-            <v-card flat>
-              <v-card-text>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed quo earum voluptatem adipisci similique, vero voluptatum architecto. Similique mollitia illum, ullam quia quibusdam, hic aliquam dolores ab cumque rerum modi?
-              </v-card-text>
-            </v-card>
+            <projects :solution="solution"></projects>
           </v-tab-item>
           <v-tab-item :value="'collaborators'">
             <v-card flat>
               <v-card-text>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci omnis culpa tenetur nulla soluta sunt harum laboriosam porro, numquam facere fugit ab amet deserunt ducimus eius perferendis cum nisi consequatur.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Adipisci omnis culpa tenetur nulla soluta sunt harum laboriosam
+                porro, numquam facere fugit ab amet deserunt ducimus eius
+                perferendis cum nisi consequatur.
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -58,14 +54,21 @@
 <script>
 import { ShowErrorMessage } from "../../common/alerts";
 import { GET_SOLUTION } from "../../store/modules/solution/actions.type";
+import solutionInfoTab from "../../components/Tabs/Solution/View/SolutionInfo";
+import projectsTab from "../../components/Tabs/Solution/View/Projects";
 export default {
+  components: {
+    "solution-info": solutionInfoTab,
+    projects: projectsTab,
+  },
   data() {
     return {
+      isShow: false,
       currentTab: 0,
       solution: {},
     };
   },
-  created() {
+  created() {    
     var requestObject = {
       id: this.$route.params.id,
     };
@@ -76,7 +79,10 @@ export default {
       })
       .catch((err) => {
         ShowErrorMessage(err.message);
-        this.$router.push({path:'/solution'})        
+        this.$router.push({ path: "/solution" });
+      })
+      .finally(() => {
+        this.isShow = true;
       });
   },
 };

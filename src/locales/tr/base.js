@@ -9,5 +9,6 @@ export default {
     noDataText: 'Kayıt Bulunamadı',
     areYouSure: 'Emin Misiniz?',
     yes:'Evet',
-    no:'Hayır'
+    no:'Hayır',
+    actions:'İşlemler'
 }

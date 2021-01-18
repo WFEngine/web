@@ -9,5 +9,6 @@ export default {
     noDataText: 'No Record Found',
     areYouSure: 'Are You Sure',
     yes: 'Yes',
-    no: 'No'
+    no: 'No',
+    actions:'Actions'
 }

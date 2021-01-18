@@ -1,4 +1,11 @@
 export default {
+    index: {
+        table: {
+            organizationName: 'Firma Adı',
+            solutionName: 'Çözüm Adı',
+            description: 'Açıklama'
+        }
+    },
     new: {
         title: 'Yeni çözüm oluştur',
         name: 'Çözüm adı',
@@ -16,6 +23,10 @@ export default {
     view: {
         solutionInfo: 'Çözüm Bilgileri',
         projects: 'Projeler',
-        collaborator: 'Katılımcılar'
+        collaborator: 'Katılımcılar',
+        table:{
+            projectName:'Proje Adı',
+            projectType:'Project Type'
+        }
     }
 }
