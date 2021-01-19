@@ -5,5 +5,11 @@ export default {
         name: 'Project name',
         description: 'Project description',
         projectType: 'Project Type'
+    },
+    update:{
+        title:'Update Project Info',
+        name:'Project Name',
+        description:'Project Description',
+        projectType:'Project Type'
     }
 }

@@ -42,7 +42,6 @@ router.beforeEach((to, from, next) => {
       }
     } else {
       store.dispatch(DESTROY_USER)
-      console.log('qwesdkladfkjsanfdjka')
       router.push({
         path: '/auth/login'
       })

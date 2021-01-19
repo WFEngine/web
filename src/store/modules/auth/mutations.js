@@ -12,7 +12,6 @@ import organizationService from '../../../common/organization.service'
 
 const mutations = {
     [SET_USER](state, payload) {
-        console.log(payload)
         var user = new userObject();
         user.Id = payload.userId;
         user.Name = payload.name;

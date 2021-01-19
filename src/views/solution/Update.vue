@@ -61,6 +61,7 @@ import {
   UPDATE_SOLUTION,
 } from "../../store/modules/solution/actions.type";
 import { ShowErrorMessage, ShowSuccessMessage } from "../../common/alerts";
+import updateEntity  from '../../entities/solution/update'
 export default {
   data() {
     return {
@@ -79,11 +80,15 @@ export default {
   },
   methods: {
     saveSolution() {
-      var requestObject = {
-        Id: this.solution.id,
-        Name: this.solution.name,
-        Description: this.solution.description,
-      };
+      var requestObject = Object.assign({},updateEntity);
+      requestObject.Id = this.solution.id,
+      requestObject.Name = this.solution.name,
+      requestObject.Description = this.solution.Description;
+      // var requestObject = {
+      //   Id: this.solution.id,
+      //   Name: this.solution.name,
+      //   Description: this.solution.description,
+      // };
       this.$store
         .dispatch(UPDATE_SOLUTION, requestObject)
         .then(() => {

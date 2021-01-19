@@ -26,7 +26,9 @@ export default {
         collaborator: 'Katılımcılar',
         table:{
             projectName:'Proje Adı',
-            projectType:'Project Type'
-        }
+            projectType:'Project Type',
+            projectDescription:'Proje Açıklaması'
+        },
+        deleteProject:'Projeyi Silmek İstediğinize Emin Misiniz?'
     }
 }

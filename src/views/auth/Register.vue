@@ -215,7 +215,6 @@ export default {
           })
         })
         .catch((err) => {
-          console.log(err);
           ShowErrorMessage(err.message);
         });
     },

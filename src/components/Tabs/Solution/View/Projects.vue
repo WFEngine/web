@@ -12,10 +12,23 @@
               {{ $t(item.projectType) }}
             </template>
             <template v-slot:item.actions="{ item }">
-              <v-btn icon @click="$router.push({name:'viewproject',params:{id:item.id}})">
+              <v-btn
+                icon
+                @click="
+                  $router.push({ name: 'viewproject', params: { id: item.id } })
+                "
+              >
                 <v-icon>fa fa-eye</v-icon>
               </v-btn>
-              <v-btn icon @click="$router.push({name:'updateproject',params:{id:item.id}})">
+              <v-btn
+                icon
+                @click="
+                  $router.push({
+                    name: 'updateproject',
+                    params: { id: item.id },
+                  })
+                "
+              >
                 <v-icon>fa fa-edit</v-icon>
               </v-btn>
               <v-btn icon @click="deleteProject(item)">
@@ -30,6 +43,12 @@
 </template>
 
 <script>
+import { DELETE_PROJECT } from "../../../../store/modules/project/actions.type";
+import {
+  ShowConfirmDialog,
+  ShowSuccessMessage,
+  ShowErrorMessage,
+} from "../../../../common/alerts";
 export default {
   props: {
     solution: {
@@ -50,6 +69,11 @@ export default {
           value: "projectType",
         },
         {
+          text: this.$t("solution.view.table.projectDescription"),
+          align: "left",
+          value: "description",
+        },
+        {
           text: "İşlemler",
           align: "left",
           value: "actions",
@@ -58,10 +82,22 @@ export default {
       projetcs: this.solution.projects,
     };
   },
-  methods:{
-    deleteProject(item){
-      console.log(item)
-    }
+  methods: {
+    deleteProject(item) {
+      var index = this.projetcs.indexOf(item);
+      console.log(index);
+      ShowConfirmDialog(this.$t("solution.view.deleteProject")).then(() => {
+        this.$store
+          .dispatch(DELETE_PROJECT, item)
+          .then(() => {
+            ShowSuccessMessage();
+            this.projetcs.splice(index, 1);
+          })
+          .catch((err) => {
+            ShowErrorMessage(err.message);
+          });
+      });
+    },
   },
   created() {
     if (!this.solution) this.$router.push({ path: "/solution" });

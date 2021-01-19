@@ -1,5 +1,6 @@
 const state = {
-    projectTypes : []
+    projectTypes : [],
+    project:{}
 }
 
 export default state;
