@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     updateProject() {
-      var requestObject = Object.assign({}, updateEntity);
+      var requestObject = new updateEntity();
       requestObject.Id = this.project.id;
       requestObject.ProjectTypeId = this.project.projectTypeId;
       requestObject.Name = this.project.name;

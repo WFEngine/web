@@ -1,5 +1,6 @@
-export default{
-    Id:0,
-    Name:'',
-    Description:''
+class Solution{
+    Id = 0;
+    Name = "";
+    Description =""; 
 }
+export default Solution;

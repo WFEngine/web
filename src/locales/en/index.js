@@ -4,6 +4,7 @@ import dashboard from './dashboard'
 import solution from './solution'
 import project from './project'
 import projectTypes from './projectTypes'
+import collaboratorType from './collaboratorType'
 
 export default {
     base,
@@ -11,5 +12,6 @@ export default {
     dashboard,
     solution,
     project,
-    projectTypes
+    projectTypes,
+    collaboratorType
 }

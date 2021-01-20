@@ -80,10 +80,11 @@ export default {
   },
   methods: {
     saveSolution() {
-      var requestObject = Object.assign({},updateEntity);
+      var requestObject = new updateEntity();
       requestObject.Id = this.solution.id,
       requestObject.Name = this.solution.name,
       requestObject.Description = this.solution.Description;
+      console.log(requestObject)
       // var requestObject = {
       //   Id: this.solution.id,
       //   Name: this.solution.name,

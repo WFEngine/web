@@ -8,7 +8,7 @@
           background-color="#34344C"
           centered
           dark
-          icons-and-text
+          icons-and-text          
         >
           <v-tabs-slider></v-tabs-slider>
 
@@ -36,14 +36,7 @@
             <projects :solution="solution"></projects>
           </v-tab-item>
           <v-tab-item :value="'collaborators'">
-            <v-card flat>
-              <v-card-text>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Adipisci omnis culpa tenetur nulla soluta sunt harum laboriosam
-                porro, numquam facere fugit ab amet deserunt ducimus eius
-                perferendis cum nisi consequatur.
-              </v-card-text>
-            </v-card>
+            <collaborator :collaborators="solution.collaborators"></collaborator>
           </v-tab-item>
         </v-tabs-items>
       </v-card>
@@ -56,10 +49,12 @@ import { ShowErrorMessage } from "../../common/alerts";
 import { GET_SOLUTION } from "../../store/modules/solution/actions.type";
 import solutionInfoTab from "../../components/Tabs/Solution/View/SolutionInfo";
 import projectsTab from "../../components/Tabs/Solution/View/Projects";
+import collaboratorType from "../../components/Tabs/Solution/View/Collaborator";
 export default {
   components: {
     "solution-info": solutionInfoTab,
     projects: projectsTab,
+    collaborator: collaboratorType,
   },
   data() {
     return {
@@ -68,7 +63,7 @@ export default {
       solution: {},
     };
   },
-  created() {    
+  created() {
     var requestObject = {
       id: this.$route.params.id,
     };
@@ -76,6 +71,7 @@ export default {
       .dispatch(GET_SOLUTION, requestObject)
       .then(() => {
         this.solution = this.$store.getters.getSolution;
+        console.log(this.solution);
       })
       .catch((err) => {
         ShowErrorMessage(err.message);

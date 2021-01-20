@@ -29,6 +29,13 @@ export default {
             projectType:'Project Type',
             projectDescription:'Proje Açıklaması'
         },
-        deleteProject:'Projeyi Silmek İstediğinize Emin Misiniz?'
+        deleteProject:'Projeyi Silmek İstediğinize Emin Misiniz?',
+        collaboratorTable:{
+            organizationName:'Firma Adı',
+            avatar:'Profil Resmi',
+            userName:'Ad Soyad',
+            email:'Email',
+            collaboratorType:'Kullanıcı Yetkisi'
+        }
     }
 }

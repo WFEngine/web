@@ -29,6 +29,13 @@ export default {
             projectType: 'Project Type',
             projectDescription: 'Project Description'
         },
-        deleteProject: "Are You Sure You Want To Delete The Project?"
+        deleteProject: "Are You Sure You Want To Delete The Project?",
+        collaboratorTable:{
+            organizationName:'Organization Name',
+            avatar:'Avatar',
+            userName:'Name Surname',
+            email:'Email',
+            collaboratorType:'User Permission'
+        }
     }
 }
