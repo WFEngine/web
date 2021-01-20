@@ -22,6 +22,21 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
+              <!-- Package Version !-->
+              <v-row>
+                <v-col cols="12">
+                  <v-select
+                    v-model="solution.packageVersionId"
+                    :items="packageVersions"
+                    :rules="validations.PackageVersion"
+                    :label="$t('solution.new.packageVersion')"
+                    item-text="version"
+                    item-value="id"
+                    :disabled="true"
+                  ></v-select>
+                </v-col>
+              </v-row>
+              <!-- Package Version !-->
               <!-- Solution Name !-->
               <v-row>
                 <v-col cols="12">
@@ -60,8 +75,9 @@ import {
   GET_SOLUTION,
   UPDATE_SOLUTION,
 } from "../../store/modules/solution/actions.type";
+import { GET_PACKAGE_VERSIONS } from "../../store/modules/packageversion/actions.type";
 import { ShowErrorMessage, ShowSuccessMessage } from "../../common/alerts";
-import updateEntity  from '../../entities/solution/update'
+import updateEntity from "../../entities/solution/update";
 export default {
   data() {
     return {
@@ -75,21 +91,17 @@ export default {
         Description: [
           (v) => !v || v.length <= 255 || this.$t("base.maximum255Character"),
         ],
+        PackageVersion: [(v) => v > 0 || this.$t("base.required")],
       },
+      packageVersions: [],
     };
   },
   methods: {
     saveSolution() {
       var requestObject = new updateEntity();
-      requestObject.Id = this.solution.id,
-      requestObject.Name = this.solution.name,
-      requestObject.Description = this.solution.Description;
-      console.log(requestObject)
-      // var requestObject = {
-      //   Id: this.solution.id,
-      //   Name: this.solution.name,
-      //   Description: this.solution.description,
-      // };
+      (requestObject.Id = this.solution.id),
+        (requestObject.Name = this.solution.name),
+        (requestObject.Description = this.solution.Description);
       this.$store
         .dispatch(UPDATE_SOLUTION, requestObject)
         .then(() => {
@@ -113,6 +125,14 @@ export default {
         .dispatch(GET_SOLUTION, payload)
         .then(() => {
           this.solution = this.$store.getters.getSolution;
+          this.$store
+            .dispatch(GET_PACKAGE_VERSIONS)
+            .then(() => {
+              this.packageVersions = this.$store.getters.getPackageVersions;
+            })
+            .catch((err) => {
+              ShowErrorMessage(err.message);
+            });
         })
         .catch((err) => {
           ShowErrorMessage(err.message);

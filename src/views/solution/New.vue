@@ -22,6 +22,20 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
+              <!-- Package Version !-->
+              <v-row>
+                <v-col cols="12">
+                  <v-select
+                    v-model="solution.PackageVersionId"
+                    :items="packageVersions"
+                    :rules="validations.PackageVersion"
+                    :label="$t('solution.new.packageVersion')"
+                    item-text="version"
+                    item-value="id"
+                  ></v-select>
+                </v-col>
+              </v-row>
+              <!-- Package Version !-->
               <!-- Solution Name !-->
               <v-row>
                 <v-col cols="12">
@@ -58,6 +72,7 @@
 <script>
 import Solution from "../../entities/solution/new";
 import { INSERT_SOLUTION } from "../../store/modules/solution/actions.type";
+import { GET_PACKAGE_VERSIONS } from "../../store/modules/packageversion/actions.type";
 import { ShowErrorMessage, ShowSuccessMessage } from "../../common/alerts";
 export default {
   name: "NewSolution",
@@ -65,6 +80,7 @@ export default {
     return {
       formValid: false,
       solution: new Solution(),
+      packageVersions: [],
       validations: {
         Name: [
           (v) => !!v || this.$t("base.required"),
@@ -73,6 +89,9 @@ export default {
         Description: [
           (v) => !v || v.length <= 255 || this.$t("base.maximum255Character"),
         ],
+        PackageVersion:[
+          (v) => v > 0 ||this.$t('base.required')
+        ]
       },
     };
   },
@@ -88,6 +107,16 @@ export default {
           ShowErrorMessage(err.message);
         });
     },
+  },
+  created() {
+    this.$store
+      .dispatch(GET_PACKAGE_VERSIONS)
+      .then(() => {
+        this.packageVersions = this.$store.getters.getPackageVersions;
+      })
+      .catch((err) => {
+        ShowErrorMessage(err.message);
+      });
   },
 };
 </script>

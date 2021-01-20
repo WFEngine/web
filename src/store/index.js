@@ -8,6 +8,7 @@ import base from './modules/base/index'
 import auth from './modules/auth/index'
 import solution from './modules/solution/index'
 import project from './modules/project/index'
+import packageversion from './modules/packageversion/index'
 //#endregion
 
 export default new Vuex.Store({
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     base,
     auth,
     solution,
-    project
+    project,
+    packageversion
   }
 })

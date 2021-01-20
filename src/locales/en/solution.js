@@ -9,7 +9,8 @@ export default {
     new: {
         title: 'Create a new solution',
         name: 'Solution name',
-        description: 'Solution description'
+        description: 'Solution description',
+        packageVersion:'Compiler Version'
     },
     list: {
         deleteText: 'Are you sure you want to delete the solution?',

@@ -9,7 +9,8 @@ export default {
     new: {
         title: 'Yeni çözüm oluştur',
         name: 'Çözüm adı',
-        description: 'Çözüm açıklaması'
+        description: 'Çözüm açıklaması',
+        packageVersion:'Derleyici Versiyonu'
     },
     list: {
         deleteText: 'Çözümü silmek istediğinize emin misiniz ?',
