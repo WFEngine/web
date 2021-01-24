@@ -1,6 +1,7 @@
 const state = {
     projectTypes : [],
-    project:{}
+    project:{},
+    projectWFObjects:[]
 }
 
 export default state;

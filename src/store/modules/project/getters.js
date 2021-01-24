@@ -4,6 +4,9 @@ const getters = {
     },
     getProject : state => {
         return state.project;
+    },
+    getProjectWFObjects: state=>{
+        return state.projectWFObjects;
     }
 }
 

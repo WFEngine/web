@@ -5,6 +5,7 @@ import solution from './solution'
 import project from './project'
 import projectTypes from './projectTypes'
 import collaboratorType from './collaboratorType'
+import wfObjectType from './wfObjectType'
 
 export default {
     base,
@@ -13,5 +14,6 @@ export default {
     solution,
     project,
     projectTypes,
-    collaboratorType
+    collaboratorType,
+    wfObjectType
 }

@@ -3,7 +3,6 @@
     <v-col cols="12">
       <v-card>
         <v-tabs
-          v-if="isShow"
           v-model="currentTab"
           background-color="#34344C"
           centered
@@ -28,7 +27,7 @@
           </v-tab>
         </v-tabs>
 
-        <v-tabs-items v-model="currentTab">
+        <v-tabs-items v-if="isShow" v-model="currentTab">
           <v-tab-item :value="'solutionInfo'">
             <solution-info :solution="solution"></solution-info>
           </v-tab-item>

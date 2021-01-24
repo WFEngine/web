@@ -9,6 +9,7 @@ const mutations = {
     },
     [SET_PROJECT](state, payload) {
         state.project = payload.project;
+        state.projectWFObjects = payload.wfObjects;
     }
 }
 

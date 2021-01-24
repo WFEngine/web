@@ -11,5 +11,13 @@ export default {
         name:'Proje Adı',
         description:'Proje Açıklaması',
         projectType:'Proje Tipi'
+    },
+    view:{
+        title:'Proje Bilgileri',
+        projectInfo:{
+            workflowTableHeader:{
+                name:'İş Akışının Adı'
+            }
+        }
     }
 }

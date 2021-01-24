@@ -11,5 +11,13 @@ export default {
         name:'Project Name',
         description:'Project Description',
         projectType:'Project Type'
+    },
+    view:{        
+        title:'Project Info',
+        projectInfo:{
+            workflowTableHeader:{
+                name:'WorkFlow Name'
+            }
+        }
     }
 }

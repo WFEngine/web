@@ -9,6 +9,10 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import httpClient from './common/api.service'
 import jwtService from './common/jwt.service'
 import { DESTROY_USER } from './store/modules/auth/actions.type'
+import VueLodash from 'vue-lodash'
+import lodash from 'lodash'
+
+Vue.use(VueLodash, { lodash: lodash })
 
 Vue.config.productionTip = false
 
