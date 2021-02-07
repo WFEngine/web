@@ -1,0 +1,1 @@
+export const SET_WF_OBJECT = 'setWFObject'

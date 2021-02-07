@@ -17,7 +17,8 @@ export default {
         projectInfo:{
             workflowTableHeader:{
                 name:'İş Akışının Adı'
-            }
+            },
+            workflowDeleteText:'İş akışını silmek istediğinize emin misiniz?'
         }
     }
 }

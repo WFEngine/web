@@ -6,12 +6,14 @@ import auth from './auth'
 import dashboard from './dashboard'
 import solution from './solution'
 import project from './project'
+import workflow from './workflow'
 
 const routes = [
   auth,
   dashboard,
   solution,
-  project
+  project,
+  workflow
 ]
 
 const router = new VueRouter({

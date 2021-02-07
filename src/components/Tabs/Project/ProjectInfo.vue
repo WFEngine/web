@@ -24,7 +24,7 @@
                     {{ $t("wfObjectType.workflow") }}
                   </h1>
                   <v-spacer></v-spacer>
-                  <v-btn icon>
+                  <v-btn icon @click="newWorkflow">
                     <v-icon>fa fa-plus</v-icon>
                   </v-btn>
                 </v-toolbar>
@@ -34,13 +34,13 @@
                   :no-data-text="$t('base.noDataText')"
                 >
                   <template v-slot:item.actions="{ item }">
-                    <v-btn icon @click="openDesigner(item)">
+                    <v-btn icon @click="openWorkFlowDesigner(item)">
                       <v-icon>fas fa-drafting-compass</v-icon>
                     </v-btn>
-                    <v-btn icon @click="updateWFObject(item)">
+                    <v-btn icon @click="updateWorkFlow(item)">
                       <v-icon>fa fa-edit</v-icon>
                     </v-btn>
-                    <v-btn icon @click="deleteWFObject(item)">
+                    <v-btn icon @click="deleteWorkFlow(item)">
                       <v-icon>fa fa-trash</v-icon>
                     </v-btn>
                   </template>
@@ -55,6 +55,13 @@
 </template>
 
 <script>
+import {
+  ShowConfirmDialog,
+  ShowErrorMessage,
+  ShowSuccessMessage,
+} from "../../../common/alerts";
+import deleteWFObjectEntity from "../../../entities/wfobject/delete";
+import { DELETE_WF_OBJECT } from "../../../store/modules/wfobject/actions.type";
 export default {
   props: {
     project: {
@@ -117,7 +124,7 @@ export default {
           }
           wfObjectItem.children.push({
             name: item.name,
-            icon: "fa fa-circle",
+            icon: "fa fa-snowplow ",
             children: [],
           });
         });
@@ -134,15 +141,48 @@ export default {
           this.workflowItems.push(item);
         });
     },
-    openDesigner(item) {
+    newWorkflow() {
+      this.$router.push({
+        name: "newworkflow",
+        params: {
+          projectid: this.project.id,
+        },
+      });
+    },
+    openWorkFlowDesigner(item) {
+      this.$router.push({name:'workflowdesigner',params:{
+       projectid: this.project.id,
+       wfobjectid:item.id
+     }})
+    },
+    updateWorkFlow(item) {
+     this.$router.push({name:'updateworkflow',params:{
+       projectid: this.project.id,
+       wfobjectid:item.id
+     }})
+    },
+    deleteWorkFlow(item) {
+      ShowConfirmDialog(this.$t("project.view.projectInfo.workflowDeleteText"))
+        .then(() => {
+          var request = Object.assign({}, deleteWFObjectEntity);
+          request.ProjectId = this.project.id;
+          request.WFObjectId = item.id;
+          this.$store
+            .dispatch(DELETE_WF_OBJECT, request)
+            .then((payload) => {
+              var index = this.workflowItems.indexOf(item);
+              ShowSuccessMessage(payload.message);
+              this.workflowItems.splice(index, 1);
+            })
+            .catch((err) => {
+              ShowErrorMessage(err.message);
+            });
+        })
+        .catch((err) => {
+          ShowErrorMessage(err.message);
+        });
       console.log(item);
     },
-    updateWFObject(item) {
-      console.log(item);
-    },
-    deleteWFObject(item){
-        console.log(item)
-    }
   },
   created() {
     this.initializeTreeView();

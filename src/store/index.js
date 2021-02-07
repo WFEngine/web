@@ -9,6 +9,7 @@ import auth from './modules/auth/index'
 import solution from './modules/solution/index'
 import project from './modules/project/index'
 import packageversion from './modules/packageversion/index'
+import wfobject from './modules/wfobject/index'
 //#endregion
 
 export default new Vuex.Store({
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     auth,
     solution,
     project,
-    packageversion
+    packageversion,
+    wfobject
   }
 })
