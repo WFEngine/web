@@ -3,9 +3,9 @@
     <v-main>
       <toolbar :show="sidebarShow" v-on:sidebarClosed="sidebarStatusChanged"></toolbar>
       <sidebar :show="sidebarShow" v-on:sidebarClosed="sidebarClosed"></sidebar>
-      <v-content class="pa-0">
+      <v-main class="pa-0">
         <router-view></router-view>
-      </v-content>
+      </v-main>
     </v-main>
   </v-app>
 </template>

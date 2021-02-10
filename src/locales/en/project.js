@@ -16,7 +16,8 @@ export default {
         title:'Project Info',
         projectInfo:{
             workflowTableHeader:{
-                name:'WorkFlow Name'
+                name:'WorkFlow Name',
+                description:'WorkFlow Description'
             },
             workflowDeleteText:'Are you sure delete workflow ?'
         }

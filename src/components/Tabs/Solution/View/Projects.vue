@@ -85,7 +85,6 @@ export default {
   methods: {
     deleteProject(item) {
       var index = this.projetcs.indexOf(item);
-      console.log(index);
       ShowConfirmDialog(this.$t("solution.view.deleteProject")).then(() => {
         this.$store
           .dispatch(DELETE_PROJECT, item)

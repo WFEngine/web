@@ -81,6 +81,11 @@ export default {
           value: "name",
         },
         {
+          text: this.$t("project.view.projectInfo.workflowTableHeader.description"),
+          align: "left",
+          value: "description",
+        },
+        {
           text: this.$t("base.actions"),
           align: "left",
           sortable: false,
@@ -150,16 +155,23 @@ export default {
       });
     },
     openWorkFlowDesigner(item) {
-      this.$router.push({name:'workflowdesigner',params:{
-       projectid: this.project.id,
-       wfobjectid:item.id
-     }})
+      this.$router.push({
+        name: "workflowdesigner",
+        params: {
+          solutionid:this.project.solutionId,
+          projectid: this.project.id,
+          wfobjectid: item.id,
+        },
+      });
     },
     updateWorkFlow(item) {
-     this.$router.push({name:'updateworkflow',params:{
-       projectid: this.project.id,
-       wfobjectid:item.id
-     }})
+      this.$router.push({
+        name: "updateworkflow",
+        params: {
+          projectid: this.project.id,
+          wfobjectid: item.id,
+        },
+      });
     },
     deleteWorkFlow(item) {
       ShowConfirmDialog(this.$t("project.view.projectInfo.workflowDeleteText"))
@@ -181,7 +193,6 @@ export default {
         .catch((err) => {
           ShowErrorMessage(err.message);
         });
-      console.log(item);
     },
   },
   created() {

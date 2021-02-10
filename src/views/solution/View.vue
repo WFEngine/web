@@ -70,7 +70,6 @@ export default {
       .dispatch(GET_SOLUTION, requestObject)
       .then(() => {
         this.solution = this.$store.getters.getSolution;
-        console.log(this.solution);
       })
       .catch((err) => {
         ShowErrorMessage(err.message);

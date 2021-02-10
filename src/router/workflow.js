@@ -13,7 +13,7 @@ export default{
             component:()=>import('../views/workflow/Update')
         },
         {
-            path:'/workflow/designer/:projectid/:wfobjectid',
+            path:'/workflow/designer/:solutionid/:projectid/:wfobjectid',
             name:'workflowdesigner',
             component:()=>import('../views/workflow/Designer.vue')
         }

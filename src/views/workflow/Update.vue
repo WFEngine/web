@@ -22,6 +22,16 @@
                 </v-col>
               </v-row>
               <v-row>
+                <v-col cols="12">
+                  <v-textarea
+                    v-model="wfObject.description"
+                    :label="$t('wfObject.update.description')"
+                    rows="1"
+                    auto-grow
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+              <v-row>
                 <v-spacer></v-spacer>
                 <v-btn
                   :disabled="!formValid"
@@ -43,7 +53,10 @@
 
 <script>
 import { ShowSuccessMessage, ShowErrorMessage } from "../../common/alerts";
-import { GET_WF_OBJECT,UPDATE_WF_OBJECT } from "../../store/modules/wfobject/actions.type";
+import {
+  GET_WF_OBJECT,
+  UPDATE_WF_OBJECT,
+} from "../../store/modules/wfobject/actions.type";
 import wfObjectGetEntity from "../../entities/wfobject/get";
 import wfObjectUpdateEntity from "../../entities/wfobject/update";
 export default {
@@ -65,12 +78,16 @@ export default {
       req.ProjectId = this.$route.params.projectid;
       req.WFObjectId = this.$route.params.wfobjectid;
       req.Name = this.wfObject.name;
-      this.$store.dispatch(UPDATE_WF_OBJECT,req).then((payload)=>{
-        ShowSuccessMessage(payload.message)
-        this.$router.go(-1)
-      }).catch((err)=>{
-        ShowErrorMessage(err.message);
-      })      
+      req.Description = this.wfObject.description;
+      this.$store
+        .dispatch(UPDATE_WF_OBJECT, req)
+        .then((payload) => {
+          ShowSuccessMessage(payload.message);
+          this.$router.go(-1);
+        })
+        .catch((err) => {
+          ShowErrorMessage(err.message);
+        });
     },
   },
   created() {

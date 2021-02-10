@@ -22,6 +22,16 @@
                 </v-col>
               </v-row>
               <v-row>
+                <v-col cols="12">
+                  <v-textarea
+                    v-model="wfObject.Description"
+                    :label="$t('wfObject.new.description')"
+                    rows="1"
+                    auto-grow
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+              <v-row>
                 <v-spacer></v-spacer>
                 <v-btn
                   :disabled="!formValid"
