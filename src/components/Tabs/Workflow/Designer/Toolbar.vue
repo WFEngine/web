@@ -1,58 +1,86 @@
 <template>
-  <v-app>
-    <v-navigation-drawer
-      v-bind:style="{ 'max-height': innerHeight + 'px' }"
-      permanent
-      expand-on-hover
-    >
-      <v-list>
-        <v-list-group :value="true" prepend-icon="fa fa-tools">
-          <template v-slot:activator>
-            <v-list-item-title>Toolbar</v-list-item-title>
-          </template>
+  <v-dialog
+    v-model="show"
+    fullscreen
+    hide-overlay
+    transition="dialog-bottom-transition"
+  >
+    <v-card>
+      <v-toolbar dark class="gradient" tile>
+        <v-btn icon dark @click="dialogClosed">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <v-toolbar-title>Toolbar</v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-toolbar>
+      <v-card-actions>
+        <v-row>
+          <v-col cols="12">
+            <v-card>
+              <v-tabs
+                v-model="tab"
+                background-color="#34344C"
+                centered
+                dark
+                icons-and-text
+              >
+                <v-tabs-slider></v-tabs-slider>
 
-          <v-list-group :value="true" no-action sub-group>
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>Console</v-list-item-title>
-              </v-list-item-content>
-              <v-list-item-icon>
-                <v-icon>fa fa-terminal</v-icon>
-              </v-list-item-icon>
-            </template>
+                <v-tab href="#activities-tab">
+                  Activities
+                  <v-icon>fa fa-tools</v-icon>
+                </v-tab>
+              </v-tabs>
 
-            <v-list-item>
-              <v-list-item-title>WriteLine</v-list-item-title>
-            </v-list-item>
-          </v-list-group>
-        </v-list-group>
-      </v-list>
-    </v-navigation-drawer>
-  </v-app>
+              <v-tabs-items v-model="tab">
+                <v-tab-item :value="'activities-tab'">
+                  <activity-tab
+                    :activities="activities"
+                    v-on:activityAdded="activityDbClick"
+                  ></activity-tab>
+                </v-tab-item>
+              </v-tabs-items>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 
 <script>
+import activityTab from "./Activities";
 export default {
+  props: {
+    show: {
+      required: true,
+      type: Boolean,
+      default: false,
+    },
+    activities: {
+      required: true,
+      default: [],
+    },
+  },
+  components: {
+    "activity-tab": activityTab,
+  },
   data() {
     return {
-      innerHeight: window.innerHeight - 50,
+      tab: null,
     };
   },
   methods: {
-    onResized() {
-      this.innerHeight = window.innerHeight - 50;
+    dialogClosed() {
+      this.$emit("dialogClosed");
+    },
+    activityDbClick(activity) {
+      this.$emit("activityDbClick", activity);
     },
   },
-  created() {
-    this.resizeEventListener = window.addEventListener(
-      "resize",
-      this.onResized,
-      false
-    );
-  },
   beforeDestroy() {
-    window.removeEventListener("resize", this.onResized, false);
+    this.tab = null;
   },
 };
 </script>

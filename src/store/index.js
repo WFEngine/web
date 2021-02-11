@@ -10,6 +10,7 @@ import solution from './modules/solution/index'
 import project from './modules/project/index'
 import packageversion from './modules/packageversion/index'
 import wfobject from './modules/wfobject/index'
+import activities from './modules/activities/index'
 //#endregion
 
 export default new Vuex.Store({
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     solution,
     project,
     packageversion,
-    wfobject
+    wfobject,
+    activities
   }
 })
