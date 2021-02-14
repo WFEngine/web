@@ -24,35 +24,8 @@
           ></toolbar>
           <v-row>
             <v-col cols="12">
-              <v-expansion-panels>
-                <draggable class="item-container" style="width: 100%">
-                  <v-expansion-panel
-                    v-for="item in wfObjectContent.Blocks"
-                    :key="item.UniqueKey"
-                  >
-                    <v-expansion-panel-header>
-                      {{ item.Name }}
-
-                      <template v-slot:actions>
-                        <v-icon color="error"> fa fa-cog </v-icon>
-                      </template>
-                    </v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      <v-expansion-panels>
-                        <v-expansion-panel
-                          v-for="q in wfObjectContent.Blocks"
-                          :key="q.UniqueKey"
-                        >
-                          <v-expansion-panel-header>
-                            {{ q.Name }}</v-expansion-panel-header
-                          >
-                          <v-expansion-panel-content>
-                          </v-expansion-panel-content>
-                        </v-expansion-panel>
-                      </v-expansion-panels>
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                </draggable>
+              <v-expansion-panels multiple>
+                <activity :activity="wfObjectContent"></activity>
               </v-expansion-panels>
             </v-col>
           </v-row>
@@ -69,12 +42,11 @@ import { ShowErrorMessage } from "../../common/alerts";
 import { GET_ACTIVITIES } from "../../store/modules/activities/actions.type";
 import getActivitiesEntity from "../../entities/activities/get";
 import generateGuid from "../../common/guid";
-
-import draggable from "vuedraggable";
+import activity from "../../components/Tabs/Workflow/Designer/Activity";
 export default {
   components: {
     toolbar,
-    draggable,
+    activity,
   },
   data() {
     return {
@@ -138,7 +110,12 @@ export default {
     },
     activityIsContainer(activity) {
       console.log(activity);
-      return false;
+      switch (activity.activityName) {
+        case "WFEngine.Activities.Basic.Container":
+          return true;
+        default:
+          return false;
+      }
     },
   },
   watch: {
