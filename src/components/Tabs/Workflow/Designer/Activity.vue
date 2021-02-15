@@ -1,4 +1,5 @@
 <template>
+<v-row class="ma-2">
   <draggable
     class="dragArea"
     :list="activity.Blocks"
@@ -11,11 +12,11 @@
         <template v-slot:actions>
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn v-if="item.IsContainer" icon dark v-bind="attrs" v-on="on">
+              <v-btn v-if="item.IsContainer" icon dark v-bind="attrs" v-on="on" @click="variableButtonClick(item)">
                 <v-icon color="primary">fa fa-meteor</v-icon>
               </v-btn>
             </template>
-            <span>Variables</span>
+            <span>{{$t('workflowdesigner.variables')}}</span>
           </v-tooltip>   
            <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -23,7 +24,7 @@
                 <v-icon color="primary">fa fa-cog</v-icon>
               </v-btn>
             </template>
-            <span>Configs</span>
+            <span>{{$t('workflowdesigner.configs')}}</span>
           </v-tooltip>      
         </template>
       </v-expansion-panel-header>
@@ -34,6 +35,7 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
   </draggable>
+  </v-row>
 </template>
 
 <script>
@@ -47,9 +49,19 @@ export default {
     },
   },
   components: {
-    draggable,
+    draggable
   },
-  methods: {},
+  data(){
+    return{
+      selectedActivity : {}
+    }
+  },
+  methods: {
+    variableButtonClick(activity){
+      this.selectedActivity = activity;      
+      this.$emit('variableButtonClick',activity)
+    }
+  },
 };
 </script>
 

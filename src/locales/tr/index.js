@@ -7,6 +7,7 @@ import projectTypes from './projectTypes'
 import collaboratorType from './collaboratorType'
 import wfObjectType from './wfObjectType'
 import wfObject from './wfobject'
+import workflowdesigner from './workflow.designer'
 
 export default {
     base,
@@ -17,5 +18,6 @@ export default {
     projectTypes,
     collaboratorType,
     wfObjectType,
-    wfObject
+    wfObject,
+    workflowdesigner
 }

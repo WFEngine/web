@@ -27,8 +27,12 @@
                 <v-tabs-slider></v-tabs-slider>
 
                 <v-tab href="#activities-tab">
-                  Activities
+                  {{$t('workflowdesigner.activities')}}
                   <v-icon>fa fa-tools</v-icon>
+                </v-tab>
+                <v-tab href="#variable-tab">
+                  {{$t('workflowdesigner.variables')}}
+                  <v-icon>fa fa-meteor</v-icon>
                 </v-tab>
               </v-tabs>
 
@@ -38,6 +42,9 @@
                     :activities="activities"
                     v-on:activityAdded="activityDbClick"
                   ></activity-tab>
+                </v-tab-item>
+                <v-tab-item :value="'variable-tab'">
+                  <variable-tab :activity="selectedActivity"></variable-tab>
                 </v-tab-item>
               </v-tabs-items>
             </v-card>
@@ -51,6 +58,7 @@
 
 <script>
 import activityTab from "./Activities";
+import variableTab from './Variables'
 export default {
   props: {
     show: {
@@ -62,9 +70,14 @@ export default {
       required: true,
       default: [],
     },
+    selectedActivity:{
+      required:true,
+      default : {}
+    }
   },
   components: {
     "activity-tab": activityTab,
+    "variable-tab":variableTab
   },
   data() {
     return {

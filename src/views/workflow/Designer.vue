@@ -19,13 +19,14 @@
           <toolbar
             :activities="activities"
             :show="toolbarDialog"
+            :selectedActivity="selectedActivity"
             v-on:dialogClosed="toolbarClosed"
             v-on:activityDbClick="activityAdded"
           ></toolbar>
           <v-row>
             <v-col cols="12">
               <v-expansion-panels multiple>
-                <activity :activity="wfObjectContent"></activity>
+                <activity :activity="wfObjectContent" v-on:variableButtonClick="variableButtonClicked"></activity>
               </v-expansion-panels>
             </v-col>
           </v-row>
@@ -50,12 +51,12 @@ export default {
   },
   data() {
     return {
-      toolbarShow: true,
       solution: {},
       wfObject: {},
       wfObjectContent: {},
       activities: [],
       toolbarDialog: false,
+      selectedActivity: {}
     };
   },
   methods: {
@@ -109,14 +110,17 @@ export default {
       });
     },
     activityIsContainer(activity) {
-      console.log(activity);
       switch (activity.activityName) {
         case "WFEngine.Activities.Basic.Container":
           return true;
         default:
           return false;
       }
-    },
+    },    
+    variableButtonClicked(activity){
+      this.selectedActivity = activity;
+      this.toolbarDialog = true;
+    }
   },
   watch: {
     wfObject: {

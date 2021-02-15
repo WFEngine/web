@@ -11,6 +11,7 @@ import project from './modules/project/index'
 import packageversion from './modules/packageversion/index'
 import wfobject from './modules/wfobject/index'
 import activities from './modules/activities/index'
+import variabletype from './modules/variabletype/index'
 //#endregion
 
 export default new Vuex.Store({
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     project,
     packageversion,
     wfobject,
-    activities
+    activities,
+    variabletype
   }
 })
