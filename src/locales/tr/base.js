@@ -10,5 +10,7 @@ export default {
     areYouSure: 'Emin Misiniz?',
     yes:'Evet',
     no:'Hayır',
-    actions:'İşlemler'
+    actions:'İşlemler',
+    close:'Kapat',
+    maximum35Character:'Maksimum 35 karakter olabilir'
 }

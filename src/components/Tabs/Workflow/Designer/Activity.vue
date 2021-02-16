@@ -20,7 +20,7 @@
           </v-tooltip>   
            <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon dark v-bind="attrs" v-on="on">
+              <v-btn icon dark v-bind="attrs" v-on="on" @click="configClick(item)">
                 <v-icon color="primary">fa fa-cog</v-icon>
               </v-btn>
             </template>
@@ -35,11 +35,17 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
   </draggable>
+  <console-writeline ref="console-writeline" :activity="selectedActivity"></console-writeline>
   </v-row>
 </template>
 
 <script>
 import draggable from "vuedraggable";
+
+//#region Console Activities
+import writeline from '../../../../activities/console/writeline'
+//#endregion
+
 export default {
   name: "activity-item",
   props: {
@@ -49,7 +55,8 @@ export default {
     },
   },
   components: {
-    draggable
+    draggable,
+    "console-writeline":writeline
   },
   data(){
     return{
@@ -60,6 +67,16 @@ export default {
     variableButtonClick(activity){
       this.selectedActivity = activity;      
       this.$emit('variableButtonClick',activity)
+    },
+    configClick(item){
+      var itemNamePieces = item.Name.split('.');
+      itemNamePieces.splice(0,2)
+      var refName = itemNamePieces.join('-').toLowerCase();
+      var ref = this.$refs[refName]
+      if(!ref)
+      return;
+      this.selectedActivity = item;
+      ref.openDialog();
     }
   },
 };

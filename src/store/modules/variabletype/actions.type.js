@@ -1,0 +1,1 @@
+export const GET_VARIABLE_TYPES = 'getVariableTypes'

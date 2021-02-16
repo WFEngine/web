@@ -95,5 +95,13 @@ export default {
   beforeDestroy() {
     this.tab = null;
   },
+  watch:{
+    show:{
+      handler(val){
+        if(!val)
+        this.tab = null;      
+      }
+    }
+  }
 };
 </script>

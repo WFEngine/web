@@ -3,24 +3,90 @@
     <v-col cols="12" class="pa-0">
       <v-data-table
         :headers="headers"
-        :items="desserts"
-        :items-per-page="5"
+        :items="activity.Variables"
         class="elevation-1"
       >
         <template v-slot:top>
           <v-toolbar flat>
             <v-spacer></v-spacer>
-            <v-btn color="primary" dark class="mb-2">
-              {{$t('workflowdesigner.newVariable')}}
+            <v-btn
+              v-if="Object.keys(activity).length > 0"
+              color="primary"
+              dark
+              class="mb-2"
+              @click="openDialog"
+            >
+              {{ $t("workflowdesigner.newVariable") }}
             </v-btn>
           </v-toolbar>
         </template>
+        <template v-slot:item.Actions="{ item }">
+          <v-btn icon @click="deleteVariable(item)">
+            <v-icon>fa fa-trash</v-icon>
+          </v-btn>
+        </template>
       </v-data-table>
     </v-col>
+
+    <v-row justify="center">
+      <v-dialog v-model="dialog" persistent max-width="600px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">
+              {{ $t("workflowdesigner.newVariable") }}
+            </span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-form v-model="formValid">
+                <v-row>
+                  <v-col cols="10" offset="1">
+                    <v-text-field
+                      v-model="variable.name"
+                      :label="$t('workflowdesigner.variableName')"
+                      :rules="validation.name"
+                      :counter="35"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="10" offset="1">
+                    <v-select
+                      v-model="variable.type"
+                      :items="variableTypes"
+                      :rules="validation.variableType"
+                      :label="$t('workflowdesigner.variableType')"
+                      item-text="type"
+                      item-value="id"
+                    ></v-select>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="closeDialog">
+              {{ $t("base.close") }}
+            </v-btn>
+            <v-btn
+              color="primary darken-1"
+              text
+              :disabled="!formValid"
+              @click="saveVariable"
+            >
+              {{ $t("base.save") }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </v-row>
 </template>
 
 <script>
+import { GET_VARIABLE_TYPES } from "../../../../store/modules/variabletype/actions.type";
+import getVariableTypeEntity from "../../../../entities/variabletype/get";
+import { ShowErrorMessage } from "../../../../common/alerts";
+import generateGuid from "../../../../common/guid";
 export default {
   props: {
     activity: {
@@ -30,102 +96,84 @@ export default {
   },
   data() {
     return {
+      dialog: false,
+      variable: {
+        name: "",
+        type: -1,
+      },
+      validation: {
+        name: [
+          (v) => !!v || this.$t("base.required"),
+          (v) => !v || v.length <= 35 || this.$t("base.maximum35Character"),
+          (v) => /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(v) || this.$t("base.required"),
+        ],
+        variableType: [(v) => v > 0 || this.$t("base.required")],
+      },
+      formValid: false,
+      variableTypes: [],
       headers: [
         {
-          text: "Dessert (100g serving)",
+          text: this.$t("workflowdesigner.variableName"),
           align: "start",
           sortable: false,
-          value: "name",
-        },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Iron (%)", value: "iron" },
-      ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: "1%",
+          value: "Name",
         },
         {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: "1%",
+          text: this.$t("workflowdesigner.variableType"),
+          align: "start",
+          sortable: false,
+          value: "Type",
         },
         {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: "7%",
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: "8%",
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: "16%",
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: "0%",
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: "2%",
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: "45%",
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: "22%",
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: "6%",
+          text: this.$t("base.actions"),
+          align: "start",
+          sortable: false,
+          value: "Actions",
         },
       ],
     };
+  },
+  methods: {
+    openDialog() {
+      this.dialog = true;
+    },
+    closeDialog() {
+      this.dialog = false;
+      this.variable.name = "";
+      this.variable.type = -1;
+    },
+    saveVariable() {
+      if (Object.keys(this.activity).length < 1) return;
+      this.activity.Variables.push({
+        UniqueKey: generateGuid(),
+        Name: this.variable.name,
+        Type: this.variableTypes.filter((x) => x.id == this.variable.type)[0]
+          .type,
+        IsVariable: true,
+        Value: [],
+      });
+      this.dialog = false;
+    },
+    deleteVariable(variable) {
+      var indexOf = this.activity.Variables.indexOf(variable);
+      if (indexOf == -1) return;
+      this.activity.Variables.splice(indexOf, 1);
+    },
+    getVariableTypes() {
+      var obj = Object.assign({}, getVariableTypeEntity);
+      obj.ProjectId = parseInt(this.$route.params.projectid);
+      this.$store
+        .dispatch(GET_VARIABLE_TYPES, obj)
+        .then(() => {
+          this.variableTypes = this.$store.getters.getVariableTypes;
+        })
+        .catch((err) => {
+          ShowErrorMessage(err.message);
+        });
+    },
+  },
+  created() {
+    this.getVariableTypes();
   },
 };
 </script>

@@ -10,5 +10,7 @@ export default {
     areYouSure: 'Are You Sure',
     yes: 'Yes',
     no: 'No',
-    actions:'Actions'
+    actions:'Actions',
+    close:'Close',
+    maximum35Character:'Can have a maximum of 35 characters'
 }

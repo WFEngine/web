@@ -11,6 +11,10 @@
           <v-btn icon @click="toolbarDialog = true">
             <v-icon>fa fa-plus</v-icon>
           </v-btn>
+          <a id="downloadAnchorElem" style="display:none"></a>
+          <v-btn icon @click="downloadWorkFlow">
+            <v-icon>fa fa-download</v-icon>
+          </v-btn>
           <v-btn icon>
             <v-icon>fa fa-save</v-icon>
           </v-btn>
@@ -26,7 +30,10 @@
           <v-row>
             <v-col cols="12">
               <v-expansion-panels multiple>
-                <activity :activity="wfObjectContent" v-on:variableButtonClick="variableButtonClicked"></activity>
+                <activity
+                  :activity="wfObjectContent"
+                  v-on:variableButtonClick="variableButtonClicked"
+                ></activity>
               </v-expansion-panels>
             </v-col>
           </v-row>
@@ -56,7 +63,7 @@ export default {
       wfObjectContent: {},
       activities: [],
       toolbarDialog: false,
-      selectedActivity: {}
+      selectedActivity: {},
     };
   },
   methods: {
@@ -104,6 +111,7 @@ export default {
         Name: activity.activityName,
         IsContainer: this.activityIsContainer(activity),
         AssemblyName: activity.assemblyName,
+        ActivityName:activity.activityName,
         Variables: [],
         Arguments: [],
         Blocks: [],
@@ -116,11 +124,20 @@ export default {
         default:
           return false;
       }
-    },    
-    variableButtonClicked(activity){
+    },
+    variableButtonClicked(activity) {
       this.selectedActivity = activity;
       this.toolbarDialog = true;
-    }
+    },
+    downloadWorkFlow() {
+      var dataStr =
+        "data:text/json;charset=utf-8," +
+        encodeURIComponent(JSON.stringify(this.wfObjectContent));
+      var dlAnchorElem = document.getElementById("downloadAnchorElem");
+      dlAnchorElem.setAttribute("href", dataStr);
+      dlAnchorElem.setAttribute("download", "scene.json");
+      dlAnchorElem.click();
+    },
   },
   watch: {
     wfObject: {
