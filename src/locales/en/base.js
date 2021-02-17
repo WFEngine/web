@@ -12,5 +12,6 @@ export default {
     no: 'No',
     actions:'Actions',
     close:'Close',
-    maximum35Character:'Can have a maximum of 35 characters'
+    maximum35Character:'Can have a maximum of 35 characters',
+    remove:'Remove'
 }

@@ -12,5 +12,6 @@ export default {
     no:'Hayır',
     actions:'İşlemler',
     close:'Kapat',
-    maximum35Character:'Maksimum 35 karakter olabilir'
+    maximum35Character:'Maksimum 35 karakter olabilir',
+    remove:'Kaldır'
 }

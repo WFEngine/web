@@ -11,7 +11,7 @@
           <v-btn icon @click="toolbarDialog = true">
             <v-icon>fa fa-plus</v-icon>
           </v-btn>
-          <a id="downloadAnchorElem" style="display:none"></a>
+          <a id="downloadAnchorElem" style="display: none"></a>
           <v-btn icon @click="downloadWorkFlow">
             <v-icon>fa fa-download</v-icon>
           </v-btn>
@@ -26,6 +26,8 @@
             :selectedActivity="selectedActivity"
             v-on:dialogClosed="toolbarClosed"
             v-on:activityDbClick="activityAdded"
+            v-on:selectedActivityRemove="selectedActivityRemoved"
+            ref="toolbar"
           ></toolbar>
           <v-row>
             <v-col cols="12">
@@ -111,7 +113,7 @@ export default {
         Name: activity.activityName,
         IsContainer: this.activityIsContainer(activity),
         AssemblyName: activity.assemblyName,
-        ActivityName:activity.activityName,
+        ActivityName: activity.activityName,
         Variables: [],
         Arguments: [],
         Blocks: [],
@@ -128,6 +130,10 @@ export default {
     variableButtonClicked(activity) {
       this.selectedActivity = activity;
       this.toolbarDialog = true;
+      this.$refs.toolbar.setActiveTab("variable-tab");
+    },
+    selectedActivityRemoved() {
+      this.selectedActivity = {};
     },
     downloadWorkFlow() {
       var dataStr =

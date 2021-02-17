@@ -27,11 +27,11 @@
                 <v-tabs-slider></v-tabs-slider>
 
                 <v-tab href="#activities-tab">
-                  {{$t('workflowdesigner.activities')}}
+                  {{ $t("workflowdesigner.activities") }}
                   <v-icon>fa fa-tools</v-icon>
                 </v-tab>
                 <v-tab href="#variable-tab">
-                  {{$t('workflowdesigner.variables')}}
+                  {{ $t("workflowdesigner.variables") }}
                   <v-icon>fa fa-meteor</v-icon>
                 </v-tab>
               </v-tabs>
@@ -58,7 +58,7 @@
 
 <script>
 import activityTab from "./Activities";
-import variableTab from './Variables'
+import variableTab from "./Variables";
 export default {
   props: {
     show: {
@@ -70,14 +70,14 @@ export default {
       required: true,
       default: [],
     },
-    selectedActivity:{
-      required:true,
-      default : {}
-    }
+    selectedActivity: {
+      required: true,
+      default: {},
+    },
   },
   components: {
     "activity-tab": activityTab,
-    "variable-tab":variableTab
+    "variable-tab": variableTab,
   },
   data() {
     return {
@@ -85,6 +85,9 @@ export default {
     };
   },
   methods: {
+    setActiveTab(tabName){
+      this.tab = tabName;
+    },
     dialogClosed() {
       this.$emit("dialogClosed");
     },
@@ -94,14 +97,17 @@ export default {
   },
   beforeDestroy() {
     this.tab = null;
+    this.$emit('selectedActivityRemove')
   },
-  watch:{
-    show:{
-      handler(val){
-        if(!val)
-        this.tab = null;      
-      }
-    }
-  }
+  watch: {
+    show: {
+      handler(val) {
+        if (!val) {
+          this.tab = null;
+          this.$emit('selectedActivityRemove')
+        }
+      },
+    },
+  },
 };
 </script>

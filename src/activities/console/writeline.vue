@@ -67,7 +67,7 @@ export default {
   watch: {
     activity: {
       handler(val) {
-        if (val.Arguments.length == 0) {
+        if (this.dialog && val.Arguments.length == 0) {
           val.Arguments.push({
             Name: "Message",
             ArgumentType: "System.String",

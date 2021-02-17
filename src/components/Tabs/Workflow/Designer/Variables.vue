@@ -49,14 +49,14 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="10" offset="1">
-                    <v-select
+                    <v-autocomplete
                       v-model="variable.type"
                       :items="variableTypes"
                       :rules="validation.variableType"
                       :label="$t('workflowdesigner.variableType')"
                       item-text="type"
                       item-value="id"
-                    ></v-select>
+                    ></v-autocomplete>
                   </v-col>
                 </v-row>
               </v-form>

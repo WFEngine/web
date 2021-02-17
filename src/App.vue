@@ -1,11 +1,31 @@
 <template>
   <div>
     <v-overlay v-if="$store.getters.isLoading">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
+      <lottie-animation
+        path="loading.json"
+        :loop="true"
+        :autoPlay="true"
+        :speed="1"
+        :width="256"
+        :height="256"/>
     </v-overlay>
     <router-view></router-view>
   </div>
 </template>
+
+<script>
+import LottieAnimation from "lottie-vuejs/src/LottieAnimation.vue"; // import lottie-vuejs
+
+export default {
+  name: "app",
+  components: {
+    "lottie-animation": LottieAnimation,
+  },
+  data() {
+    return {};
+  },
+};
+</script>
 
 <style>
 .row {
