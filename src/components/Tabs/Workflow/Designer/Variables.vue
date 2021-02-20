@@ -152,7 +152,7 @@ export default {
         IsVariable: true,
         Value: [],
       });
-      this.dialog = false;
+      this.closeDialog();
     },
     deleteVariable(variable) {
       var indexOf = this.activity.Variables.indexOf(variable);

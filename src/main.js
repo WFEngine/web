@@ -11,8 +11,10 @@ import jwtService from './common/jwt.service'
 import { DESTROY_USER } from './store/modules/auth/actions.type'
 import VueLodash from 'vue-lodash'
 import lodash from 'lodash'
+import JsonViewer from 'vue-json-viewer'
 
 Vue.use(VueLodash, { lodash: lodash })
+Vue.use(JsonViewer);
 
 Vue.config.productionTip = false
 

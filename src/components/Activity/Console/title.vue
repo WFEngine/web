@@ -17,13 +17,10 @@
             <v-form>
               <v-row>
                 <v-col cols="10" offset="1">
-                  <v-text-field v-model="activity.Arguments[0].Value[0]" :label="'Message'"></v-text-field>
-                </v-col>
-                <v-col cols="10" offset="1">
-                  <v-checkbox 
-                  v-model="activity.Arguments[0].IsVariable"
-                  :label="'Is Variable'"
-                  ></v-checkbox>
+                  <v-text-field
+                    v-model="title"
+                    :label="$t('activity.console.title.title')"
+                  ></v-text-field>
                 </v-col>
               </v-row>
             </v-form>
@@ -51,29 +48,32 @@ export default {
   data() {
     return {
       dialog: false,
+      title:''
     };
   },
   methods: {
     openDialog() {
       this.dialog = true;
     },
-    closeDialog(){
+    closeDialog() {
       this.dialog = false;
+      this.activity.Arguments[0].Value = this.title;
     },
     getArgument() {
       return this.activity.Arguments[0];
     },
   },
-  watch: {
+  watch: {    
     activity: {
+      deep:true,
       handler(val) {
         if (this.dialog && val.Arguments.length == 0) {
           val.Arguments.push({
-            Name: "Message",
+            Name: "Title",
             ArgumentType: "System.String",
             IsVariable: false,
             IsConstant: false,
-            IsValue:false,
+            IsValue: false,
             Value: [],
           });
         }

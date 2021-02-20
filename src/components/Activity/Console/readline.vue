@@ -18,7 +18,7 @@
               <v-col cols="10" offset="1">
                 <v-text-field
                   v-model="variableName"
-                  :label="'Variable Name'"
+                  :label="$t('activity.console.readline.variableName')"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -37,7 +37,7 @@
 
 
 <script>
-import { ShowErrorMessage } from "../../common/alerts";
+import { ShowErrorMessage } from "../../../common/alerts";
 export default {
   props: {
     activity: {
@@ -60,7 +60,6 @@ export default {
       this.dialog = true;
     },
     closeDialog() {
-      console.log("burası çalıştı", this.activity);
       this.dialog = false;
 
       if (!this.variableName) return;
@@ -92,5 +91,17 @@ export default {
       return;
     },
   },
+  watch:{
+    activity:{
+      deep:true,
+      handler(val){
+        if(val.Arguments.length >0){
+          this.variableName = val.Arguments[0].Value;
+        }else{
+          this.variableName = "";
+        }
+      }
+    }
+  }
 };
 </script>

@@ -8,6 +8,7 @@ import collaboratorType from './collaboratorType'
 import wfObjectType from './wfObjectType'
 import wfObject from './wfobject'
 import workflowdesigner from './workflow.designer'
+import activity from './activity'
 
 export default {
     base,
@@ -19,5 +20,6 @@ export default {
     collaboratorType,
     wfObjectType,
     wfObject,
-    workflowdesigner
+    workflowdesigner,
+    activity
 }

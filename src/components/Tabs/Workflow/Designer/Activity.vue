@@ -71,6 +71,14 @@
       :activity="selectedActivity"
       :variables="variables"
     ></console-readline>
+    <console-write
+      ref="console-write"
+      :activity="selectedActivity"
+    ></console-write>
+    <console-title
+      ref="console-title"
+      :activity="selectedActivity"
+    ></console-title>
   </v-row>
 </template>
 
@@ -78,8 +86,10 @@
 import draggable from "vuedraggable";
 
 //#region Console Activities
-import writeline from "../../../../activities/console/writeline";
-import readline from "../../../../activities/console/readline";
+import writeline from "../../../Activity/Console/writeline";
+import readline from "../../../Activity/Console/readline";
+import write from "../../../Activity/Console/write";
+import title from "../../../Activity/Console/title";
 //#endregion
 
 export default {
@@ -94,6 +104,8 @@ export default {
     draggable,
     "console-writeline": writeline,
     "console-readline": readline,
+    "console-write": write,
+    "console-title": title,
   },
   data() {
     return {
@@ -118,7 +130,7 @@ export default {
     removeItem(item) {
       var indexOf = this.activity.Blocks.indexOf(item);
       if (indexOf == -1) return;
-      this.activity.Blocks.splice(item, 1);
+      this.activity.Blocks.splice(indexOf, 1);
     },
     initializeVariables(item) {
       if (Object.prototype.hasOwnProperty.call(item, "Variables")) {

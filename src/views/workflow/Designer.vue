@@ -12,8 +12,8 @@
             <v-icon>fa fa-plus</v-icon>
           </v-btn>
           <a id="downloadAnchorElem" style="display: none"></a>
-          <v-btn icon @click="downloadWorkFlow">
-            <v-icon>fa fa-download</v-icon>
+          <v-btn icon @click="showWorkFlow">
+            <v-icon>fa fa-database</v-icon>
           </v-btn>
           <v-btn icon>
             <v-icon>fa fa-save</v-icon>
@@ -41,6 +41,24 @@
           </v-row>
         </v-card-actions>
       </v-card>
+      <v-row justify="center">
+        <v-dialog v-model="jsonDialog" persistent max-width="600px">
+          <v-card>
+            <v-card-title>
+              <span class="headline">JSON</span>
+            </v-card-title>
+            <v-card-text>
+              <json-viewer :value="wfObjectContent"></json-viewer>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="jsonDialog = false">
+                {{ $t("base.close") }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
     </v-col>
   </v-row>
 </template>
@@ -66,6 +84,7 @@ export default {
       activities: [],
       toolbarDialog: false,
       selectedActivity: {},
+      jsonDialog: false,
     };
   },
   methods: {
@@ -135,19 +154,14 @@ export default {
     selectedActivityRemoved() {
       this.selectedActivity = {};
     },
-    downloadWorkFlow() {
-      var dataStr =
-        "data:text/json;charset=utf-8," +
-        encodeURIComponent(JSON.stringify(this.wfObjectContent));
-      var dlAnchorElem = document.getElementById("downloadAnchorElem");
-      dlAnchorElem.setAttribute("href", dataStr);
-      dlAnchorElem.setAttribute("download", "scene.json");
-      dlAnchorElem.click();
+    showWorkFlow() {
+      this.jsonDialog = true;
+      console.log(JSON.stringify(this.wfObjectContent))
     },
   },
   watch: {
     wfObject: {
-      handler: function (val) {
+      handler: function (val) {        
         this.wfObjectContent = JSON.parse(val.value);
       },
     },
