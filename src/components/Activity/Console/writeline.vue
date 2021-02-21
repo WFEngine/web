@@ -15,16 +15,16 @@
         <v-card-text>
           <v-container>
             <v-form>
-              <v-row>
+              <v-row v-if="getArgument() != null">
                 <v-col cols="10" offset="1">
                   <v-text-field
-                    v-model="message"
+                    v-model="getArgument().Value[0]"
                     :label="$t('activity.console.writeline.message')"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="10" offset="1">
                   <v-checkbox
-                    v-model="isVariable"
+                    v-model="getArgument().IsVariable"
                     :label="$t('activity.console.writeline.isVariable')"
                   ></v-checkbox>
                 </v-col>
@@ -54,8 +54,6 @@ export default {
   data() {
     return {
       dialog: false,
-      message: "",
-      isVariable: false,
     };
   },
   methods: {
@@ -64,10 +62,10 @@ export default {
     },
     closeDialog() {
       this.dialog = false;
-      this.activity.Arguments[0].Value[0] = this.message;
-      this.activity.Arguments[0].IsVariable = this.isVariable;
     },
     getArgument() {
+      if(this.activity.Arguments.length == 0)
+      return null;
       return this.activity.Arguments[0];
     },
   },
@@ -85,12 +83,8 @@ export default {
             Value: [],
           });
         }
-        if (this.dialog) {
-          this.message = val.Arguments[0].Value;
-          this.isVariable = val.Arguments[0].IsVariable;
-        }
       },
-    },
+    }
   },
 };
 </script>

@@ -14,5 +14,11 @@ export default{
             message:'Mesaj',
             isVariable:'Değişken Mi'
         }
-    }   
+    },
+    basic:{
+        assign:{
+            variableName:'Değişken Adı',
+            variableValue:'Değişken Değeri'
+        }
+    }
 }

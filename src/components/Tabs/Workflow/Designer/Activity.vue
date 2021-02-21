@@ -79,6 +79,11 @@
       ref="console-title"
       :activity="selectedActivity"
     ></console-title>
+    <basic-assign
+      ref="basic-assign"
+      :activity="selectedActivity"
+      :variables="variables"
+    ></basic-assign>
   </v-row>
 </template>
 
@@ -90,6 +95,10 @@ import writeline from "../../../Activity/Console/writeline";
 import readline from "../../../Activity/Console/readline";
 import write from "../../../Activity/Console/write";
 import title from "../../../Activity/Console/title";
+//#endregion
+
+//#region  Basic Activities
+import assing from "../../../Activity/Basic/Assign";
 //#endregion
 
 export default {
@@ -106,6 +115,7 @@ export default {
     "console-readline": readline,
     "console-write": write,
     "console-title": title,
+    "basic-assign": assing,
   },
   data() {
     return {
@@ -150,6 +160,13 @@ export default {
       handler(val) {
         this.variables = [];
         this.initializeVariables(val);
+      },
+    },
+    selectedActivity: {
+      deep: true,
+      handler() {
+        this.variables = [];
+        this.initializeVariables(this.activity);
       },
     },
   },

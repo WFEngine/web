@@ -14,5 +14,11 @@ export default {
             message:'Message',
             isVariable:'Is Variable'
         }
+    },
+    basic:{
+        assign:{
+            variableName:'Variable Name',
+            variableValue:'Variable Value'
+        }
     }
 }
