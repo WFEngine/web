@@ -18,12 +18,14 @@
               <v-row v-if="getArgument() != null">
                 <v-col cols="10" offset="1">
                   <v-text-field
+                    v-if="getArgument() != null"
                     v-model="getArgument().Value[0]"
                     :label="$t('activity.console.writeline.message')"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="10" offset="1">
                   <v-checkbox
+                    v-if="getArgument() != null"
                     v-model="getArgument().IsVariable"
                     :label="$t('activity.console.writeline.isVariable')"
                   ></v-checkbox>
@@ -64,8 +66,7 @@ export default {
       this.dialog = false;
     },
     getArgument() {
-      if(this.activity.Arguments.length == 0)
-      return null;
+      if (this.activity.Arguments.length == 0) return null;
       return this.activity.Arguments[0];
     },
   },
@@ -84,7 +85,7 @@ export default {
           });
         }
       },
-    }
+    },
   },
 };
 </script>

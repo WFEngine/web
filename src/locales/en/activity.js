@@ -19,6 +19,11 @@ export default {
         assign:{
             variableName:'Variable Name',
             variableValue:'Variable Value'
+        },
+        random:{
+            variableName:'Variable Name',
+            startValue:'Başlangıç Değeri',
+            endValue:'Bitiş Değeri'
         }
     }
 }

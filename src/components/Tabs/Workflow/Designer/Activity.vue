@@ -84,6 +84,11 @@
       :activity="selectedActivity"
       :variables="variables"
     ></basic-assign>
+    <basic-random
+      ref="basic-random"
+      :activity="selectedActivity"
+      :variables="variables"
+    ></basic-random>
   </v-row>
 </template>
 
@@ -99,6 +104,7 @@ import title from "../../../Activity/Console/title";
 
 //#region  Basic Activities
 import assing from "../../../Activity/Basic/Assign";
+import random from "../../../Activity/Basic/Random";
 //#endregion
 
 export default {
@@ -116,6 +122,7 @@ export default {
     "console-write": write,
     "console-title": title,
     "basic-assign": assing,
+    "basic-random": random,
   },
   data() {
     return {
