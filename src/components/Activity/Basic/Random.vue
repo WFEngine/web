@@ -114,8 +114,6 @@ export default {
             this.activity.Arguments[0].Value[0] = ["$" + m.Name];
             this.activity.Arguments[1].Value[0] = [startValue];
             this.activity.Arguments[2].Value[0] = [endValue];
-
-            // this.activity.Arguments[2].Value[0] = [this.endValue];
           } else {
             this.activity.Arguments.push({
               Name: "ReturnValue",
@@ -141,10 +139,16 @@ export default {
           }
           return;
         });
+        this.clearProperties();
     },
     getArgument(index) {
       if (this.activity.Arguments.length < index) return null;
       return this.activity.Arguments[index];
+    },
+    clearProperties() {
+      this.variableName = "";
+      this.startValue = "";
+      this.endValue = "";
     },
   },
   watch: {
@@ -157,7 +161,7 @@ export default {
           this.endValue = this.activity.Arguments[2].Value[0];
         }
       },
-    },
+    }
   },
 };
 </script>
