@@ -156,6 +156,7 @@ export default {
     },
     showWorkFlow() {
       this.jsonDialog = true;
+      console.log(JSON.stringify(this.wfObjectContent))
     },
   },
   watch: {
