@@ -89,6 +89,11 @@
       :activity="selectedActivity"
       :variables="variables"
     ></basic-random>
+    <basic-if
+    ref="basic-condition-if"
+    :activity="selectedActivity"
+    :variables="variables"
+    ></basic-if>
   </v-row>
 </template>
 
@@ -105,6 +110,7 @@ import title from "../../../Activity/Console/title";
 //#region  Basic Activities
 import assing from "../../../Activity/Basic/Assign";
 import random from "../../../Activity/Basic/Random";
+import condition from '../../../Activity/Basic/IF'
 //#endregion
 
 export default {
@@ -123,6 +129,7 @@ export default {
     "console-title": title,
     "basic-assign": assing,
     "basic-random": random,
+    "basic-if":condition
   },
   data() {
     return {
@@ -138,7 +145,9 @@ export default {
     configClick(item) {
       var itemNamePieces = item.Name.split(".");
       itemNamePieces.splice(0, 2);
+      console.log(itemNamePieces)
       var refName = itemNamePieces.join("-").toLowerCase();
+      console.log(refName)
       var ref = this.$refs[refName];
       if (!ref) return;
       this.selectedActivity = item;
