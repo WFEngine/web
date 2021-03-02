@@ -85,7 +85,7 @@ export default {
     };
   },
   methods: {
-    setActiveTab(tabName){
+    setActiveTab(tabName) {
       this.tab = tabName;
     },
     dialogClosed() {
@@ -97,14 +97,14 @@ export default {
   },
   beforeDestroy() {
     this.tab = null;
-    this.$emit('selectedActivityRemove')
+    this.$emit("selectedActivityRemove");
   },
   watch: {
     show: {
       handler(val) {
         if (!val) {
           this.tab = null;
-          this.$emit('selectedActivityRemove')
+          this.$emit("selectedActivityRemove");
         }
       },
     },

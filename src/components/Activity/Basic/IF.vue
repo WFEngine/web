@@ -24,12 +24,16 @@
                 <v-btn icon dark @click="createConditionGroup()">
                   <v-icon>fa fa-plus</v-icon></v-btn
                 >
+                <v-btn icon dark @click="createElseCondition()">
+                  <v-icon>fa fa-plus</v-icon></v-btn
+                >
               </v-toolbar>
               <v-card-actions>
                 <condition-builder
                   :activity="activity"
                   :variables="variables"
                   :isMainCondition="true"
+                  :isHideDesigner="false"
                 ></condition-builder>
               </v-card-actions>
             </v-card>
@@ -77,6 +81,29 @@ export default {
         Value: [],
         Operator: "AND",
         Blocks: [],
+      });
+    },
+    createElseCondition() {
+      if(this.activity.Arguments.filter(x=>x.ArgumentType == 'WFEngine.Activities.Basic.Condition.Else').length>0)
+      return;
+      if(this.activity.Arguments.filter(x=>x.ArgumentType== 'WFEngine.Activities.Basic.Condition.ConditionGroup').length<1)
+      return;
+      this.activity.Arguments.push({
+        Name: "Else",
+        ArgumentType: "WFEngine.Activities.Basic.Condition.Else",
+        IsVariable: false,
+        IsConstant: false,
+        Value: [
+          {
+            Name: "ConditionGroup",
+            ArgumentType: "WFEngine.Activities.Basic.Condition.ConditionGroup",
+            IsVariable: false,
+            IsConstant: false,
+            Value: [],
+            Operator: "",
+            Blocks: [],
+          },
+        ],
       });
     },
   },

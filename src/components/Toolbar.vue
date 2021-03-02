@@ -89,7 +89,7 @@ export default {
     show: {
       required: true,
       type: Boolean,
-    },
+    }
   },
   data() {
     return {

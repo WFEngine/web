@@ -145,9 +145,7 @@ export default {
     configClick(item) {
       var itemNamePieces = item.Name.split(".");
       itemNamePieces.splice(0, 2);
-      console.log(itemNamePieces)
       var refName = itemNamePieces.join("-").toLowerCase();
-      console.log(refName)
       var ref = this.$refs[refName];
       if (!ref) return;
       this.selectedActivity = item;
