@@ -57,7 +57,7 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-expansion-panels multiple>
-            <activity-item :activity="item"></activity-item>
+            <activity-item v-if="item.Blocks!=undefined" :activity="item"></activity-item>
           </v-expansion-panels>
         </v-expansion-panel-content>
       </v-expansion-panel>

@@ -97,7 +97,7 @@
           </template>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <div>
+          <div v-if="item.Value != undefined && item.Value.length > 0">
             <condition-builder
               :activity="item"
               :variables="variables"
@@ -105,14 +105,14 @@
               :isHideDesigner="true"
               :parentItem="item"
             ></condition-builder>
-          </div>        
-          <div v-if="item.ArgumentType=='WFEngine.Activities.Basic.Condition.ConditionGroup' && item.Blocks.length > 0 &&!isHideDesigner">
-             <v-expansion-panels multiple>
-            <activity-designer
-              :activity="item"
-              v-on:variableButtonClick="variableButtonClicked"
-            ></activity-designer>
-             </v-expansion-panels>
+          </div>
+          <div>
+            <v-expansion-panels multiple>
+              <activity-item
+                :activity="item"
+                v-on:variableButtonClick="variableButtonClicked"
+              ></activity-item>
+            </v-expansion-panels>
           </div>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -196,9 +196,7 @@
           <div
             v-if="
               item.ArgumentType ==
-              'WFEngine.Activities.Basic.Condition.ConditionGroup'
-            "
-          >
+              'WFEngine.Activities.Basic.Condition.ConditionGroup'" >
             <condition-builder
               :activity="item"
               :variables="variables"
@@ -228,7 +226,6 @@
 <script>
 import toolbar from "../../../Tabs/Workflow/Designer/Toolbar";
 import generateGuid from "../../../../common/guid";
-import activityDesigner from "../../../Tabs/Workflow/Designer/Activity";
 export default {
   name: "condition-builder",
   props: {
@@ -257,8 +254,7 @@ export default {
     },
   },
   components: {
-    toolbar,
-    "activity-designer":activityDesigner,
+    toolbar: toolbar
   },
   data() {
     return {
@@ -357,7 +353,7 @@ export default {
       }
     },
     variableButtonClicked(activity) {
-      console.log(activity)
+      console.log(activity);
       this.selectedActivity = activity;
       this.toolbarDialog = true;
       this.$refs.ifToolbar.setActiveTab("variable-tab");

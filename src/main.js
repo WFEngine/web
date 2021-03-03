@@ -15,6 +15,7 @@ import JsonViewer from 'vue-json-viewer'
 
 Vue.use(VueLodash, { lodash: lodash })
 Vue.use(JsonViewer);
+Vue.component("activity-item",()=>import('./components/Tabs/Workflow/Designer/Activity.vue'))
 
 Vue.config.productionTip = false
 

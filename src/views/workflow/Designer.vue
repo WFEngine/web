@@ -32,10 +32,10 @@
           <v-row>
             <v-col cols="12">
               <v-expansion-panels multiple>
-                <activity
+                <activity-item
                   :activity="wfObjectContent"
                   v-on:variableButtonClick="variableButtonClicked"
-                ></activity>
+                ></activity-item>
               </v-expansion-panels>
             </v-col>
           </v-row>
@@ -70,11 +70,11 @@ import { ShowErrorMessage } from "../../common/alerts";
 import { GET_ACTIVITIES } from "../../store/modules/activities/actions.type";
 import getActivitiesEntity from "../../entities/activities/get";
 import generateGuid from "../../common/guid";
-import activity from "../../components/Tabs/Workflow/Designer/Activity";
+// import activity from "../../components/Tabs/Workflow/Designer/Activity";
 export default {
   components: {
     toolbar,
-    activity,
+    // activity,
   },
   data() {
     return {

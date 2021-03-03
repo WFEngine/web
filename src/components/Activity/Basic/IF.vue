@@ -47,6 +47,7 @@
 <script>
 import conditionBuilder from "./Condition/ConditionBuilder";
 export default {
+  name:'if',
   props: {
     activity: {
       required: true,
@@ -100,7 +101,7 @@ export default {
             IsVariable: false,
             IsConstant: false,
             Value: [],
-            Operator: "",
+            Operator: "AND",
             Blocks: [],
           },
         ],
