@@ -1,6 +1,6 @@
 <template>
   <v-row class="ma-0">
-    <toolbar
+    <wf-designer-toolbar
       :activities="activities"
       :show="toolbarDialog"
       :selectedActivity="selectedActivity"
@@ -10,7 +10,7 @@
       :hideVariables="true"
       ref="ifToolbar"
     >
-    </toolbar>
+    </wf-designer-toolbar>
     <v-expansion-panels v-if="isMainCondition">
       <v-expansion-panel v-for="(item, i) in activity.Arguments" v-bind:key="i">
         <v-expansion-panel-header class="pa-2">
@@ -83,7 +83,7 @@
               <v-btn
                 icon
                 v-if="
-                  item.ArgumentType ==
+                  item.ArgumentType !=
                   'WFEngine.Activities.Basic.Condition.Else'
                 "
                 @click="createConditionGroup(item)"
@@ -108,8 +108,9 @@
           </div>
           <div>
             <v-expansion-panels multiple>
+              {{ item }}
               <activity-item
-                :activity="item"
+                :activity="item.Value[0]"
                 v-on:variableButtonClick="variableButtonClicked"
               ></activity-item>
             </v-expansion-panels>
@@ -154,6 +155,16 @@
               <v-btn icon @click="removeItem(item)">
                 <v-icon>fa fa-trash</v-icon>
               </v-btn>
+              <v-btn
+                v-if="
+                  activity.ArgumentType ==
+                  'WFEngine.Activities.Basic.Condition.Else'
+                "
+                icon
+                @click="openToolbar(item)"
+              >
+                <v-icon>fa fa-cog</v-icon>
+              </v-btn>
               <v-switch
                 v-model="item.Operator"
                 :label="item.Operator"
@@ -176,16 +187,6 @@
               >
                 <v-icon>fa fa-plus</v-icon>
               </v-btn>
-              <v-btn
-                icon
-                v-if="
-                  item.ArgumentType ==
-                  'WFEngine.Activities.Basic.Condition.Else'
-                "
-                @click="createConditionGroup(item)"
-              >
-                <v-icon>far fa-object-group</v-icon>
-              </v-btn>
               <v-btn icon @click="removeItem(item)">
                 <v-icon>fa fa-trash</v-icon>
               </v-btn>
@@ -196,24 +197,43 @@
           <div
             v-if="
               item.ArgumentType ==
-              'WFEngine.Activities.Basic.Condition.ConditionGroup'" >
+              'WFEngine.Activities.Basic.Condition.ConditionGroup'
+            "
+          >
             <condition-builder
               :activity="item"
               :variables="variables"
               :isMainCondition="false"
               :isHideDesigner="true"
             ></condition-builder>
+            <v-expansion-panels multiple>
+              <activity-item
+                :activity="item"
+                v-on:variableButtonClick="variableButtonClicked"
+              ></activity-item>
+            </v-expansion-panels>
           </div>
           <div v-else>
             <v-row class="ma-0">
               <v-col cols="4">
-                <v-text-field></v-text-field>
+                <v-text-field
+                  v-model="item.Conditions[0].Value.LeftItem.Value[0]"
+                  @change="leftItemChanged(item.Conditions[0].Value.LeftItem)"
+                ></v-text-field>
               </v-col>
               <v-col cols="4">
-                <v-text-field></v-text-field>
+                <v-select
+                  v-model="item.Conditions[0].Value.Operator"
+                  :items="conditionTypes"
+                  item-text="Label"
+                  item-value="Label"
+                ></v-select>
               </v-col>
               <v-col cols="4">
-                <v-text-field></v-text-field>
+                <v-text-field
+                  v-model="item.Conditions[0].Value.RightItem.Value[0]"
+                  @change="rightItemChanged(item.Conditions[0].Value.RightItem)"
+                ></v-text-field>
               </v-col>
             </v-row>
           </div>
@@ -224,8 +244,8 @@
 </template>
 
 <script>
-import toolbar from "../../../Tabs/Workflow/Designer/Toolbar";
 import generateGuid from "../../../../common/guid";
+import conditions from "./ConditionType";
 export default {
   name: "condition-builder",
   props: {
@@ -253,14 +273,12 @@ export default {
       },
     },
   },
-  components: {
-    toolbar: toolbar
-  },
   data() {
     return {
       activities: [],
       toolbarDialog: false,
       selectedActivity: {},
+      conditionTypes: conditions,
     };
   },
   methods: {
@@ -272,7 +290,6 @@ export default {
         IsConstant: false,
         Value: [],
         Operator: "AND",
-        Blocks: [],
       });
     },
     createCondition(item) {
@@ -290,7 +307,8 @@ export default {
                 ArgumentType: "",
                 IsVariable: true,
                 IsConstant: false,
-                Value: [],
+                IsValue: false,
+                Value: [{}],
               },
               RightItem: {
                 Name: "",
@@ -298,12 +316,13 @@ export default {
                 IsVariable: false,
                 IsConstant: false,
                 IsValue: false,
-                Value: [],
+                Value: [{}],
               },
               Operator: "",
             },
           },
         ],
+        Blocks: [],
       });
     },
     removeItem(item) {
@@ -325,21 +344,22 @@ export default {
       this.toolbarDialog = false;
     },
     activityAdded(activity) {
-      if (
-        this.selectedActivity.Blocks.length == 0 &&
-        !this.activityIsContainer(activity)
-      )
-        return;
-      this.selectedActivity.Blocks.push({
-        UniqueKey: generateGuid(),
-        Name: activity.activityName,
-        IsContainer: this.activityIsContainer(activity),
-        AssemblyName: activity.assemblyName,
-        ActivityName: activity.activityName,
-        Variables: [],
-        Arguments: [],
-        Blocks: [],
-      });
+      if (this.selectedActivity.Value.length == 0) {
+        this.createCondition(this.selectedActivity);
+      }
+      console.log(this.selectedActivity);
+      if (!this.activityIsContainer(activity)) return;
+      else
+        this.selectedActivity.Value[0].Blocks.push({
+          UniqueKey: generateGuid(),
+          Name: activity.activityName,
+          IsContainer: this.activityIsContainer(activity),
+          AssemblyName: activity.assemblyName,
+          ActivityName: activity.activityName,
+          Variables: [],
+          Arguments: [],
+          Blocks: [],
+        });
     },
     selectedActivityRemoved() {
       this.selectedActivity = {};
@@ -357,6 +377,32 @@ export default {
       this.selectedActivity = activity;
       this.toolbarDialog = true;
       this.$refs.ifToolbar.setActiveTab("variable-tab");
+    },
+    leftItemChanged(leftItem) {
+      var val = leftItem.Value[0];
+      if (val.startsWith("$")) val = val.substr(1);
+
+      this.variables
+        .filter((x) => x.Name == val)
+        .map((item) => {
+          leftItem.ArgumentType = item.Type;
+          leftItem.Name = item.Name;
+          leftItem.Value[0] = item.Name;
+          leftItem.IsVariable = true;
+        });
+    },
+    rightItemChanged(rightItem) {
+      var val = rightItem.Value[0];
+      if (val.startsWith("$")) val = val.substr(1);
+
+      this.variables
+        .filter((x) => x.Name == val)
+        .map((item) => {
+          rightItem.ArgumentType = item.Type;
+          rightItem.Name = item.Name;
+          rightItem.Value[0] = item.Name;
+          rightItem.IsVariable = true;
+        });
     },
   },
   created() {

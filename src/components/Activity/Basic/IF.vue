@@ -81,7 +81,6 @@ export default {
         IsConstant: false,
         Value: [],
         Operator: "AND",
-        Blocks: [],
       });
     },
     createElseCondition() {
@@ -102,7 +101,6 @@ export default {
             IsConstant: false,
             Value: [],
             Operator: "AND",
-            Blocks: [],
           },
         ],
       });

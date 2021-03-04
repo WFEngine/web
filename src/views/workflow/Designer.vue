@@ -20,7 +20,7 @@
           </v-btn>
         </v-toolbar>
         <v-card-actions>
-          <toolbar
+          <wf-designer-toolbar
             :activities="activities"
             :show="toolbarDialog"
             :selectedActivity="selectedActivity"
@@ -28,7 +28,7 @@
             v-on:activityDbClick="activityAdded"
             v-on:selectedActivityRemove="selectedActivityRemoved"
             ref="toolbar"
-          ></toolbar>
+          ></wf-designer-toolbar>
           <v-row>
             <v-col cols="12">
               <v-expansion-panels multiple>
@@ -64,18 +64,12 @@
 </template>
 
 <script>
-import toolbar from "../../components/Tabs/Workflow/Designer/Toolbar";
 import { GET_SOLUTION } from "../../store/modules/solution/actions.type";
 import { ShowErrorMessage } from "../../common/alerts";
 import { GET_ACTIVITIES } from "../../store/modules/activities/actions.type";
 import getActivitiesEntity from "../../entities/activities/get";
 import generateGuid from "../../common/guid";
-// import activity from "../../components/Tabs/Workflow/Designer/Activity";
 export default {
-  components: {
-    toolbar,
-    // activity,
-  },
   data() {
     return {
       solution: {},

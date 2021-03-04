@@ -64,15 +64,21 @@ export default {
     show: {
       required: true,
       type: Boolean,
-      default: false,
+      default: ()=>{
+        return false;
+      },
     },
     activities: {
       required: true,
-      default: [],
+      default: ()=>{
+        return []
+      },
     },
     selectedActivity: {
       required: true,
-      default: {},
+      default: ()=>{
+        return {}
+      },
     },
   },
   components: {
