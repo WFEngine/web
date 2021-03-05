@@ -15,27 +15,40 @@
         <v-spacer></v-spacer>
       </v-toolbar>
       <v-card-actions>
-        <v-row>
-          <v-col cols="10" offset="1" class="pa-1">
+        <v-row class="ma-0">
+          <v-col
+            class="pa-0"
+            cols="12"
+            xs="12"
+            sm="12"
+            md="6"
+            lg="6"
+            xl="6"
+            offset-md="3"
+            offset-lg="3"
+            offset-xl="3"
+          >
             <v-card>
-              <v-toolbar color="gradient">
-                <h1 class="title white--text">Condition Builder</h1>
-                <v-spacer> </v-spacer>
-                <v-btn icon dark @click="createConditionGroup()">
-                  <v-icon>fa fa-plus</v-icon></v-btn
-                >
-                <v-btn icon dark @click="createElseCondition()">
-                  <v-icon>fa fa-plus</v-icon></v-btn
-                >
+              <v-toolbar class="gradient" dark>
+                <h1 class="title">Condition Designer</h1>
+                <v-spacer></v-spacer>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon dark v-bind="attrs" v-on="on">
+                      <v-icon>fa fa-plus</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Create Condition Group</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon dark v-bind="attrs" v-on="on">
+                      <v-icon>fa fa-plus</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Create Else</span>
+                </v-tooltip>
               </v-toolbar>
-              <v-card-actions>
-                <condition-builder
-                  :activity="activity"
-                  :variables="variables"
-                  :isMainCondition="true"
-                  :isHideDesigner="false"
-                ></condition-builder>
-              </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
@@ -45,9 +58,8 @@
 </template>
 
 <script>
-import conditionBuilder from "./Condition/ConditionBuilder";
 export default {
-  name:'if',
+  name: "if",
   props: {
     activity: {
       required: true,
@@ -57,9 +69,6 @@ export default {
       required: true,
       default: [],
     },
-  },
-  components: {
-    "condition-builder": conditionBuilder,
   },
   data() {
     return {
@@ -72,38 +81,6 @@ export default {
     },
     closeDialog() {
       this.dialog = false;
-    },
-    createConditionGroup() {
-      this.activity.Arguments.push({
-        Name: "ConditionGroup",
-        ArgumentType: "WFEngine.Activities.Basic.Condition.ConditionGroup",
-        IsVariable: false,
-        IsConstant: false,
-        Value: [],
-        Operator: "AND",
-      });
-    },
-    createElseCondition() {
-      if(this.activity.Arguments.filter(x=>x.ArgumentType == 'WFEngine.Activities.Basic.Condition.Else').length>0)
-      return;
-      if(this.activity.Arguments.filter(x=>x.ArgumentType== 'WFEngine.Activities.Basic.Condition.ConditionGroup').length<1)
-      return;
-      this.activity.Arguments.push({
-        Name: "Else",
-        ArgumentType: "WFEngine.Activities.Basic.Condition.Else",
-        IsVariable: false,
-        IsConstant: false,
-        Value: [
-          {
-            Name: "ConditionGroup",
-            ArgumentType: "WFEngine.Activities.Basic.Condition.ConditionGroup",
-            IsVariable: false,
-            IsConstant: false,
-            Value: [],
-            Operator: "AND",
-          },
-        ],
-      });
     },
   },
 };
