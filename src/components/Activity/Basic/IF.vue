@@ -34,21 +34,42 @@
                 <v-spacer></v-spacer>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon dark v-bind="attrs" v-on="on">
-                      <v-icon>fa fa-plus</v-icon>
+                    <v-btn
+                      @click="createConditionGroup()"
+                      icon
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon>fa fa-layer-group</v-icon>
                     </v-btn>
                   </template>
                   <span>Create Condition Group</span>
                 </v-tooltip>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon dark v-bind="attrs" v-on="on">
+                    <v-btn
+                      @click="createElseCondition()"
+                      icon
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                    >
                       <v-icon>fa fa-plus</v-icon>
                     </v-btn>
                   </template>
                   <span>Create Else</span>
                 </v-tooltip>
               </v-toolbar>
+              <v-card-actions>
+                <v-expansion-panels multiple>
+                  <condition-item
+                    :condition="activity"
+                    :variables="variables"
+                    :isMainCondition="true"
+                  ></condition-item>
+                </v-expansion-panels>
+              </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
@@ -58,6 +79,7 @@
 </template>
 
 <script>
+import conditionItem from "./Condition/ConditionItem";
 export default {
   name: "if",
   props: {
@@ -70,6 +92,9 @@ export default {
       default: [],
     },
   },
+  components: {
+    "condition-item": conditionItem,
+  },
   data() {
     return {
       dialog: false,
@@ -81,6 +106,34 @@ export default {
     },
     closeDialog() {
       this.dialog = false;
+    },
+    createConditionGroup() {
+      this.activity.Arguments.push({
+        Name: "ConditionGroup",
+        ArgumentType: "WFEngine.Activities.Basic.Condition.ConditionGroup",
+        IsVariable: false,
+        IsConstant: false,
+        Value: [],
+        Blocks: [],
+      });
+    },
+    createElseCondition() {
+      if (
+        this.activity.Arguments.filter(
+          (x) =>
+            x.ArgumentType ==
+            "WFEngine.Activities.Basic.Condition.ConditionGroup"
+        ).length < 1
+      )
+        return;
+        this.activity.Arguments.push({
+          Name:'Else',
+          ArgumentType:'WFEngine.Activies.Basic.Condition.Else',
+          IsVariable:false,
+          IsConstant:false,
+          Value:[],
+          Blocks:[]
+        })
     },
   },
 };
