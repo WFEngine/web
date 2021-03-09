@@ -4,7 +4,7 @@
       v-model="dialog"
       persistent
       max-width="600px"
-      v-if="Object.keys(activity).length > 0"
+      v-if="Object.keys(activity).length > 0 && dialog"
     >
       <v-card>
         <v-card-title>

@@ -95,9 +95,9 @@ export default {
     activity:{
       deep:true,
       handler(val){
-        if(val.Arguments.length >0){
+        if(this.dialog&&val.Arguments.length >0){
           this.variableName = val.Arguments[0].Value;
-        }else{
+        }else if(this.dialog&&val.Arguments.length<1){
           this.variableName = "";
         }
       }

@@ -57,7 +57,10 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <v-expansion-panels multiple>
-            <activity-item v-if="item.Blocks!=undefined" :activity="item"></activity-item>
+            <activity-item
+              v-if="item.Blocks != undefined"
+              :activity="item"
+            ></activity-item>
           </v-expansion-panels>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -90,9 +93,9 @@
       :variables="variables"
     ></basic-random>
     <basic-if
-    ref="basic-condition-if"
-    :activity="selectedActivity"
-    :variables="variables"
+      ref="basic-condition-if"
+      :activity="selectedActivity"
+      :variables="variables"
     ></basic-if>
   </v-row>
 </template>
@@ -110,7 +113,7 @@ import title from "../../../Activity/Console/title";
 //#region  Basic Activities
 import assing from "../../../Activity/Basic/Assign";
 import random from "../../../Activity/Basic/Random";
-import condition from '../../../Activity/Basic/IF'
+import condition from "../../../Activity/Basic/Condition";
 //#endregion
 
 export default {
@@ -129,7 +132,7 @@ export default {
     "console-title": title,
     "basic-assign": assing,
     "basic-random": random,
-    "basic-if":condition
+    "basic-if": condition,
   },
   data() {
     return {

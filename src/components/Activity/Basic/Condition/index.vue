@@ -35,7 +35,6 @@
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                      @click="createConditionGroup()"
                       icon
                       dark
                       v-bind="attrs"
@@ -49,7 +48,6 @@
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                      @click="createElseCondition()"
                       icon
                       dark
                       v-bind="attrs"
@@ -79,7 +77,6 @@
 </template>
 
 <script>
-import conditionItem from "./Condition/ConditionItem";
 export default {
   name: "if",
   props: {
@@ -92,9 +89,6 @@ export default {
       default: [],
     },
   },
-  components: {
-    "condition-item": conditionItem,
-  },
   data() {
     return {
       dialog: false,
@@ -106,34 +100,6 @@ export default {
     },
     closeDialog() {
       this.dialog = false;
-    },
-    createConditionGroup() {
-      this.activity.Arguments.push({
-        Name: "ConditionGroup",
-        ArgumentType: "WFEngine.Activities.Basic.Condition.ConditionGroup",
-        IsVariable: false,
-        IsConstant: false,
-        Value: [],
-        Blocks: [],
-      });
-    },
-    createElseCondition() {
-      if (
-        this.activity.Arguments.filter(
-          (x) =>
-            x.ArgumentType ==
-            "WFEngine.Activities.Basic.Condition.ConditionGroup"
-        ).length < 1
-      )
-        return;
-        this.activity.Arguments.push({
-          Name:'Else',
-          ArgumentType:'WFEngine.Activies.Basic.Condition.Else',
-          IsVariable:false,
-          IsConstant:false,
-          Value:[],
-          Blocks:[]
-        })
     },
   },
 };
