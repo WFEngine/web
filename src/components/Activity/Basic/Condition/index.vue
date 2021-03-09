@@ -35,6 +35,7 @@
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
+                      @click="createConditionGroup()"
                       icon
                       dark
                       v-bind="attrs"
@@ -47,12 +48,7 @@
                 </v-tooltip>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      icon
-                      dark
-                      v-bind="attrs"
-                      v-on="on"
-                    >
+                    <v-btn icon dark v-bind="attrs" v-on="on">
                       <v-icon>fa fa-plus</v-icon>
                     </v-btn>
                   </template>
@@ -100,6 +96,24 @@ export default {
     },
     closeDialog() {
       this.dialog = false;
+    },
+    createConditionGroup() {
+      this.activity.Arguments.push({
+        "Name":"WFEngine.Activities.Basic.ConditionGroup",
+        "ArgumentType":"WFEngine.Activities.Basic.Condition.ConditionGroup",
+        "IsVariable":false,
+        "IsConstant":false,
+        "IsValue":false,
+        "Value":[
+          {
+            "ArgumentType":"WFEngine.Activities.Basic.Condition.ConditionGroup",
+            "ParentConditions":[],
+            "ConditionItem":{},
+            "Operator":"AND",
+            "Blocks":[]
+          }
+        ]
+      })
     },
   },
 };
