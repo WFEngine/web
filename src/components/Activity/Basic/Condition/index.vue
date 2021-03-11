@@ -121,7 +121,7 @@ export default {
             ConditionItem: {},
             Operator: "AND",
             Blocks: [],
-          },
+          }         
         ],
       });
     },
@@ -141,21 +141,21 @@ export default {
       )
         return;
 
-        this.activity.Arguments.push({
-          "Name":"WFEngine.Activities.Basic.Condition.Else",
-          "ArgumentType":"WFEngine.Activities.Basic.Condition.Else",
-          "IsVariable":false,
-          "IsConstant":false,
-          "Value":[
-            {
-              "ArgumentType":"WFEngine.Activities.Basic.Condition.Else",
-              "ParentConditions":[],
-              "ConditionItem":{},
-              "Operator":'AND',
-              "Blocks":[]
-            }
-          ]
-        })
+      this.activity.Arguments.push({
+        Name: "WFEngine.Activities.Basic.Condition.Else",
+        ArgumentType: "WFEngine.Activities.Basic.Condition.Else",
+        IsVariable: false,
+        IsConstant: false,
+        Value: [
+          {
+            ArgumentType: "WFEngine.Activities.Basic.Condition.Else",
+            ParentConditions: [],
+            ConditionItem: {},
+            Operator: "AND",
+            Blocks: [],
+          },
+        ],
+      });
       console.log(this.activity);
     },
   },
