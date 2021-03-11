@@ -48,7 +48,13 @@
                 </v-tooltip>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon dark v-bind="attrs" v-on="on">
+                    <v-btn
+                      @click="createElseCondition()"
+                      icon
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                    >
                       <v-icon>fa fa-plus</v-icon>
                     </v-btn>
                   </template>
@@ -58,7 +64,7 @@
               <v-card-actions>
                 <v-expansion-panels multiple>
                   <condition-item
-                    :condition="activity"
+                    :condition="activity.Arguments"
                     :variables="variables"
                     :isMainCondition="true"
                   ></condition-item>
@@ -73,6 +79,7 @@
 </template>
 
 <script>
+import conditionItem from "./ConditionItem";
 export default {
   name: "if",
   props: {
@@ -84,6 +91,9 @@ export default {
       required: true,
       default: [],
     },
+  },
+  components: {
+    "condition-item": conditionItem,
   },
   data() {
     return {
@@ -99,21 +109,54 @@ export default {
     },
     createConditionGroup() {
       this.activity.Arguments.push({
-        "Name":"WFEngine.Activities.Basic.ConditionGroup",
-        "ArgumentType":"WFEngine.Activities.Basic.Condition.ConditionGroup",
-        "IsVariable":false,
-        "IsConstant":false,
-        "IsValue":false,
-        "Value":[
+        Name: "WFEngine.Activities.Basic.ConditionGroup",
+        ArgumentType: "WFEngine.Activities.Basic.Condition.ConditionGroup",
+        IsVariable: false,
+        IsConstant: false,
+        IsValue: false,
+        Value: [
           {
-            "ArgumentType":"WFEngine.Activities.Basic.Condition.ConditionGroup",
-            "ParentConditions":[],
-            "ConditionItem":{},
-            "Operator":"AND",
-            "Blocks":[]
-          }
-        ]
-      })
+            ArgumentType: "WFEngine.Activities.Basic.Condition.ConditionGroup",
+            ParentConditions: [],
+            ConditionItem: {},
+            Operator: "AND",
+            Blocks: [],
+          },
+        ],
+      });
+    },
+    createElseCondition() {
+      if (
+        this.activity.Arguments.filter(
+          (x) =>
+            x.ArgumentType ==
+            "WFEngine.Activities.Basic.Condition.ConditionGroup"
+        ).length < 1
+      )
+        return;
+      if (
+        this.activity.Arguments.filter(
+          (x) => x.ArgumentType == "WFEngine.Activities.Basic.Condition.Else"
+        ).length > 0
+      )
+        return;
+
+        this.activity.Arguments.push({
+          "Name":"WFEngine.Activities.Basic.Condition.Else",
+          "ArgumentType":"WFEngine.Activities.Basic.Condition.Else",
+          "IsVariable":false,
+          "IsConstant":false,
+          "Value":[
+            {
+              "ArgumentType":"WFEngine.Activities.Basic.Condition.Else",
+              "ParentConditions":[],
+              "ConditionItem":{},
+              "Operator":'AND',
+              "Blocks":[]
+            }
+          ]
+        })
+      console.log(this.activity);
     },
   },
 };
