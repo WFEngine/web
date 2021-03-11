@@ -137,7 +137,7 @@ export default {
   data() {
     return {
       selectedActivity: {},
-      variables: [],
+      variables: [],      
     };
   },
   methods: {

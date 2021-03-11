@@ -1,5 +1,15 @@
 <template>
   <v-col cols="12">
+    <wf-designer-toolbar
+      :activities="activities"
+      :show="toolbarDialog"
+      :selectedActivity="selectedActivity"
+      v-on:dialogClosed="toolbarClosed"
+      v-on:activityDbClick="activityAdded"
+      v-on:selectedActivityRemove="selectedActivityRemoved"
+      ref="if-condition-toolbar"
+    ></wf-designer-toolbar>
+
     <div v-if="isMainCondition">
       <v-expansion-panels
         multiple
@@ -17,7 +27,13 @@
             <template v-slot:actions>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn icon dark v-bind="attrs" v-on="on">
+                  <v-btn
+                    @click="addItem(conditionItem)"
+                    icon
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                  >
                     <v-icon color="primary">fa fa-plus</v-icon>
                   </v-btn>
                 </template>
@@ -143,16 +159,62 @@
               :parentCondition="condition"
             ></condition-item>
           </v-expansion-panel-content>
+          <v-expansion-panels multiple>
+            <activity-item
+              :activity="condition"
+              v-on:variableButtonClick="variableButtonClicked"
+            ></activity-item>
+          </v-expansion-panels>
         </v-expansion-panel>
-        <div v-else>
-          {{ condition }}
-        </div>
+
+        <v-expansion-panel v-else>
+          <v-row class="ma-0">
+            <v-col cols="12" md="4" lg="4" xl="4">
+              <v-text-field
+                v-model="condition.LeftItem.Value[0]"
+                :label="'Left Item'"
+                @change="leftItemChanged(condition)"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="4" lg="4" xl="4">
+              <v-select
+                v-model="condition.Operator"
+                :label="'Operator'"
+                :items="conditions"
+                item-text="Label"
+                item-value="Label"
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="4" lg="4" xl="4">
+              <v-text-field
+                v-model="condition.RightItem.Value[0]"
+                :label="'Right Item'"
+                @change="rightItemChanged(condition)"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="4" lg="4" xl="4">
+              <v-text-field
+                v-model="condition.LeftItem.ArgumentType"
+                :label="'Left Item Type'"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="4" lg="4" xl="4"></v-col>
+            <v-col cols="12" md="4" lg="4" xl="4">
+              <v-text-field
+                v-model="condition.RightItem.ArgumentType"
+                :label="'Right Item Type'"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-expansion-panel>
       </v-expansion-panels>
     </div>
   </v-col>
 </template>
 
 <script>
+import generateGuid from "../../../../common/guid";
+import conditions from "./ConditionType";
 export default {
   name: "condition-item",
   props: {
@@ -168,6 +230,15 @@ export default {
     isMainCondition: {
       required: true,
     },
+  },
+  data() {
+    return {
+      toolbarDialog: false,
+      activities: [],
+      selectedActivity: {},
+      conditions: conditions,
+      variableTypes: [],
+    };
   },
   methods: {
     createConditionGroup(item) {
@@ -187,7 +258,7 @@ export default {
           IsVariable: false,
           IsConstant: false,
           IsValue: false,
-          Value: [],
+          Value: [""],
         },
         RightItem: {
           Name: "RightItem",
@@ -195,7 +266,7 @@ export default {
           IsVariable: false,
           IsConstant: false,
           IsValue: false,
-          Value: [],
+          Value: [""],
         },
         Operator: "Is Greater Than",
       };
@@ -210,7 +281,6 @@ export default {
           }
         });
       } else {
-        console.log(this.parentCondition);
         if (this.parentCondition.Value != undefined) {
           var indexOf = this.parentCondition.Value.indexOf(item);
           if (indexOf > -1) {
@@ -228,6 +298,52 @@ export default {
         }
       }
     },
+    addItem(item) {
+      this.toolbarDialog = true;
+      this.selectedActivity = item;
+      this.variableTypes = this.$store.getters.getVariableTypes;
+    },
+    toolbarClosed() {
+      this.toolbarDialog = false;
+      this.variableTypes = this.$store.getters.getVariableTypes;
+    },
+    activityAdded(activity) {
+      this.selectedActivity.Blocks.push({
+        UniqueKey: generateGuid(),
+        Name: activity.activityName,
+        IsContainer: this.activityIsContainer(activity),
+        AssemblyName: activity.assemblyName,
+        ActivityName: activity.activityName,
+        Variables: [],
+        Arguments: [],
+        Blocks: [],
+      });
+    },
+    selectedActivityRemoved() {
+      this.selectedActivity = {};
+    },
+    activityIsContainer(activity) {
+      switch (activity.activityName) {
+        case "WFEngine.Activities.Basic.Container":
+          return true;
+        default:
+          return false;
+      }
+    },
+    variableButtonClicked(activity) {
+      this.selectedActivity = activity;
+      this.toolbarDialog = true;
+      this.$refs["if-condition-toolbar"].setActiveTab("variable-tab");
+    },
+    leftItemChanged(item) {
+      console.log(item);
+    },
+    rightItemChanged(item) {
+      console.log(item);
+    },
+  },
+  created() {
+    this.activities = this.$store.getters.getActivies;
   },
 };
 </script>
