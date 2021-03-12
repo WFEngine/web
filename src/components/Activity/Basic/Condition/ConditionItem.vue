@@ -72,6 +72,7 @@
               :variables="variables"
               :isMainCondition="false"
               :parentCondition="item"
+              :variableTypes="variableTypes"
             ></condition-item>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -150,6 +151,7 @@
               :variables="variables"
               :isMainCondition="false"
               :parentCondition="condition"
+              :variableTypes="variableTypes"
             ></condition-item>
             <condition-item
               v-if="condition.ConditionItem.LeftItem != undefined"
@@ -157,6 +159,7 @@
               :variables="variables"
               :isMainCondition="false"
               :parentCondition="condition"
+              :variableTypes="variableTypes"
             ></condition-item>
           </v-expansion-panel-content>
           <v-expansion-panels multiple>
@@ -168,7 +171,7 @@
         </v-expansion-panel>
 
         <v-expansion-panel v-else>
-          <v-row class="ma-0">
+          <v-row class="ma-0" v-if="condition.LeftItem != undefined">
             <v-col cols="12" md="4" lg="4" xl="4">
               <v-text-field
                 v-model="condition.LeftItem.Value[0]"
@@ -193,19 +196,31 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="4" lg="4" xl="4">
-              <v-text-field
+              <v-autocomplete
                 v-model="condition.LeftItem.ArgumentType"
                 :label="'Left Item Type'"
-              ></v-text-field>
+                :items="variableTypes"
+                item-text="type"
+                item-value="type"
+              ></v-autocomplete>
             </v-col>
             <v-col cols="12" md="4" lg="4" xl="4"></v-col>
             <v-col cols="12" md="4" lg="4" xl="4">
-              <v-text-field
+              <v-autocomplete
                 v-model="condition.RightItem.ArgumentType"
                 :label="'Right Item Type'"
-              ></v-text-field>
+                :items="variableTypes"
+                item-text="type"
+                item-value="type"
+              ></v-autocomplete>
             </v-col>
           </v-row>
+          <v-expansion-panels multiple>
+            <activity-item
+              :activity="condition"
+              v-on:variableButtonClick="variableButtonClicked"
+            ></activity-item>
+          </v-expansion-panels>
         </v-expansion-panel>
       </v-expansion-panels>
     </div>
@@ -230,6 +245,9 @@ export default {
     isMainCondition: {
       required: true,
     },
+    variableTypes: {
+      required: true,
+    },
   },
   data() {
     return {
@@ -237,7 +255,6 @@ export default {
       activities: [],
       selectedActivity: {},
       conditions: conditions,
-      variableTypes: [],
     };
   },
   methods: {
@@ -273,13 +290,23 @@ export default {
     },
     removeItem(item) {
       if (this.isMainCondition) {
+        console.log("burada");
+        var isElseItem = false;
+        var index = -1;
         this.condition.map((m) => {
+          index++;
           var indexOf = m.Value.indexOf(item);
           if (indexOf > -1) {
+            if (m.ArgumentType == "WFEngine.Activities.Basic.Condition.Else") {
+              isElseItem = true;
+            }
             m.Value.splice(indexOf, 1);
             return;
           }
         });
+        if (isElseItem) {
+          this.condition.splice(index, 1);
+        }
       } else {
         if (this.parentCondition.Value != undefined) {
           var indexOf = this.parentCondition.Value.indexOf(item);
@@ -287,7 +314,8 @@ export default {
             this.parentCondition.Value.splice(indexOf, 1);
             return;
           }
-        } else if (this.parentCondition.ParentConditions != undefined) {
+        }
+        if (this.parentCondition.ParentConditions != undefined) {
           var parentIndexOf = this.parentCondition.ParentConditions.indexOf(
             item
           );
@@ -301,11 +329,9 @@ export default {
     addItem(item) {
       this.toolbarDialog = true;
       this.selectedActivity = item;
-      this.variableTypes = this.$store.getters.getVariableTypes;
     },
     toolbarClosed() {
       this.toolbarDialog = false;
-      this.variableTypes = this.$store.getters.getVariableTypes;
     },
     activityAdded(activity) {
       this.selectedActivity.Blocks.push({
@@ -336,14 +362,53 @@ export default {
       this.$refs["if-condition-toolbar"].setActiveTab("variable-tab");
     },
     leftItemChanged(item) {
-      console.log(item);
+      var value = item.LeftItem.Value[0];
+
+      if (value.toString().startsWith("$")) {
+        value = value.substring(1);
+      }
+
+      var isFounded = false;
+      this.variables
+        .filter((x) => x.Name == value)
+        .map((m) => {
+          isFounded = true;
+          item.LeftItem.Value[0] = "$" + m.Name;
+          item.LeftItem.ArgumentType = m.Type;
+          item.LeftItem.IsValue = false;
+          item.LeftItem.IsVariable = true;
+        });
+
+      if (isFounded) return;
+      item.LeftItem.IsValue = true;
+      item.LeftItem.IsVariable = false;
     },
     rightItemChanged(item) {
-      console.log(item);
+      var value = item.RightItem.Value[0];
+
+      if (value.toString().startsWith("$")) {
+        value = value.substring(1);
+      }
+
+      var isFounded = false;
+      this.variables
+        .filter((x) => x.Name == value)
+        .map((m) => {
+          isFounded = true;
+          item.RightItem.Value[0] = "$" + m.Name;
+          item.RightItem.ArgumentType = m.Type;
+          item.RightItem.IsValue = false;
+          item.RightItem.IsVariable = true;
+        });
+
+      if (isFounded) return;
+      item.RightItem.IsValue = true;
+      item.RightItem.IsVariable = false;
     },
   },
   created() {
     this.activities = this.$store.getters.getActivies;
+    console.log(this.variableTypes);
   },
 };
 </script>
