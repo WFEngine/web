@@ -79,6 +79,7 @@ export default {
       toolbarDialog: false,
       selectedActivity: {},
       jsonDialog: false,
+      variableTypes: [],
     };
   },
   methods: {
@@ -116,7 +117,7 @@ export default {
         .catch((err) => {
           ShowErrorMessage(err.message);
         });
-    },
+    },   
     toolbarClosed() {
       this.toolbarDialog = false;
     },
@@ -150,12 +151,12 @@ export default {
     },
     showWorkFlow() {
       this.jsonDialog = true;
-      console.log(JSON.stringify(this.wfObjectContent))
+      console.log(JSON.stringify(this.wfObjectContent));
     },
   },
   watch: {
     wfObject: {
-      handler: function (val) {        
+      handler: function (val) {
         this.wfObjectContent = JSON.parse(val.value);
       },
     },

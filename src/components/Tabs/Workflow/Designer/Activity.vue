@@ -96,6 +96,7 @@
       ref="basic-condition-if"
       :activity="selectedActivity"
       :variables="variables"
+      :variableTypes="variableTypes"
     ></basic-if>
   </v-row>
 </template>
@@ -115,6 +116,10 @@ import assing from "../../../Activity/Basic/Assign";
 import random from "../../../Activity/Basic/Random";
 import condition from "../../../Activity/Basic/Condition";
 //#endregion
+
+import { ShowErrorMessage } from "../../../../common/alerts";
+import { GET_VARIABLE_TYPES } from "../../../../store/modules/variabletype/actions.type";
+import getVariableTypeEntity from "../../../../entities/variabletype/get";
 
 export default {
   name: "activity-item",
@@ -137,7 +142,8 @@ export default {
   data() {
     return {
       selectedActivity: {},
-      variables: [],      
+      variables: [],
+      variableTypes:[]      
     };
   },
   methods: {
@@ -170,6 +176,18 @@ export default {
         });
       }
     },
+     getVariableTypes() {
+      var obj = Object.assign({}, getVariableTypeEntity);
+      obj.ProjectId = parseInt(this.$route.params.projectid);
+      this.$store
+        .dispatch(GET_VARIABLE_TYPES, obj)
+        .then(() => {
+          this.variableTypes = this.$store.getters.getVariableTypes;
+        })
+        .catch((err) => {
+          ShowErrorMessage(err.message);
+        });
+    },
   },
   watch: {
     activity: {
@@ -187,6 +205,9 @@ export default {
       },
     },
   },
+  created(){
+    this.getVariableTypes();
+  }
 };
 </script>
 

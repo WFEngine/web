@@ -67,6 +67,7 @@
                     :condition="activity.Arguments"
                     :variables="variables"
                     :isMainCondition="true"
+                    :variableTypes="variableTypes"
                   ></condition-item>
                 </v-expansion-panels>
               </v-card-actions>
@@ -91,6 +92,10 @@ export default {
       required: true,
       default: [],
     },
+    variableTypes:{
+      required:true,
+      default:[]
+    }
   },
   components: {
     "condition-item": conditionItem,
@@ -126,6 +131,7 @@ export default {
       });
     },
     createElseCondition() {
+      console.log(this.activity.Arguments)
       if (
         this.activity.Arguments.filter(
           (x) =>
