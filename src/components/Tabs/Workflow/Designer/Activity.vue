@@ -99,7 +99,9 @@
       :variableTypes="variableTypes"
     ></basic-if>
     <basic-switch
-      ref="basic-switch"
+      ref="basic-switch-switch"
+      :activity="selectedActivity"
+      :variables="variables"
     ></basic-switch>
   </v-row>
 </template>

@@ -37,7 +37,7 @@
                     <v-icon color="primary">fa fa-plus</v-icon>
                   </v-btn>
                 </template>
-                <span>Add Item</span>
+                <span>{{$t('activity.condition.addItem')}}</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
@@ -51,7 +51,7 @@
                     <v-icon color="primary">fa fa-trash</v-icon>
                   </v-btn>
                 </template>
-                <span>Remove Condition Item</span>
+                <span>{{$t('activity.condition.removeConditionItem')}}</span>
               </v-tooltip>
               <v-switch
                 v-if="
@@ -102,7 +102,7 @@
                     <v-icon color="primary">fa fa-layer-group</v-icon>
                   </v-btn>
                 </template>
-                <span>Create Condition Group</span>
+                <span>{{$t('activity.condition.createConditionGroup')}}</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
@@ -116,7 +116,7 @@
                     <v-icon color="primary">fa fa-plus</v-icon>
                   </v-btn>
                 </template>
-                <span>Add Condition Item</span>
+                <span>{{$t('activity.condition.addConditionItem')}}</span>
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
@@ -130,7 +130,7 @@
                     <v-icon color="primary">fa fa-trash</v-icon>
                   </v-btn>
                 </template>
-                <span>Remove Condition Item</span>
+                <span>{{$t('activity.condition.removeConditionItem')}}</span>
               </v-tooltip>
               <v-switch
                 class="ma-0"
@@ -175,14 +175,14 @@
             <v-col cols="12" md="4" lg="4" xl="4">
               <v-text-field
                 v-model="condition.LeftItem.Value[0]"
-                :label="'Left Item'"
+                :label="$t('activity.condition.leftItem')"
                 @change="leftItemChanged(condition)"
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="4" lg="4" xl="4">
               <v-select
                 v-model="condition.Operator"
-                :label="'Operator'"
+                :label="$t('activity.condition.operator')"
                 :items="conditions"
                 item-text="Label"
                 item-value="Label"
@@ -191,14 +191,14 @@
             <v-col cols="12" md="4" lg="4" xl="4">
               <v-text-field
                 v-model="condition.RightItem.Value[0]"
-                :label="'Right Item'"
+                :label="$t('activity.condition.rightItem')"
                 @change="rightItemChanged(condition)"
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="4" lg="4" xl="4">
               <v-autocomplete
                 v-model="condition.LeftItem.ArgumentType"
-                :label="'Left Item Type'"
+                :label="$t('activity.condition.leftItemType')"
                 :items="variableTypes"
                 item-text="type"
                 item-value="type"
@@ -208,7 +208,7 @@
             <v-col cols="12" md="4" lg="4" xl="4">
               <v-autocomplete
                 v-model="condition.RightItem.ArgumentType"
-                :label="'Right Item Type'"
+                :label="$t('activity.condition.rightItemType')"
                 :items="variableTypes"
                 item-text="type"
                 item-value="type"
@@ -290,7 +290,6 @@ export default {
     },
     removeItem(item) {
       if (this.isMainCondition) {
-        console.log("burada");
         var isElseItem = false;
         var index = -1;
         this.condition.map((m) => {
@@ -408,7 +407,6 @@ export default {
   },
   created() {
     this.activities = this.$store.getters.getActivies;
-    console.log(this.variableTypes);
   },
 };
 </script>

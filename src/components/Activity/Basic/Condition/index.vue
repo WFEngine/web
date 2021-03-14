@@ -16,18 +16,12 @@
       </v-toolbar>
       <v-card-actions>
         <v-row class="ma-0">
-          <v-col
-            class="pa-0"
-            cols="12"
-            xs="12"
-            sm="12"
-            md="12"
-            lg="12"
-            xl="12"
-          >
+          <v-col class="pa-0" cols="12" xs="12" sm="12" md="12" lg="12" xl="12">
             <v-card>
               <v-toolbar class="gradient" dark>
-                <h1 class="title">Condition Designer</h1>
+                <h1 class="title">
+                  {{ $t("activity.condition.conditionDesigner") }}
+                </h1>
                 <v-spacer></v-spacer>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
@@ -41,7 +35,9 @@
                       <v-icon>fa fa-layer-group</v-icon>
                     </v-btn>
                   </template>
-                  <span>Create Condition Group</span>
+                  <span>{{
+                    $t("activity.condition.createConditionGroup")
+                  }}</span>
                 </v-tooltip>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
@@ -55,7 +51,9 @@
                       <v-icon>fa fa-plus</v-icon>
                     </v-btn>
                   </template>
-                  <span>Create Else</span>
+                  <span>{{
+                    $t("activity.condition.createElseCondition")
+                  }}</span>
                 </v-tooltip>
               </v-toolbar>
               <v-card-actions>
@@ -92,10 +90,6 @@ export default {
       required: true,
       default: [],
     },
-    // variableTypes:{
-    //   required:true,
-    //   default:[]
-    // }
   },
   components: {
     "condition-item": conditionItem,
@@ -162,7 +156,6 @@ export default {
           },
         ],
       });
-      console.log(this.activity);
     },
     getVariableTypes() {
       var obj = Object.assign({}, getVariableTypeEntity);
@@ -179,7 +172,7 @@ export default {
   },
   watch: {
     dialog: {
-      handler(){
+      handler() {
         if (this.dialog) {
           if (this.variableTypes.length == 0) {
             this.getVariableTypes();

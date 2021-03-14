@@ -25,5 +25,18 @@ export default {
             startValue: 'Başlangıç Değeri',
             endValue: 'Bitiş Değeri'
         }
+    },
+    condition:{
+        conditionDesigner:'Koşul Düzenleyicisi',
+        createConditionGroup:'Koşul Grubu Oluştur',
+        createElseCondition:'Değilse Koşulu Oluştur',
+        addItem:'Blok Ekle',
+        removeConditionItem:'Koşulu Kaldır',
+        addConditionItem:'Koşul Ekle',
+        leftItem:'Karşılaştırılacak Değer',
+        operator:'Operatör',
+        rightItem:'Karşılaştırılan Değer',
+        leftItemType:'Karşılaştırılan Değer Tipi',
+        rightItemType:'Karşılaştırılacak Değer Tipi'
     }
 }
