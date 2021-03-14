@@ -98,6 +98,9 @@
       :variables="variables"
       :variableTypes="variableTypes"
     ></basic-if>
+    <basic-switch
+      ref="basic-switch"
+    ></basic-switch>
   </v-row>
 </template>
 
@@ -115,11 +118,10 @@ import title from "../../../Activity/Console/title";
 import assing from "../../../Activity/Basic/Assign";
 import random from "../../../Activity/Basic/Random";
 import condition from "../../../Activity/Basic/Condition";
+import switchActivity from '../../../Activity/Basic/Switch'
 //#endregion
 
-import { ShowErrorMessage } from "../../../../common/alerts";
-import { GET_VARIABLE_TYPES } from "../../../../store/modules/variabletype/actions.type";
-import getVariableTypeEntity from "../../../../entities/variabletype/get";
+
 
 export default {
   name: "activity-item",
@@ -138,6 +140,7 @@ export default {
     "basic-assign": assing,
     "basic-random": random,
     "basic-if": condition,
+    "basic-switch":switchActivity
   },
   data() {
     return {
@@ -176,18 +179,7 @@ export default {
         });
       }
     },
-     getVariableTypes() {
-      var obj = Object.assign({}, getVariableTypeEntity);
-      obj.ProjectId = parseInt(this.$route.params.projectid);
-      this.$store
-        .dispatch(GET_VARIABLE_TYPES, obj)
-        .then(() => {
-          this.variableTypes = this.$store.getters.getVariableTypes;
-        })
-        .catch((err) => {
-          ShowErrorMessage(err.message);
-        });
-    },
+    
   },
   watch: {
     activity: {
@@ -204,10 +196,7 @@ export default {
         this.initializeVariables(this.activity);
       },
     },
-  },
-  created(){
-    this.getVariableTypes();
-  }
+  },  
 };
 </script>
 

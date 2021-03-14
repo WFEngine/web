@@ -21,12 +21,9 @@
             cols="12"
             xs="12"
             sm="12"
-            md="6"
-            lg="6"
-            xl="6"
-            offset-md="3"
-            offset-lg="3"
-            offset-xl="3"
+            md="12"
+            lg="12"
+            xl="12"
           >
             <v-card>
               <v-toolbar class="gradient" dark>
@@ -80,6 +77,9 @@
 </template>
 
 <script>
+import { ShowErrorMessage } from "../../../../common/alerts";
+import { GET_VARIABLE_TYPES } from "../../../../store/modules/variabletype/actions.type";
+import getVariableTypeEntity from "../../../../entities/variabletype/get";
 import conditionItem from "./ConditionItem";
 export default {
   name: "if",
@@ -92,10 +92,10 @@ export default {
       required: true,
       default: [],
     },
-    variableTypes:{
-      required:true,
-      default:[]
-    }
+    // variableTypes:{
+    //   required:true,
+    //   default:[]
+    // }
   },
   components: {
     "condition-item": conditionItem,
@@ -103,6 +103,7 @@ export default {
   data() {
     return {
       dialog: false,
+      variableTypes: [],
     };
   },
   methods: {
@@ -126,12 +127,11 @@ export default {
             ConditionItem: {},
             Operator: "AND",
             Blocks: [],
-          }         
+          },
         ],
       });
     },
     createElseCondition() {
-      console.log(this.activity.Arguments)
       if (
         this.activity.Arguments.filter(
           (x) =>
@@ -163,6 +163,29 @@ export default {
         ],
       });
       console.log(this.activity);
+    },
+    getVariableTypes() {
+      var obj = Object.assign({}, getVariableTypeEntity);
+      obj.ProjectId = parseInt(this.$route.params.projectid);
+      this.$store
+        .dispatch(GET_VARIABLE_TYPES, obj)
+        .then(() => {
+          this.variableTypes = this.$store.getters.getVariableTypes;
+        })
+        .catch((err) => {
+          ShowErrorMessage(err.message);
+        });
+    },
+  },
+  watch: {
+    dialog: {
+      handler(){
+        if (this.dialog) {
+          if (this.variableTypes.length == 0) {
+            this.getVariableTypes();
+          }
+        }
+      },
     },
   },
 };
