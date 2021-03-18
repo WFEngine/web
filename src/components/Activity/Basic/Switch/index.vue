@@ -46,7 +46,7 @@
                   ></case-tab>
                 </v-tab-item>
                 <v-tab-item :value="'cases'">
-                  <cases-tab></cases-tab>
+                  <cases-tab :activity="activity" :variables="variables"></cases-tab>
                 </v-tab-item>
               </v-tabs-items>
             </v-card>

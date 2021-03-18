@@ -16,7 +16,7 @@
 
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon dark v-bind="attrs" v-on="on">
+              <v-btn @click="createCase()" icon dark v-bind="attrs" v-on="on">
                 <v-icon>fa fa-spa</v-icon>
               </v-btn>
             </template>
@@ -24,7 +24,13 @@
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn icon dark v-bind="attrs" v-on="on">
+              <v-btn
+                @click="createDefault()"
+                icon
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >
                 <v-icon>fa fa-spa</v-icon>
               </v-btn>
             </template>
@@ -32,8 +38,85 @@
           </v-tooltip>
         </v-toolbar>
 
-        <v-card-actions></v-card-actions>
+        <v-card-actions>
+          <v-expansion-panels multiple>
+          <v-expansion-panel v-for="(item,index) in getCaseArguments()" v-bind:key="'code-blocks-'+index">
+            <v-expansion-panel-header>
+              {{item.ArgumentType}}
+            </v-expansion-panel-header>
+            </v-expansion-panel>    
+          </v-expansion-panels>
+        </v-card-actions>
       </v-card>
     </v-col>
   </v-row>
 </template>
+
+<script>
+export default {
+  props: {
+    activity: {
+      required: true,
+    },
+    variables: {
+      required: true,
+    },
+  },
+  methods: {
+    createCase() {
+      this.activity.Arguments.push({
+        Name: "Case",
+        ArgumentType: "WFEngine.Activities.Basic.Switch.Case",
+        IsVariable: false,
+        IsConstant: false,
+        Value: [
+          {
+            Value: {
+              Name: "Item",
+              ArgumentType: "System.Int32",
+              IsVariable: false,
+              IsConstant: false,
+              IsValue: true,
+              Value: [1],
+            },
+            Blocks: [],
+          },
+        ],
+      });
+    },
+    createDefault() {
+      if (
+        this.activity.Arguments.filter(
+          (x) => x.ArgumentType == "WFEngine.Activities.Basic.Switch.Case"
+        ).length < 1
+      )
+        return;
+
+      if (
+        this.activity.Arguments.filter(
+          (x) => x.ArgumentType == "WFEngine.Activities.Basic.Switch.Default"
+        ).length > 0
+      )
+        return;
+      this.activity.Arguments.push({
+        Name: "Case",
+        ArgumentType: "WFEngine.Activities.Basic.Switch.Default",
+        IsVariable: false,
+        IsConstant: false,
+        Value: [
+          {
+            Blocks: [],
+          },
+        ],
+      });
+    },
+    getCaseArguments(){
+      return this.activity.Arguments.filter(
+        x=>x.ArgumentType == 'WFEngine.Activities.Basic.Switch.Case'
+        || 
+        x.ArgumentType == 'WFEngine.Activities.Basic.Switch.Default'
+        )
+    }
+  },
+};
+</script>
