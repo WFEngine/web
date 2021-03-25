@@ -23,7 +23,7 @@ export default {
     },
     variables: {
       required: true,
-    },
+    },    
   },
   methods: {
     getCaseArgument() {
