@@ -112,7 +112,7 @@ export default {
       this.$store
         .dispatch(GET_ACTIVITIES, req)
         .then(() => {
-          this.activities = this.$store.getters.getActivies;
+          this.activities = this.$store.getters.getActivities;
         })
         .catch((err) => {
           ShowErrorMessage(err.message);

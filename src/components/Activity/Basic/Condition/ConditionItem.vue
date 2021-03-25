@@ -180,13 +180,13 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="4" lg="4" xl="4">
-              <v-select
+              <v-autocomplete
                 v-model="condition.Operator"
                 :label="$t('activity.condition.operator')"
                 :items="conditions"
                 item-text="Label"
                 item-value="Label"
-              ></v-select>
+              ></v-autocomplete>
             </v-col>
             <v-col cols="12" md="4" lg="4" xl="4">
               <v-text-field
@@ -406,7 +406,7 @@ export default {
     },
   },
   created() {
-    this.activities = this.$store.getters.getActivies;
+    this.activities = this.$store.getters.getActivities;
   },
 };
 </script>

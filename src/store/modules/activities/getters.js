@@ -1,5 +1,5 @@
 const getters = {
- getActivies :state => {
+ getActivities :state => {
     return state.activities;
  }
 }

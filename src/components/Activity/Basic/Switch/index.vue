@@ -46,7 +46,12 @@
                   ></case-tab>
                 </v-tab-item>
                 <v-tab-item :value="'cases'">
-                  <cases-tab :activity="activity" :variables="variables"></cases-tab>
+                  <cases-tab
+                    :activity="activity"
+                    :variables="variables"
+                    :variableTypes="variableTypes"
+                    :activities="activities"
+                  ></cases-tab>
                 </v-tab-item>
               </v-tabs-items>
             </v-card>
@@ -60,6 +65,9 @@
 <script>
 import caseTab from "./CaseTab";
 import cases from "./Cases";
+import getVariableType from "../../../../entities/variabletype/get";
+import { GET_VARIABLE_TYPES } from "../../../../store/modules/variabletype/actions.type";
+import { ShowErrorMessage } from "../../../../common/alerts";
 export default {
   props: {
     activity: {
@@ -77,6 +85,8 @@ export default {
     return {
       dialog: false,
       tab: "",
+      variableTypes: [],
+      activities : []
     };
   },
   methods: {
@@ -86,6 +96,24 @@ export default {
     closeDialog() {
       this.dialog = false;
     },
+    getVariableTypes() {
+      var req = Object.assign({}, getVariableType);
+      req.ProjectId = parseInt(this.$route.params.projectid);
+      this.$store
+        .dispatch(GET_VARIABLE_TYPES, req)
+        .then(() => {
+          this.variableTypes = this.$store.getters.getVariableTypes;
+        })
+        .catch((err) => {
+          ShowErrorMessage(err.message);
+        });
+    },
+  },
+  created() {
+    if (this.variableTypes.length == 0) {
+      this.getVariableTypes();
+      this.activities = this.$store.getters.getActivities;      
+    }
   },
   watch: {
     activity: {

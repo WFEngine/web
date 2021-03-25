@@ -65,6 +65,7 @@ router.beforeEach((to, from, next) => {
   next(true)
 })
 
+
 new Vue({
   vuetify,
   router,
