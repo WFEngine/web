@@ -103,6 +103,11 @@
       :activity="selectedActivity"
       :variables="variables"
     ></basic-switch>
+    <basic-while
+      ref="basic-while"
+      :activity="selectedActivity"
+      :variables="variables"
+    ></basic-while>
   </v-row>
 </template>
 
@@ -120,7 +125,8 @@ import title from "../../../Activity/Console/title";
 import assing from "../../../Activity/Basic/Assign";
 import random from "../../../Activity/Basic/Random";
 import condition from "../../../Activity/Basic/Condition";
-import switchActivity from '../../../Activity/Basic/Switch'
+import switchActivity from '../../../Activity/Basic/Switch';
+import whileActivity from '../../../Activity/Basic/While'
 //#endregion
 
 
@@ -142,7 +148,8 @@ export default {
     "basic-assign": assing,
     "basic-random": random,
     "basic-if": condition,
-    "basic-switch":switchActivity
+    "basic-switch":switchActivity,
+    "basic-while":whileActivity
   },
   data() {
     return {
