@@ -34,6 +34,7 @@
               <v-expansion-panels multiple>
                 <activity-item
                   :activity="wfObjectContent"
+                  :allVariables="allVariables"
                   v-on:variableButtonClick="variableButtonClicked"
                 ></activity-item>
               </v-expansion-panels>
@@ -80,6 +81,7 @@ export default {
       selectedActivity: {},
       jsonDialog: false,
       variableTypes: [],
+      allVariables: [],
     };
   },
   methods: {
@@ -117,7 +119,7 @@ export default {
         .catch((err) => {
           ShowErrorMessage(err.message);
         });
-    },   
+    },
     toolbarClosed() {
       this.toolbarDialog = false;
     },
@@ -153,11 +155,34 @@ export default {
       this.jsonDialog = true;
       console.log(JSON.stringify(this.wfObjectContent));
     },
+    setVariables(block) {
+      if (block.Variables != undefined && block.Variables.length > 0) {
+        block.Variables.map((m)=>{
+          this.allVariables.push(m);
+        })
+      }
+
+      if (block.Blocks != undefined && block.Blocks.length > 0) {
+        block.Blocks.map((m) => {
+          this.setVariables(m);
+        });
+      }
+    },
   },
   watch: {
     wfObject: {
+      deep: true,
       handler: function (val) {
         this.wfObjectContent = JSON.parse(val.value);
+      },
+    },
+    wfObjectContent: {
+      deep: true,
+      handler: function () {
+        this.allVariables = [];
+        this.wfObjectContent.Blocks.map((m) => {
+          this.setVariables(m);
+        });
       },
     },
   },

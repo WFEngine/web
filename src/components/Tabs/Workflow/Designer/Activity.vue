@@ -1,5 +1,8 @@
 <template>
-  <v-row class="ma-2">
+  <v-row
+    class="ma-2"
+    v-if="activity.Blocks != undefined && activity.Blocks.length > 0"
+  >
     <draggable
       class="dragArea"
       :list="activity.Blocks"
@@ -60,6 +63,7 @@
             <activity-item
               v-if="item.Blocks != undefined"
               :activity="item"
+              :allVariables="allVariables"
             ></activity-item>
           </v-expansion-panels>
         </v-expansion-panel-content>
@@ -106,7 +110,7 @@
     <basic-while
       ref="basic-while"
       :activity="selectedActivity"
-      :variables="variables"
+      :variables="allVariables"
     ></basic-while>
   </v-row>
 </template>
@@ -125,16 +129,18 @@ import title from "../../../Activity/Console/title";
 import assing from "../../../Activity/Basic/Assign";
 import random from "../../../Activity/Basic/Random";
 import condition from "../../../Activity/Basic/Condition";
-import switchActivity from '../../../Activity/Basic/Switch';
-import whileActivity from '../../../Activity/Basic/While'
+import switchActivity from "../../../Activity/Basic/Switch";
+import whileActivity from "../../../Activity/Basic/While";
 //#endregion
-
-
 
 export default {
   name: "activity-item",
   props: {
     activity: {
+      required: true,
+      default: [],
+    },
+    allVariables: {
       required: true,
       default: [],
     },
@@ -148,14 +154,14 @@ export default {
     "basic-assign": assing,
     "basic-random": random,
     "basic-if": condition,
-    "basic-switch":switchActivity,
-    "basic-while":whileActivity
+    "basic-switch": switchActivity,
+    "basic-while": whileActivity,
   },
   data() {
     return {
       selectedActivity: {},
       variables: [],
-      variableTypes:[]      
+      variableTypes: [],
     };
   },
   methods: {
@@ -187,8 +193,14 @@ export default {
           this.initializeVariables(m);
         });
       }
+
+      if (this.allVariables.length > 0) {
+        this.allVariables.map((m) => {
+          var variableIndex = this.variables.indexOf(m);
+          if (variableIndex < 0) this.variables.push(m);
+        });
+      }
     },
-    
   },
   watch: {
     activity: {
@@ -205,7 +217,7 @@ export default {
         this.initializeVariables(this.activity);
       },
     },
-  },  
+  },
 };
 </script>
 

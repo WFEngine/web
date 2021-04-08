@@ -4,8 +4,17 @@
     fullscreen
     hide-overlay
     transition="dialog-bottom-transition"
-    v-if="Object.keys(activity).length > 0"
+    v-if="dialog"
   >
+    <wf-designer-toolbar
+      :activities="activities"
+      :show="toolbarDialog"
+      :selectedActivity="selectedActivity"
+      v-on:dialogClosed="toolbarClosed"
+      v-on:activityDbClick="activityAdded"
+      v-on:selectedActivityRemove="selectedActivityRemoved"
+      ref="toolbar"
+    ></wf-designer-toolbar>
     <v-card>
       <v-toolbar dark class="gradient" tile>
         <v-btn icon dark @click="closeDialog">
@@ -29,7 +38,7 @@
               <v-toolbar class="gradient" dark>
                 <h1 class="title">While</h1>
                 <v-spacer></v-spacer>
-                <v-btn icon>
+                <v-btn icon @click="toolbarDialog = true">
                   <v-icon>fa fa-plus</v-icon>
                 </v-btn>
               </v-toolbar>
@@ -61,6 +70,42 @@
                       label="Right Item"
                     ></v-text-field>
                   </v-col>
+                  <v-col cols="12" md="4" lg="4" xl="4">
+                    <v-autocomplete
+                      v-model="
+                        activity.Arguments[0].Value[0].LeftItem.ArgumentType
+                      "
+                      :items="variableTypes"
+                      item-text="type"
+                      item-value="type"
+                      outlined
+                      label="Left Item Argument Type"
+                    ></v-autocomplete>
+                  </v-col>
+                  <v-col cols="12" md="4" lg="4" xl="4"></v-col>
+                  <v-col cols="12" md="4" lg="4" xl="4">
+                    <v-autocomplete
+                      v-model="
+                        activity.Arguments[0].Value[0].RightItem.ArgumentType
+                      "
+                      :items="variableTypes"
+                      item-text="type"
+                      item-value="type"
+                      outlined
+                      label="Right Item Argument Type"
+                    ></v-autocomplete>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-card>
+                      <v-expansion-panels multiple>
+                        <activity-item
+                          v-if="activity.Blocks != undefined && dialog"
+                          :activity="activity"
+                          :allVariables="variables"
+                        ></activity-item>
+                      </v-expansion-panels>
+                    </v-card>
+                  </v-col>
                 </v-row>
               </v-card-actions>
             </v-card>
@@ -76,6 +121,7 @@ import getVariableType from "../../../../entities/variabletype/get";
 import { GET_VARIABLE_TYPES } from "../../../../store/modules/variabletype/actions.type";
 import { ShowErrorMessage } from "../../../../common/alerts";
 import conditions from "../Condition/ConditionType";
+import generateGuid from "../../../../common/guid";
 export default {
   props: {
     activity: {
@@ -88,10 +134,11 @@ export default {
   data() {
     return {
       dialog: false,
-      tab: "",
+      toolbarDialog: false,
       variableTypes: [],
       activities: [],
       conditions: conditions,
+      selectedActivity: {},
     };
   },
   methods: {
@@ -113,6 +160,37 @@ export default {
           ShowErrorMessage(err.message);
         });
     },
+    toolbarClosed() {
+      this.toolbarDialog = false;
+    },
+    activityAdded(activity) {
+      this.activity.Blocks.push({
+        UniqueKey: generateGuid(),
+        Name: activity.activityName,
+        IsContainer: this.activityIsContainer(activity),
+        AssemblyName: activity.assemblyName,
+        ActivityName: activity.activityName,
+        Variables: [],
+        Arguments: [],
+        Blocks: [],
+      });
+    },
+    activityIsContainer(activity) {
+      switch (activity.activityName) {
+        case "WFEngine.Activities.Basic.Container":
+          return true;
+        default:
+          return false;
+      }
+    },
+    selectedActivityRemoved() {
+      this.selectedActivity = {};
+    },
+    variableButtonClicked(activity) {
+      this.selectedActivity = activity;
+      this.toolbarDialog = true;
+      this.$refs.toolbar.setActiveTab("variable-tab");
+    },
   },
   created() {
     if (this.variableTypes.length == 0) {
@@ -124,7 +202,7 @@ export default {
     activity: {
       handler() {
         if (this.dialog) {
-          if (this.activity.Arguments.length < 1) {
+          if (this.activity.Arguments.length < 1) {            
             this.activity.Arguments.push({
               Name: "Condition",
               ArgumentType: "WFEngine.Activities.Basic.Condition.ConditionItem",
@@ -153,8 +231,6 @@ export default {
               ],
             });
           }
-
-          console.log(this.activity);
         }
       },
     },
