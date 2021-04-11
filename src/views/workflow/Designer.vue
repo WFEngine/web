@@ -34,7 +34,7 @@
               <v-expansion-panels multiple>
                 <activity-item
                   :activity="wfObjectContent"
-                  :allVariables="allVariables"
+                  :variables="variables"
                   v-on:variableButtonClick="variableButtonClicked"
                 ></activity-item>
               </v-expansion-panels>
@@ -81,7 +81,7 @@ export default {
       selectedActivity: {},
       jsonDialog: false,
       variableTypes: [],
-      allVariables: [],
+      variables: [],
     };
   },
   methods: {
@@ -158,7 +158,7 @@ export default {
     setVariables(block) {
       if (block.Variables != undefined && block.Variables.length > 0) {
         block.Variables.map((m)=>{
-          this.allVariables.push(m);
+          this.variables.push(m);
         })
       }
 
@@ -179,7 +179,7 @@ export default {
     wfObjectContent: {
       deep: true,
       handler: function () {
-        this.allVariables = [];
+        this.variables = [];
         this.wfObjectContent.Blocks.map((m) => {
           this.setVariables(m);
         });

@@ -1,7 +1,7 @@
 <template>
   <v-row
     class="ma-2"
-    v-if="activity.Blocks != undefined && activity.Blocks.length > 0"
+    v-if="activity.Blocks != undefined"
   >
     <draggable
       class="dragArea"
@@ -63,7 +63,7 @@
             <activity-item
               v-if="item.Blocks != undefined"
               :activity="item"
-              :allVariables="allVariables"
+              :variables="variables"
             ></activity-item>
           </v-expansion-panels>
         </v-expansion-panel-content>
@@ -110,8 +110,13 @@
     <basic-while
       ref="basic-while"
       :activity="selectedActivity"
-      :variables="allVariables"
+      :variables="variables"
     ></basic-while>
+    <basic-dowhile
+      ref="basic-dowhile"
+      :activity="selectedActivity"
+      :variables="variables"
+    ></basic-dowhile>
   </v-row>
 </template>
 
@@ -131,6 +136,7 @@ import random from "../../../Activity/Basic/Random";
 import condition from "../../../Activity/Basic/Condition";
 import switchActivity from "../../../Activity/Basic/Switch";
 import whileActivity from "../../../Activity/Basic/While";
+import doWhileActivity from '../../../Activity/Basic/DoWhile'
 //#endregion
 
 export default {
@@ -140,7 +146,7 @@ export default {
       required: true,
       default: [],
     },
-    allVariables: {
+    variables: {
       required: true,
       default: [],
     },
@@ -156,11 +162,11 @@ export default {
     "basic-if": condition,
     "basic-switch": switchActivity,
     "basic-while": whileActivity,
+    "basic-dowhile":doWhileActivity
   },
   data() {
     return {
       selectedActivity: {},
-      variables: [],
       variableTypes: [],
     };
   },
@@ -183,38 +189,38 @@ export default {
       if (indexOf == -1) return;
       this.activity.Blocks.splice(indexOf, 1);
     },
-    initializeVariables(item) {
-      if (Object.prototype.hasOwnProperty.call(item, "Variables")) {
-        item.Variables.map((m) => {
-          this.variables.push(m);
-        });
-      } else if (Object.prototype.hasOwnProperty.call(item, "Blocks")) {
-        item.Blocks.map((m) => {
-          this.initializeVariables(m);
-        });
-      }
+    // initializeVariables(item) {
+    //   if (Object.prototype.hasOwnProperty.call(item, "Variables")) {
+    //     item.Variables.map((m) => {
+    //       this.variables.push(m);
+    //     });
+    //   } else if (Object.prototype.hasOwnProperty.call(item, "Blocks")) {
+    //     item.Blocks.map((m) => {
+    //       this.initializeVariables(m);
+    //     });
+    //   }
 
-      if (this.allVariables.length > 0) {
-        this.allVariables.map((m) => {
-          var variableIndex = this.variables.indexOf(m);
-          if (variableIndex < 0) this.variables.push(m);
-        });
-      }
-    },
+    //   if (this.allVariables.length > 0) {
+    //     this.allVariables.map((m) => {
+    //       var variableIndex = this.variables.indexOf(m);
+    //       if (variableIndex < 0) this.variables.push(m);
+    //     });
+    //   }
+    // },
   },
   watch: {
     activity: {
       deep: true,
-      handler(val) {
-        this.variables = [];
-        this.initializeVariables(val);
+      handler() {
+        // this.variables = [];
+        // this.initializeVariables(val);
       },
     },
     selectedActivity: {
       deep: true,
       handler() {
-        this.variables = [];
-        this.initializeVariables(this.activity);
+        // this.variables = [];
+        // this.initializeVariables(this.activity);
       },
     },
   },

@@ -36,7 +36,7 @@
           >
             <v-card>
               <v-toolbar class="gradient" dark>
-                <h1 class="title">While</h1>
+                <h1 class="title">Do While</h1>
                 <v-spacer></v-spacer>
                 <v-btn icon @click="toolbarDialog = true">
                   <v-icon>fa fa-plus</v-icon>
