@@ -117,6 +117,11 @@
       :activity="selectedActivity"
       :variables="variables"
     ></basic-dowhile>
+    <basic-for
+    ref="basic-for"
+    :activity="selectedActivity"
+    :variables="variables"
+    ></basic-for>
   </v-row>
 </template>
 
@@ -136,7 +141,8 @@ import random from "../../../Activity/Basic/Random";
 import condition from "../../../Activity/Basic/Condition";
 import switchActivity from "../../../Activity/Basic/Switch";
 import whileActivity from "../../../Activity/Basic/While";
-import doWhileActivity from '../../../Activity/Basic/DoWhile'
+import doWhileActivity from '../../../Activity/Basic/DoWhile';
+import forActivity from '../../../Activity/Basic/For'
 //#endregion
 
 export default {
@@ -162,7 +168,8 @@ export default {
     "basic-if": condition,
     "basic-switch": switchActivity,
     "basic-while": whileActivity,
-    "basic-dowhile":doWhileActivity
+    "basic-dowhile":doWhileActivity,
+    "basic-for" : forActivity
   },
   data() {
     return {
