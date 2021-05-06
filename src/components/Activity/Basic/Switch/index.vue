@@ -28,12 +28,12 @@
                 <v-tabs-slider></v-tabs-slider>
 
                 <v-tab href="#caseItem">
-                  Case Item
+                  {{$t('activity.basic.switch.caseItem')}}
                   <v-icon>fa fa-spa</v-icon>
                 </v-tab>
 
                 <v-tab href="#cases">
-                  Cases
+                  {{$t('activity.basic.switch.cases')}}
                   <v-icon>fa fa-project-diagram</v-icon>
                 </v-tab>
               </v-tabs>

@@ -6,7 +6,7 @@
           <v-text-field
             v-if="getCaseArgument().Value != undefined"
             v-model="getCaseArgument().Value[0]"
-            :label="'Case Item'"
+            :label="$t('activity.basic.switch.caseItem')"
             outlined
           ></v-text-field>
         </v-col>

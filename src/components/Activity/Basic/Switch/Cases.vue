@@ -20,7 +20,7 @@
     >
       <v-card>
         <v-toolbar class="gradient" dark>
-          <h1 class="title">Cases</h1>
+          <h1 class="title">{{$t('activity.basic.switch.cases')}}</h1>
           <v-spacer></v-spacer>
 
           <v-tooltip bottom>
@@ -29,7 +29,7 @@
                 <v-icon>fa fa-spa</v-icon>
               </v-btn>
             </template>
-            <span>Create Case</span>
+            <span>{{$t('activity.basic.switch.createCase')}}</span>
           </v-tooltip>
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -43,7 +43,7 @@
                 <v-icon>fa fa-spa</v-icon>
               </v-btn>
             </template>
-            <span>Create Default</span>
+            <span>{{$t('activity.basic.switch.createDefault')}}</span>
           </v-tooltip>
         </v-toolbar>
 
@@ -69,7 +69,7 @@
                         <v-icon color="primary">fa fa-plus</v-icon>
                       </v-btn>
                     </template>
-                    <span>Add Item</span>
+                    <span>{{$t('activity.basic.switch.addItem')}}</span>
                   </v-tooltip>
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
@@ -77,7 +77,7 @@
                         <v-icon color="primary">fa fa-trash</v-icon>
                       </v-btn>
                     </template>
-                    <span>Remove Item</span>
+                    <span>{{$t('activity.basic.switch.removeItem')}}</span>
                   </v-tooltip>
                 </template>
               </v-expansion-panel-header>
@@ -100,7 +100,7 @@
                       <v-text-field
                         v-model="item.Value[0].Value.Value[0]"
                         outlined
-                        label="Case Value"
+                        :label="$t('activity.basic.switch.caseValue')"
                         @change="caseValueChanged(item)"
                       ></v-text-field>
                     </v-col>
@@ -108,7 +108,7 @@
                       <v-autocomplete
                         v-model="item.Value[0].Value.ArgumentType"
                         outlined
-                        label="Case Value Type"
+                        :label="$t('activity.basic.switch.caseValueType')"
                         :items="variableTypes"
                         item-text="type"
                         item-value="type"

@@ -48,7 +48,7 @@
                     <v-text-field
                       v-model="activity.Arguments[0].Value[0].LeftItem.Value[0]"
                       outlined
-                      label="Left Item"
+                      :label="$t('activity.basic.doWhile.leftItem')"
                       @change="leftItemChanged"
                     ></v-text-field>
                   </v-col>
@@ -59,7 +59,7 @@
                       item-text="Label"
                       item-value="Label"
                       outlined
-                      label="Operator"
+                      :label="$t('activity.basic.doWhile.operator')"
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="12" md="4" lg="4" xl="4">
@@ -68,7 +68,7 @@
                         activity.Arguments[0].Value[0].RightItem.Value[0]
                       "
                       outlined
-                      label="Right Item"
+                      :label="$t('activity.basic.doWhile.rightItem')"
                       @change="rightItemChanged"
                     ></v-text-field>
                   </v-col>
@@ -81,7 +81,7 @@
                       item-text="type"
                       item-value="type"
                       outlined
-                      label="Left Item Argument Type"
+                      :label="$t('activity.basic.doWhile.leftItemType')"
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="12" md="4" lg="4" xl="4"></v-col>
@@ -94,7 +94,7 @@
                       item-text="type"
                       item-value="type"
                       outlined
-                      label="Right Item Argument Type"
+                      :label="$t('activity.basic.doWhile.rightItemType')"
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="12">
