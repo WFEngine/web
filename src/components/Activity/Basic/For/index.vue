@@ -52,7 +52,6 @@
                     offset-md="1"
                     offset-lg="1"
                     offset-xl="1"
-                    class="pa-0"
                   >
                     <v-text-field
                       v-model="activity.Arguments[0].Value[0]"
@@ -61,7 +60,7 @@
                       @change="startValueChanged"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="6" lg="6" xl="6" class="pa-0">
+                  <v-col cols="12" md="6" lg="6" xl="6">
                     <v-autocomplete
                       v-model="activity.Arguments[0].ArgumentType"
                       label="Start Value Type"
@@ -71,7 +70,7 @@
                       outlined
                     ></v-autocomplete>
                   </v-col>
-                  <v-col cols="12" md="6" lg="6" xl="6" class="pa-0">
+                  <v-col cols="12" md="4" lg="4" xl="4">
                     <v-text-field
                       v-model="activity.Arguments[1].Value[0].LeftItem.Value[0]"
                       label="Left Item"
@@ -79,7 +78,7 @@
                       outlined
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="6" lg="6" xl="6" class="pa-0">
+                  <v-col cols="12" md="4" lg="4" xl="4">
                     <v-autocomplete
                       v-model="activity.Arguments[1].Value[0].Operator"
                       :items="conditionTypes"
@@ -89,22 +88,41 @@
                       label="Operator"
                     ></v-autocomplete>
                   </v-col>
-                  <v-col cols="12" md="6" lg="6" xl="6" class="pa-0">
+                  <v-col cols="12" md="4" lg="4" xl="4">
                     <v-text-field
                       v-model="
                         activity.Arguments[1].Value[0].RightItem.Value[0]
                       "
-                      label="Left Item"
+                      label="Right Item"
                       @change="rightItemChanged"
                       outlined
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="6" lg="6" xl="6" class="pa-0">
-                    <v-text-field
-                      v-model="activity.Arguments[2].Value[0]"
-                      label="Counter"
+                  <v-col cols="12" md="4" lg="4" xl="4">
+                    <v-autocomplete
+                      v-model="
+                        activity.Arguments[1].Value[0].LeftItem.ArgumentType
+                      "
+                      label="Left Item Type"
+                      @change="rightItemChanged"
                       outlined
-                    ></v-text-field>
+                      :items="variableTypes"
+                      item-text="type"
+                      item-value="type"
+                    ></v-autocomplete>
+                  </v-col>
+                  <v-col cols="12" md="4" lg="4" xl="4" offset="4">
+                    <v-autocomplete
+                      v-model="
+                        activity.Arguments[1].Value[0].RightItem.ArgumentType
+                      "
+                      label="Right Item Type"
+                      @change="rightItemChanged"
+                      outlined
+                      :items="variableTypes"
+                      item-text="type"
+                      item-value="type"
+                    ></v-autocomplete>
                   </v-col>
                   <v-col cols="12" class="pa-0">
                     <v-card>
