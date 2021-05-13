@@ -49,7 +49,15 @@ export default {
             caseValue: 'Koşul Elemanı',
             caseValueType: 'Koşul Eleman Tipi'
         },
-        /*TODO: For */
+        for: {
+            startValue: 'Başlangıç Değeri',
+            startValueType: 'Başlangıç Değeri Tipi',
+            leftItem: 'Sol Eleman',
+            operator: 'Operatör',
+            rightItem: 'Sağ Eleman',
+            leftItemType: 'Sol Eleman Tipi',
+            rightItemType: 'Sağ Eleman Tipi'
+        }
     },
     condition: {
         conditionDesigner: 'Koşul Düzenleyicisi',

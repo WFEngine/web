@@ -49,7 +49,15 @@ export default {
             caseValue: 'Case Value',
             caseValueType: 'Case Value Type'
         },
-        /* TODO: For */
+        for: {
+            startValue: 'Start Value',
+            startValueType: 'Start Value Type',
+            leftItem: 'Left Item',
+            operator: 'Operator',
+            rightItem: 'Right Item',
+            leftItemType: 'Left Item Type',
+            rightItemType: 'Right Item Type'
+        }
     },
     condition: {
         conditionDesigner: 'Condition Designer',

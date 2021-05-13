@@ -15,7 +15,7 @@
           <v-btn icon @click="showWorkFlow">
             <v-icon>fa fa-database</v-icon>
           </v-btn>
-          <v-btn icon>
+          <v-btn icon @click="save">
             <v-icon>fa fa-save</v-icon>
           </v-btn>
         </v-toolbar>
@@ -157,9 +157,9 @@ export default {
     },
     setVariables(block) {
       if (block.Variables != undefined && block.Variables.length > 0) {
-        block.Variables.map((m)=>{
+        block.Variables.map((m) => {
           this.variables.push(m);
-        })
+        });
       }
 
       if (block.Blocks != undefined && block.Blocks.length > 0) {
@@ -167,6 +167,12 @@ export default {
           this.setVariables(m);
         });
       }
+    },
+    save() {
+      var projectid = parseInt(this.$route.params.projectid);
+      var wfObjectid = parseInt(this.$route.params.wfobjectid);
+      console.log(this.$route);
+      console.log(projectid,wfObjectid)
     },
   },
   watch: {

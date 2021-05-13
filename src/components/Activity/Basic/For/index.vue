@@ -55,7 +55,7 @@
                   >
                     <v-text-field
                       v-model="activity.Arguments[0].Value[0]"
-                      label="Start Value"
+                      :label="$t('activity.basic.for.startValue')"
                       outlined
                       @change="startValueChanged"
                     ></v-text-field>
@@ -63,7 +63,7 @@
                   <v-col cols="12" md="6" lg="6" xl="6">
                     <v-autocomplete
                       v-model="activity.Arguments[0].ArgumentType"
-                      label="Start Value Type"
+                      :label="$t('activity.basic.for.startValueType')"
                       :items="variableTypes"
                       item-text="type"
                       item-value="type"
@@ -73,7 +73,7 @@
                   <v-col cols="12" md="4" lg="4" xl="4">
                     <v-text-field
                       v-model="activity.Arguments[1].Value[0].LeftItem.Value[0]"
-                      label="Left Item"
+                      :label="$t('activity.basic.for.leftItem')"
                       @change="leftItemChanged"
                       outlined
                     ></v-text-field>
@@ -85,7 +85,7 @@
                       item-text="Label"
                       item-value="Label"
                       outlined
-                      label="Operator"
+                      :label="$t('activity.basic.for.operator')"
                     ></v-autocomplete>
                   </v-col>
                   <v-col cols="12" md="4" lg="4" xl="4">
@@ -93,7 +93,7 @@
                       v-model="
                         activity.Arguments[1].Value[0].RightItem.Value[0]
                       "
-                      label="Right Item"
+                      :label="$t('activity.basic.for.rightItem')"
                       @change="rightItemChanged"
                       outlined
                     ></v-text-field>
@@ -103,7 +103,7 @@
                       v-model="
                         activity.Arguments[1].Value[0].LeftItem.ArgumentType
                       "
-                      label="Left Item Type"
+                      :label="$t('activity.basic.for.leftItemType')"
                       @change="rightItemChanged"
                       outlined
                       :items="variableTypes"
@@ -116,7 +116,7 @@
                       v-model="
                         activity.Arguments[1].Value[0].RightItem.ArgumentType
                       "
-                      label="Right Item Type"
+                      :label="$t('activity.basic.for.rightItemType')"
                       @change="rightItemChanged"
                       outlined
                       :items="variableTypes"
