@@ -58,11 +58,11 @@
 
           <v-list>
             <!-- Profile Item !-->
-            <v-list-item>
+            <!-- <v-list-item>
               <v-row class="ma-0">
                 {{ $t("dashboard.profile") }}
               </v-row>
-            </v-list-item>
+            </v-list-item> -->
             <!-- Profile Item !-->
             <!-- Log Out Item !-->
             <v-list-item @click="logOut">

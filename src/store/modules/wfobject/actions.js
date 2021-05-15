@@ -4,7 +4,8 @@ import {
     INSERT_WF_OBJECT,
     DELETE_WF_OBJECT,
     GET_WF_OBJECT,
-    UPDATE_WF_OBJECT
+    UPDATE_WF_OBJECT,
+    SAVE_WF_OBJECT
 } from './actions.type.js'
 
 import { SET_WF_OBJECT } from './mutations.type'
@@ -44,6 +45,15 @@ const actions = {
                 resolve(payload)
             }).catch((err) => {
                 reject(err)
+            })
+        })
+    },
+    [SAVE_WF_OBJECT](context, payload) {
+        return new Promise((resolve, reject) => {
+            ApiService.put(`/wfobject/save/${payload.ProjectId}/${payload.WFObjectId}`, payload).then((payload) => {
+                resolve(payload)
+            }).catch((err) => {
+                reject(err);
             })
         })
     }

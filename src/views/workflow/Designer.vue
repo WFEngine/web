@@ -11,10 +11,6 @@
           <v-btn icon @click="toolbarDialog = true">
             <v-icon>fa fa-plus</v-icon>
           </v-btn>
-          <a id="downloadAnchorElem" style="display: none"></a>
-          <v-btn icon @click="showWorkFlow">
-            <v-icon>fa fa-database</v-icon>
-          </v-btn>
           <v-btn icon @click="save">
             <v-icon>fa fa-save</v-icon>
           </v-btn>
@@ -66,10 +62,12 @@
 
 <script>
 import { GET_SOLUTION } from "../../store/modules/solution/actions.type";
-import { ShowErrorMessage } from "../../common/alerts";
+import { ShowErrorMessage,ShowSuccessMessage } from "../../common/alerts";
 import { GET_ACTIVITIES } from "../../store/modules/activities/actions.type";
 import getActivitiesEntity from "../../entities/activities/get";
 import generateGuid from "../../common/guid";
+import saveEntity from '../../entities/wfobject/save'
+import {SAVE_WF_OBJECT} from '../../store/modules/wfobject/actions.type'
 export default {
   data() {
     return {
@@ -151,10 +149,6 @@ export default {
     selectedActivityRemoved() {
       this.selectedActivity = {};
     },
-    showWorkFlow() {
-      this.jsonDialog = true;
-      console.log(JSON.stringify(this.wfObjectContent));
-    },
     setVariables(block) {
       if (block.Variables != undefined && block.Variables.length > 0) {
         block.Variables.map((m) => {
@@ -171,8 +165,15 @@ export default {
     save() {
       var projectid = parseInt(this.$route.params.projectid);
       var wfObjectid = parseInt(this.$route.params.wfobjectid);
-      console.log(this.$route);
-      console.log(projectid,wfObjectid)
+      var req = Object.assign({},saveEntity)
+      req.ProjectId = projectid;
+      req.WFObjectId = wfObjectid;
+      req.Content = JSON.stringify(this.wfObjectContent);
+      this.$store.dispatch(SAVE_WF_OBJECT,req).then(()=>{
+        ShowSuccessMessage();
+      }).catch((err)=>{
+        ShowErrorMessage(err.message)
+      })
     },
   },
   watch: {
