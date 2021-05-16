@@ -4,5 +4,8 @@ export default {
     logout: 'Çıkış Yap',
     newSolution: 'Yeni Çözüm',
     newProject: 'Yeni Proje',
-    solutions: 'Çözümlerim'
+    solutions: 'Çözümlerim',
+    viewDetails: 'Detayları Görüntüle',
+    projects: 'Projeler',
+    workflows: 'İş Akışları'
 }

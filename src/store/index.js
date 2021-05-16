@@ -12,17 +12,19 @@ import packageversion from './modules/packageversion/index'
 import wfobject from './modules/wfobject/index'
 import activities from './modules/activities/index'
 import variabletype from './modules/variabletype/index'
+import dashboard from './modules/dashboard/index'
 //#endregion
 
 export default new Vuex.Store({
-  modules: {
-    base,
-    auth,
-    solution,
-    project,
-    packageversion,
-    wfobject,
-    activities,
-    variabletype
-  }
+    modules: {
+        base,
+        auth,
+        solution,
+        project,
+        packageversion,
+        wfobject,
+        activities,
+        variabletype,
+        dashboard
+    }
 })

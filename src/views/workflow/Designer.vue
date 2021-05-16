@@ -14,6 +14,9 @@
           <v-btn icon @click="save">
             <v-icon>fa fa-save</v-icon>
           </v-btn>
+          <v-btn icon @click="download">
+            <v-icon>fa fa-download</v-icon>
+          </v-btn>
         </v-toolbar>
         <v-card-actions>
           <wf-designer-toolbar
@@ -62,12 +65,12 @@
 
 <script>
 import { GET_SOLUTION } from "../../store/modules/solution/actions.type";
-import { ShowErrorMessage,ShowSuccessMessage } from "../../common/alerts";
+import { ShowErrorMessage, ShowSuccessMessage } from "../../common/alerts";
 import { GET_ACTIVITIES } from "../../store/modules/activities/actions.type";
 import getActivitiesEntity from "../../entities/activities/get";
 import generateGuid from "../../common/guid";
-import saveEntity from '../../entities/wfobject/save'
-import {SAVE_WF_OBJECT} from '../../store/modules/wfobject/actions.type'
+import saveEntity from "../../entities/wfobject/save";
+import { SAVE_WF_OBJECT } from "../../store/modules/wfobject/actions.type";
 export default {
   data() {
     return {
@@ -165,15 +168,26 @@ export default {
     save() {
       var projectid = parseInt(this.$route.params.projectid);
       var wfObjectid = parseInt(this.$route.params.wfobjectid);
-      var req = Object.assign({},saveEntity)
+      var req = Object.assign({}, saveEntity);
       req.ProjectId = projectid;
       req.WFObjectId = wfObjectid;
       req.Content = JSON.stringify(this.wfObjectContent);
-      this.$store.dispatch(SAVE_WF_OBJECT,req).then(()=>{
-        ShowSuccessMessage();
-      }).catch((err)=>{
-        ShowErrorMessage(err.message)
-      })
+      this.$store
+        .dispatch(SAVE_WF_OBJECT, req)
+        .then(() => {
+          ShowSuccessMessage();
+        })
+        .catch((err) => {
+          ShowErrorMessage(err.message);
+        });
+    },
+    download() {
+      const blob = new Blob([JSON.stringify(this.wfObjectContent)], { type: "application/json" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = this.wfObjectContent.Name;
+      link.click();
+      URL.revokeObjectURL(link.href);
     },
   },
   watch: {

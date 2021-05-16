@@ -4,5 +4,8 @@ export default {
     logout: 'Log Out',
     newSolution: 'New Solution',
     newProject: 'New Project',
-    solutions: 'Solutions'
+    solutions: 'Solutions',
+    viewDetails: 'View Details',
+    projects: 'Projects',
+    workflows: 'Workflows'
 }
