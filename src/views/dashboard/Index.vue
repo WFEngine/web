@@ -51,7 +51,7 @@
                 <v-col class="pa-2 text-right" cols="6">
                   <h1 class="display-1 white--text">{{ projectCount }}</h1>
                   <h1 class="title white--text">
-                    {{ $t("dashboard.projects") }} 
+                    {{ $t("dashboard.projects") }}
                   </h1>
                 </v-col>
               </v-row>
@@ -64,10 +64,7 @@
                   <h1 class="caption">{{ $t("dashboard.viewDetails") }}</h1>
                 </v-col>
                 <v-col class="pa-1 text-right" cols="6">
-                  <v-btn
-                    icon
-                    small
-                  >
+                  <v-btn icon small>
                     <v-icon color="black">fa fa-arrow-right</v-icon>
                   </v-btn>
                 </v-col>
@@ -102,10 +99,7 @@
                   <h1 class="caption">{{ $t("dashboard.viewDetails") }}</h1>
                 </v-col>
                 <v-col class="pa-1 text-right" cols="6">
-                  <v-btn
-                    icon
-                    small
-                  >
+                  <v-btn icon small>
                     <v-icon color="black">fa fa-arrow-right</v-icon>
                   </v-btn>
                 </v-col>

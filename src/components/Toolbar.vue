@@ -9,6 +9,35 @@
       </v-toolbar-title>
       <v-row class="ml-2">
         <v-spacer></v-spacer>
+        <!-- Language Menu !-->
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-avatar class="avatar mr-1" v-on="on" v-bind="attrs">
+              <country-flag
+                v-if="currentUser.LanguageId == 1"
+                country="tr"
+                size="normal"
+                rounded="true"
+              />
+              <country-flag v-else country="us" size="normal" rounded="true" />
+            </v-avatar>
+          </template>
+
+          <v-list>
+            <v-list-item>
+              <v-avatar class="avatar mr-1" @click="changeLanguage(1)">
+                <country-flag country="tr" size="normal" rounded="true" />
+              </v-avatar>
+            </v-list-item>
+            <v-list-item>
+              <v-avatar class="avatar mr-1" @click="changeLanguage(2)">
+                <country-flag country="us" size="normal" rounded="true" />
+              </v-avatar>
+            </v-list-item>
+            <!-- Log Out Item !-->
+          </v-list>
+        </v-menu>
+        <!-- Language Menu !-->
         <!-- Ad New Item Menu !-->
         <v-btn icon @click="refreshPage">
           <v-icon color="white">fa fa-sync-alt</v-icon>
@@ -29,7 +58,7 @@
             <!-- New Solution Item !-->
 
             <!-- New Project Item !-->
-            <v-list-item @click="$router.push({path:'/project/new'})">
+            <v-list-item @click="$router.push({ path: '/project/new' })">
               <v-row class="ma-0">
                 {{ $t("dashboard.newProject") }}
               </v-row>
@@ -82,14 +111,15 @@
 <script>
 import user from "../common/user.service";
 import organization from "../common/organization.service";
-import { LOGOUT_USER } from "../store/modules/auth/actions.type";
-import { ShowErrorMessage } from "../common/alerts";
+import { LOGOUT_USER,CHANGE_LANGUAGE,GET_USER } from "../store/modules/auth/actions.type";
+import { ShowErrorMessage,ShowSuccessMessage } from "../common/alerts";
+import updateLanguageEntity from '../entities/auth/updatelanguage'
 export default {
   props: {
     show: {
       required: true,
       type: Boolean,
-    }
+    },
   },
   data() {
     return {
@@ -113,9 +143,26 @@ export default {
           ShowErrorMessage(err.message);
         });
     },
-    refreshPage(){
+    refreshPage() {
       window.location.reload();
-    }
+    },
+    changeLanguage(languageId) {
+      var userLanguage = Object.assign({},updateLanguageEntity);
+      userLanguage.LanguageId = languageId;
+      
+      this.$store.dispatch(CHANGE_LANGUAGE,userLanguage).then((payload)=>{
+        ShowSuccessMessage(payload.message);
+        this.$store.dispatch(GET_USER).then((payload)=>{
+          ShowSuccessMessage(payload.message)
+          this.refreshPage();
+        }).catch((err)=>{
+          ShowErrorMessage(err.message);
+        })
+      }).catch((err)=>{
+        ShowErrorMessage(err.message);
+      })
+
+    },
   },
 };
 </script>

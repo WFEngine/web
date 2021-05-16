@@ -4,7 +4,8 @@ import {
     LOGIN,
     GET_USER,
     DESTROY_USER,
-    LOGOUT_USER
+    LOGOUT_USER,
+    CHANGE_LANGUAGE
 } from './actions.type'
 import {
     SET_USER,
@@ -57,6 +58,15 @@ const actions = {
                 resolve(payload)
             }).catch((err) => {
                 reject(err)
+            })
+        })
+    },
+    [CHANGE_LANGUAGE](context, payload) {
+        return new Promise((resolve, reject) => {
+            httpClient.post('/auth/changelanguage', payload).then((payload) => {
+                resolve(payload)
+            }).catch((err) => {
+                reject(err);
             })
         })
     }

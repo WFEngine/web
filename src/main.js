@@ -12,11 +12,15 @@ import { DESTROY_USER } from './store/modules/auth/actions.type'
 import VueLodash from 'vue-lodash'
 import lodash from 'lodash'
 import JsonViewer from 'vue-json-viewer'
+import CountryFlag from 'vue-country-flag'
 
 Vue.use(VueLodash, { lodash: lodash })
 Vue.use(JsonViewer);
-Vue.component("activity-item",()=>import('./components/Tabs/Workflow/Designer/Activity.vue'))
-Vue.component("wf-designer-toolbar",()=>import('./components/Tabs/Workflow/Designer/Toolbar.vue'))
+Vue.component("activity-item", () =>
+    import ('./components/Tabs/Workflow/Designer/Activity.vue'))
+Vue.component("wf-designer-toolbar", () =>
+    import ('./components/Tabs/Workflow/Designer/Toolbar.vue'))
+Vue.component('country-flag', CountryFlag)
 
 Vue.config.productionTip = false
 
@@ -24,52 +28,52 @@ httpClient.init();
 Vue.use(VueSweetalert2)
 
 const allowScopes = [
-  "/auth/login",
-  "/auth/register"
+    "/auth/login",
+    "/auth/register"
 ]
 
 router.beforeEach((to, from, next) => {
-  var token = jwtService.getToken()
-  if (token.token !== undefined) {
-    httpClient.setHeader();
-  }
-  var isAuthenticated = store.getters.isAuthenticated;
-  var relativePath = to.path;
-  if (!isAuthenticated) {
-    if (!allowScopes.includes(relativePath)) {
-      router.push({
-        path: '/auth/login'
-      })
+    var token = jwtService.getToken()
+    if (token.token !== undefined) {
+        httpClient.setHeader();
     }
-  } else {
-    if (new Date(token.expiryDate) > new Date()) {
-      if (allowScopes.includes(relativePath)) {
-        router.push({
-          path: '/dashboard'
-        })
-      }
+    var isAuthenticated = store.getters.isAuthenticated;
+    var relativePath = to.path;
+    if (!isAuthenticated) {
+        if (!allowScopes.includes(relativePath)) {
+            router.push({
+                path: '/auth/login'
+            })
+        }
     } else {
-      store.dispatch(DESTROY_USER)
-      router.push({
-        path: '/auth/login'
-      })
+        if (new Date(token.expiryDate) > new Date()) {
+            if (allowScopes.includes(relativePath)) {
+                router.push({
+                    path: '/dashboard'
+                })
+            }
+        } else {
+            store.dispatch(DESTROY_USER)
+            router.push({
+                path: '/auth/login'
+            })
+        }
     }
-  }
 
-  if (to.fullPath == '/') {
-    if (isAuthenticated)
-      router.push({ path: '/dashboard' })
-      else
-      router.push({path:'/auth/login'})
-  }
-  next(true)
+    if (to.fullPath == '/') {
+        if (isAuthenticated)
+            router.push({ path: '/dashboard' })
+        else
+            router.push({ path: '/auth/login' })
+    }
+    next(true)
 })
 
 
 new Vue({
-  vuetify,
-  router,
-  i18n,
-  store,
-  render: h => h(App)
+    vuetify,
+    router,
+    i18n,
+    store,
+    render: h => h(App)
 }).$mount('#app')
