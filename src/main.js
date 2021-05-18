@@ -29,7 +29,8 @@ Vue.use(VueSweetalert2)
 
 const allowScopes = [
     "/auth/login",
-    "/auth/register"
+    "/auth/register",
+    "/auth/recoverpassword"
 ]
 
 router.beforeEach((to, from, next) => {

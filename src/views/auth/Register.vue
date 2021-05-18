@@ -148,7 +148,7 @@
                     class="gradient white--text"
                     @click="register"
                   >
-                    {{ $t("auth.login.loginButton") }}
+                    {{ $t("auth.register.registerButton") }}
                   </v-btn>
                 </v-row>
                 <v-row class="card-action-row row_text_field__md__lg" v-else>

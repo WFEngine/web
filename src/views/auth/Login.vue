@@ -138,7 +138,7 @@
                 <!-- Sign Up !-->
                 <!-- Forgot Password !-->
                 <v-row class="card-action-row mt-1">
-                  <span class="caption link" @click="redirectRegister()">{{
+                  <span class="caption link" @click="redirectPassword()">{{
                     $t("auth.login.forgotPassword")
                   }}</span>
                 </v-row>
@@ -178,6 +178,11 @@ export default {
       this.$router.push({
         path: "/auth/register",
       });
+    },
+    redirectPassword(){
+      this.$router.push({
+        path:'/auth/recoverpassword'
+      })
     },
     logIn(loginType) {
       this.user.loginType = loginType;

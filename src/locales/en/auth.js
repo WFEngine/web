@@ -7,7 +7,7 @@ export default {
         githubLoginButton: 'Log In With Github',
         signUp: "Still Don't Have An Account? Register",
         forgotPassword: 'Forgot Password?',
-        loginFailed:'Login failed'
+        loginFailed: 'Login failed'
     },
     register: {
         title: 'Workflow Engine Sign Up',
@@ -17,5 +17,10 @@ export default {
         organizationNamePlaceHolder: 'Organization Name',
         registerButton: 'Register',
         logIn: 'Do you have an account? Sign In'
+    },
+    recoverPassword: {
+        title: 'Forgot Password',
+        emailPlaceholder: 'Email',
+        recoverPasswordButton: 'Recover Password'
     }
 }
