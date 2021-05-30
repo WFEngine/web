@@ -86,7 +86,7 @@
                 <v-col class="pa-2 text-right" cols="6">
                   <h1 class="display-1 white--text">{{ workflowCount }}</h1>
                   <h1 class="title white--text">
-                    {{ $t("dashboard.solutions") }}
+                    {{ $t("dashboard.workflows") }}
                   </h1>
                 </v-col>
               </v-row>
